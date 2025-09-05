@@ -708,24 +708,27 @@ class AdditiveManufacturing(ManufacturingProcess):
         self.technology = technology
 
 class HybridMachining(ManufacturingProcess):
-    """Hybrid machining process."""
+    """Hybrid machining combining multiple manufacturing methods."""
     def __init__(self, **kwargs):
         super().__init__("hybrid_machining", "advanced_manufacturing", 
-                        chinese_name="复合加工", **kwargs)
+                        chinese_name="复合加工", 
+                        description="Advanced manufacturing technique that combines multiple machining methods in a single setup, reducing handling time and improving accuracy.", **kwargs)
 
 class TurnMill(HybridMachining):
-    """Turn-mill complex machining."""
+    """Turn-mill hybrid machining process."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = "turn_mill"
         self.chinese_name = "车铣复合"
+        self.description = "Integrated machining process that combines turning and milling operations on a single machine, enabling complex part geometries with improved efficiency and precision."
 
 class MillTurn(HybridMachining):
-    """Mill-turn complex machining."""
+    """Mill-turn hybrid machining process."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = "mill_turn"
         self.chinese_name = "铣车复合"
+        self.description = "Integrated machining process that combines milling and turning operations on a single machine, optimizing workflow and maintaining tight tolerances across operations."
 
 class FiveAxisMachining(ManufacturingProcess):
     """Five-axis machining."""
@@ -745,7 +748,115 @@ class NanoMachining(ManufacturingProcess):
     """Nano machining."""
     def __init__(self, **kwargs):
         super().__init__("nano_machining", "ultra_precision_machining",
-                        chinese_name="纳米加工", **kwargs)
+                        chinese_name="纳米加工", 
+                        description="Ultra-precision manufacturing process for creating nanometer-scale features and structures with atomic-level accuracy, requiring specialized equipment and controlled environments.", **kwargs)
+
+# =============================================================================
+# Standards and Quality Classification
+# =============================================================================
+
+class ISOStandard(Entity):
+    """ISO International Organization for Standardization standards."""
+    def __init__(self, standard_number: str, title: str = "", **kwargs):
+        super().__init__(f"ISO_{standard_number}", chinese_name="ISO标准", 
+                        description="International standards developed by the International Organization for Standardization to ensure quality, safety, and efficiency in manufacturing processes and products.", **kwargs)
+        self.standard_number = standard_number
+        self.title = title
+
+class DINStandard(Entity):
+    """DIN German Institute for Standardization standards."""
+    def __init__(self, standard_number: str, title: str = "", **kwargs):
+        super().__init__(f"DIN_{standard_number}", chinese_name="DIN标准", 
+                        description="German industrial standards (Deutsches Institut für Normung) that define technical specifications and quality requirements for manufacturing processes and products.", **kwargs)
+        self.standard_number = standard_number
+        self.title = title
+
+class QualityGrade(Entity):
+    """Product quality classification grade."""
+    def __init__(self, grade: str, description: str = "", **kwargs):
+        super().__init__(grade, chinese_name="质量等级", 
+                        description="Classification system that categorizes products based on their quality characteristics, performance criteria, and conformance to specifications.", **kwargs)
+        self.grade = grade
+        self.grade_description = description
+
+class ToleranceClass(Entity):
+    """Dimensional tolerance precision grade."""
+    def __init__(self, tolerance_class: str, tolerance_value: float = 0.0, **kwargs):
+        super().__init__(tolerance_class, chinese_name="公差等级", 
+                        description="Precision classification system that specifies allowable dimensional deviations from nominal values, determining the accuracy requirements for machined parts.", **kwargs)
+        self.tolerance_class = tolerance_class
+        self.tolerance_value = tolerance_value
+
+# =============================================================================
+# Specialized Gear Manufacturing Processes
+# =============================================================================
+
+class GearManufacturing(ManufacturingProcess):
+    """Base class for gear manufacturing processes."""
+    def __init__(self, name: str, chinese_name: str = "齿轮加工", **kwargs):
+        if 'description' not in kwargs:
+            kwargs['description'] = "Specialized manufacturing processes for producing gears and gear components, involving precise tooth geometry creation and finishing operations."
+        super().__init__(name, "gear_manufacturing", chinese_name, **kwargs)
+
+class GearHobbing(GearManufacturing):
+    """Gear hobbing manufacturing process."""
+    def __init__(self, **kwargs):
+        super().__init__("gear_hobbing", chinese_name="滚齿", 
+                        description="Continuous gear cutting process using a hob cutter that generates gear teeth through a rolling motion between the hob and workpiece.", **kwargs)
+
+class GearShaping(GearManufacturing):
+    """Gear shaping manufacturing process."""
+    def __init__(self, **kwargs):
+        super().__init__("gear_shaping", chinese_name="插齿", 
+                        description="Gear manufacturing process using a gear shaper cutter that reciprocates vertically to cut gear teeth by generating motion.", **kwargs)
+
+class GearShaving(GearManufacturing):
+    """Gear shaving finishing process."""
+    def __init__(self, **kwargs):
+        super().__init__("gear_shaving", chinese_name="剃齿", 
+                        description="Precision gear finishing process that uses a shaving cutter to remove small amounts of material from gear tooth surfaces for improved accuracy.", **kwargs)
+
+class GearGrinding(GearManufacturing):
+    """Gear grinding precision finishing process."""
+    def __init__(self, **kwargs):
+        super().__init__("gear_grinding", chinese_name="磨齿", 
+                        description="Precision finishing process for gears using grinding wheels to achieve high accuracy and superior surface finish on gear tooth profiles.", **kwargs)
+
+class GearHoning(GearManufacturing):
+    """Gear honing surface finishing process."""
+    def __init__(self, **kwargs):
+        super().__init__("gear_honing", chinese_name="珩齿", 
+                        description="Precision gear finishing process using honing tools to create controlled surface textures and improve gear tooth surface quality.", **kwargs)
+
+# =============================================================================
+# Thread Manufacturing Processes
+# =============================================================================
+
+class ThreadManufacturing(ManufacturingProcess):
+    """Base class for thread manufacturing processes."""
+    def __init__(self, name: str, chinese_name: str = "螺纹加工", **kwargs):
+        if 'description' not in kwargs:
+            kwargs['description'] = "Manufacturing processes for creating internal or external threads on components using various cutting, forming, or rolling techniques."
+        super().__init__(name, "thread_manufacturing", chinese_name, **kwargs)
+
+class ThreadCutting(ThreadManufacturing):
+    """Thread cutting machining process."""
+    def __init__(self, thread_type: str = "external", **kwargs):
+        super().__init__("thread_cutting", chinese_name="螺纹切削", 
+                        description="Manufacturing process that creates threads by removing material using cutting tools such as taps, dies, or single-point threading tools.", **kwargs)
+        self.thread_type = thread_type
+
+class ThreadRolling(ThreadManufacturing):
+    """Thread rolling forming process."""
+    def __init__(self, **kwargs):
+        super().__init__("thread_rolling", chinese_name="滚丝", 
+                        description="Cold forming process that creates threads by plastically deforming the workpiece material using thread rolling dies or plates.", **kwargs)
+
+class ThreadGrinding(ThreadManufacturing):
+    """Thread grinding precision process."""
+    def __init__(self, **kwargs):
+        super().__init__("thread_grinding", chinese_name="磨螺纹", 
+                        description="Precision thread manufacturing process using grinding wheels to achieve high-accuracy threads with superior surface finish and dimensional control.", **kwargs)
 
 # =============================================================================
 # Manufacturing Relation Classes
@@ -863,7 +974,110 @@ class LocationRelation(Relation):
 class BelongsToProcessRelation(Relation):
     """Belongs to process relation."""
     def __init__(self, head_entity: ManufacturingProcess, tail_entity: ManufacturingProcess, **kwargs):
-        super().__init__(head_entity, tail_entity, chinese_name="属于（工艺）", **kwargs)
+        super().__init__(head_entity, tail_entity, chinese_name="属于（工艺）", 
+                        description="Defines the hierarchical classification relationship where a specific manufacturing process belongs to a broader process category.", **kwargs)
+
+# Extended Manufacturing Relations for comprehensive coverage
+class ProcessSequenceRelation(Relation):
+    """Process sequence relation defining machining operation order."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: ManufacturingProcess, 
+                 sequence_order: int = 1, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="工艺顺序关系", 
+                        description="Defines the sequential order of manufacturing processes, establishing the workflow and dependencies between machining operations.", **kwargs)
+        self.sequence_order = sequence_order
+
+class SurfaceRoughnessRequirementRelation(Relation):
+    """Surface roughness requirement specification relation."""
+    def __init__(self, head_entity: Entity, tail_entity: SurfaceRoughness, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="表面粗糙度要求关系", 
+                        description="Specifies the surface quality requirements for machined parts, determining the finishing processes and tool selection.", **kwargs)
+
+class ToolUsageRelation(Relation):
+    """Tool usage specification relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: CuttingTool, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="刀具使用关系", 
+                        description="Specifies which cutting tools are used in specific manufacturing processes, establishing tool-process compatibility.", **kwargs)
+
+class CuttingSpeedSettingRelation(Relation):
+    """Cutting speed parameter setting relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: CuttingSpeed, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="切削速度设置关系", 
+                        description="Defines the cutting speed parameters for machining processes, affecting tool life and surface quality.", **kwargs)
+
+class FeedRateSettingRelation(Relation):
+    """Feed rate parameter setting relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: FeedRate, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="进给量设置关系", 
+                        description="Defines the feed rate parameters for machining processes, controlling material removal rate and surface finish.", **kwargs)
+
+class CoolingMethodRelation(Relation):
+    """Cooling method specification relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: str, 
+                 cooling_type: str = "flood_cooling", **kwargs):
+        super().__init__(head_entity, Entity(tail_entity), chinese_name="冷却方式关系", 
+                        description="Specifies the cooling and lubrication methods used during machining processes to manage heat generation and extend tool life.", **kwargs)
+        self.cooling_type = cooling_type
+
+class DepthOfCutSettingRelation(Relation):
+    """Depth of cut parameter setting relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: DepthOfCut, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="切削深度设置关系", 
+                        description="Defines the cutting depth parameters for machining processes, determining material removal per pass.", **kwargs)
+
+class MachiningAllowanceRelation(Relation):
+    """Machining allowance specification relation."""
+    def __init__(self, head_entity: ManufacturingProcess, tail_entity: MachiningAllowance, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="加工余量关系", 
+                        description="Specifies the extra material reserved for subsequent machining operations to ensure final dimensional accuracy.", **kwargs)
+
+class HeatTreatmentMethodRelation(Relation):
+    """Heat treatment method specification relation."""
+    def __init__(self, head_entity: Entity, tail_entity: HeatTreatment, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="热处理方式关系", 
+                        description="Specifies the heat treatment processes applied to components for achieving desired material properties.", **kwargs)
+
+class HardnessRequirementRelation(Relation):
+    """Hardness requirement specification relation."""
+    def __init__(self, head_entity: Entity, tail_entity: HardnessRequirement, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="硬度要求关系", 
+                        description="Specifies the hardness standards and requirements that parts must achieve through manufacturing processes.", **kwargs)
+
+class ToleranceRequirementRelation(Relation):
+    """Tolerance requirement specification relation."""
+    def __init__(self, head_entity: Entity, tail_entity: ToleranceGrade, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="公差要求关系", 
+                        description="Specifies the dimensional accuracy requirements for machined parts, determining precision machining processes.", **kwargs)
+
+class OperatorAssignmentRelation(Relation):
+    """Operator assignment relation."""
+    def __init__(self, head_entity: Equipment, tail_entity: Operator, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="操作员分配关系", 
+                        description="Specifies which personnel are assigned to operate specific manufacturing equipment.", **kwargs)
+
+class ToolPositionCountRelation(Relation):
+    """Tool position count specification relation."""
+    def __init__(self, head_entity: Equipment, tail_entity: int, **kwargs):
+        super().__init__(head_entity, Entity(str(tail_entity)), chinese_name="刀位数量关系", 
+                        description="Defines the tool capacity and tool changer specifications of manufacturing equipment.", **kwargs)
+        self.tool_count = tail_entity
+
+class SuitableForRelation(Relation):
+    """Suitability specification relation."""
+    def __init__(self, head_entity: Entity, tail_entity: Entity, **kwargs):
+        super().__init__(head_entity, tail_entity, chinese_name="适用于关系", 
+                        description="Defines the applicability and compatibility between equipment, processes, or materials.", **kwargs)
+
+class MaxAccuracyRelation(Relation):
+    """Maximum accuracy specification relation."""
+    def __init__(self, head_entity: Equipment, tail_entity: str, **kwargs):
+        super().__init__(head_entity, Entity(tail_entity), chinese_name="最高精度关系", 
+                        description="Defines the maximum precision capabilities of manufacturing equipment.", **kwargs)
+
+class LocationRelation(Relation):
+    """Physical location specification relation."""
+    def __init__(self, head_entity: Equipment, tail_entity: str, **kwargs):
+        super().__init__(head_entity, Entity(tail_entity), chinese_name="位置关系", 
+                        description="Defines the physical location or placement of manufacturing equipment within the facility.", **kwargs)
 
 # =============================================================================
 # Manufacturing Event Classes
@@ -914,96 +1128,6 @@ class BreakdownEvent(Event):
         self.equipment = equipment
         self.failure_mode = failure_mode
 
-# =============================================================================
-# Manufacturing Standards and Quality
-# =============================================================================
-
-class ISOStandard(Entity):
-    """ISO standards."""
-    def __init__(self, standard_number: str, title: str, **kwargs):
-        super().__init__(f"ISO_{standard_number}", chinese_name="ISO标准", **kwargs)
-        self.standard_number = standard_number
-        self.title = title
-
-class DINStandard(Entity):
-    """DIN standards."""
-    def __init__(self, standard_number: str, title: str, **kwargs):
-        super().__init__(f"DIN_{standard_number}", chinese_name="DIN标准", **kwargs)
-        self.standard_number = standard_number
-        self.title = title
-
-class QualityGrade(Entity):
-    """Quality grade classification."""
-    def __init__(self, grade: str, description: str, **kwargs):
-        super().__init__(grade, chinese_name="质量等级", **kwargs)
-        self.grade = grade
-        self.description = description
-
-class ToleranceClass(Entity):
-    """Tolerance class specification."""
-    def __init__(self, tolerance_class: str, tolerance_value: float, **kwargs):
-        super().__init__(tolerance_class, chinese_name="公差等级", **kwargs)
-        self.tolerance_class = tolerance_class
-        self.tolerance_value = tolerance_value
-
-# =============================================================================
-# Gear Manufacturing Processes (Special Category from CSV)
-# =============================================================================
-
-class GearManufacturing(ManufacturingProcess):
-    """Base class for gear manufacturing processes."""
-    def __init__(self, name: str, chinese_name: str = "", **kwargs):
-        super().__init__(name, "gear_manufacturing", chinese_name, **kwargs)
-
-class GearHobbing(GearManufacturing):
-    """Gear hobbing process."""
-    def __init__(self, **kwargs):
-        super().__init__("gear_hobbing", chinese_name="滚齿", **kwargs)
-
-class GearShaping(GearManufacturing):
-    """Gear shaping process."""
-    def __init__(self, **kwargs):
-        super().__init__("gear_shaping", chinese_name="插齿", **kwargs)
-
-class GearShaving(GearManufacturing):
-    """Gear shaving process."""
-    def __init__(self, **kwargs):
-        super().__init__("gear_shaving", chinese_name="剃齿", **kwargs)
-
-class GearGrinding(GearManufacturing):
-    """Gear grinding process."""
-    def __init__(self, **kwargs):
-        super().__init__("gear_grinding", chinese_name="磨齿", **kwargs)
-
-class GearHoning(GearManufacturing):
-    """Gear honing process."""
-    def __init__(self, **kwargs):
-        super().__init__("gear_honing", chinese_name="珩齿", **kwargs)
-
-# =============================================================================
-# Thread Manufacturing Processes
-# =============================================================================
-
-class ThreadManufacturing(ManufacturingProcess):
-    """Base class for thread manufacturing processes."""
-    def __init__(self, name: str, chinese_name: str = "", **kwargs):
-        super().__init__(name, "thread_manufacturing", chinese_name, **kwargs)
-
-class ThreadCutting(ThreadManufacturing):
-    """Thread cutting process."""
-    def __init__(self, thread_type: str = "external", **kwargs):
-        super().__init__("thread_cutting", chinese_name="螺纹加工", **kwargs)
-        self.thread_type = thread_type
-
-class ThreadRolling(ThreadManufacturing):
-    """Thread rolling process."""
-    def __init__(self, **kwargs):
-        super().__init__("thread_rolling", chinese_name="滚丝", **kwargs)
-
-class ThreadGrinding(ThreadManufacturing):
-    """Thread grinding process."""
-    def __init__(self, **kwargs):
-        super().__init__("thread_grinding", chinese_name="磨螺纹", **kwargs)
 
 # Example usage and validation
 if __name__ == "__main__":
