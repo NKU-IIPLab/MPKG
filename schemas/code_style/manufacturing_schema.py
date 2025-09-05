@@ -365,6 +365,9 @@ class Operator(Entity):
 class ManufacturingProcess(Entity):
     """Base class for all manufacturing processes."""
     def __init__(self, name: str, process_type: str, chinese_name: str = "", **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "Base class for all manufacturing processes that modify materials to achieve desired geometric, dimensional, and material properties through various physical, mechanical, thermal, chemical, electrical, and optical operations."
         super().__init__(name, chinese_name, **kwargs)
         self.process_type = process_type
         
@@ -418,18 +421,24 @@ class RoughTurning(Turning):
     def __init__(self, **kwargs):
         super().__init__("rough_turning", **kwargs)
         self.chinese_name = "粗车"
+        if 'description' not in kwargs:
+            self.description = "Initial turning operation for rapid material removal with high cutting depth and feed rate to achieve rough dimensions"
 
 class SemiFinishTurning(Turning):
     """Semi-finish turning process."""
     def __init__(self, **kwargs):
         super().__init__("semi_finish_turning", **kwargs)
         self.chinese_name = "半精车"
+        if 'description' not in kwargs:
+            self.description = "Intermediate turning operation between roughing and finishing to prepare workpiece for final machining"
 
 class FinishTurning(Turning):
     """Finish turning process."""
     def __init__(self, **kwargs):
         super().__init__("finish_turning", **kwargs)
         self.chinese_name = "精车"
+        if 'description' not in kwargs:
+            self.description = "Final turning operation with precise cutting parameters to achieve required dimensional accuracy and surface finish"
 
 class Milling(CuttingProcess):
     """Milling process."""
@@ -446,18 +455,24 @@ class FaceMilling(Milling):
     def __init__(self, **kwargs):
         super().__init__("face_milling", **kwargs)
         self.chinese_name = "面铣"
+        if 'description' not in kwargs:
+            self.description = "Milling operation using face mill cutters to machine large flat surfaces and shoulder surfaces"
 
 class EndMilling(Milling):
     """End milling process."""
     def __init__(self, **kwargs):
         super().__init__("end_milling", **kwargs)
         self.chinese_name = "立铣"
+        if 'description' not in kwargs:
+            self.description = "Milling operation using end mills for machining profiles, slots, pockets and complex contours"
 
 class SlotMilling(Milling):
     """Slot milling process."""
     def __init__(self, **kwargs):
         super().__init__("slot_milling", **kwargs)
         self.chinese_name = "铣槽"
+        if 'description' not in kwargs:
+            self.description = "Specialized milling operation for creating slots, keyways and groove features in workpieces"
 
 class Drilling(CuttingProcess):
     """Drilling process."""
@@ -501,24 +516,32 @@ class CylindricalGrinding(Grinding):
     def __init__(self, **kwargs):
         super().__init__("cylindrical_grinding", **kwargs)
         self.chinese_name = "外圆磨削"
+        if 'description' not in kwargs:
+            self.description = "Precision grinding of external cylindrical surfaces to achieve tight tolerances and superior surface finish"
 
 class SurfaceGrinding(Grinding):
     """Surface grinding."""
     def __init__(self, **kwargs):
         super().__init__("surface_grinding", **kwargs)
         self.chinese_name = "平面磨削"
+        if 'description' not in kwargs:
+            self.description = "Grinding operation for machining flat surfaces with high precision and excellent surface quality"
 
 class InternalGrinding(Grinding):
     """Internal grinding."""
     def __init__(self, **kwargs):
         super().__init__("internal_grinding", **kwargs)
         self.chinese_name = "内圆磨削"
+        if 'description' not in kwargs:
+            self.description = "Precision grinding of internal cylindrical surfaces and holes using specialized grinding wheels"
 
 class CenterlessGrinding(Grinding):
     """Centerless grinding."""
     def __init__(self, **kwargs):
         super().__init__("centerless_grinding", **kwargs)
         self.chinese_name = "无心磨削"
+        if 'description' not in kwargs:
+            self.description = "Grinding method without workpiece centers using regulating wheel for continuous processing of cylindrical parts"
 
 class Planing(CuttingProcess):
     """Planing process."""
@@ -578,27 +601,32 @@ class Carburizing(HeatTreatment):
 class Nitriding(HeatTreatment):
     """Nitriding process."""
     def __init__(self, **kwargs):
-        super().__init__("nitriding", "chemical_heat_treatment", chinese_name="渗氮", **kwargs)
+        super().__init__("nitriding", "chemical_heat_treatment", chinese_name="渗氮", 
+                        description="Thermochemical surface treatment process diffusing nitrogen into steel surface for enhanced hardness and wear resistance", **kwargs)
 
 class Quenching(HeatTreatment):
     """Quenching process."""
     def __init__(self, **kwargs):
-        super().__init__("quenching", "thermal_treatment", chinese_name="淬火", **kwargs)
+        super().__init__("quenching", "thermal_treatment", chinese_name="淬火", 
+                        description="Rapid cooling heat treatment process to obtain martensitic structure for maximum hardness", **kwargs)
 
 class Tempering(HeatTreatment):
     """Tempering process."""
     def __init__(self, **kwargs):
-        super().__init__("tempering", "thermal_treatment", chinese_name="回火", **kwargs)
+        super().__init__("tempering", "thermal_treatment", chinese_name="回火", 
+                        description="Post-quenching heat treatment to reduce brittleness while maintaining desired hardness level", **kwargs)
 
 class Annealing(HeatTreatment):
     """Annealing process."""
     def __init__(self, **kwargs):
-        super().__init__("annealing", "thermal_treatment", chinese_name="退火", **kwargs)
+        super().__init__("annealing", "thermal_treatment", chinese_name="退火", 
+                        description="Heat treatment process to relieve internal stresses, refine grain structure and improve machinability", **kwargs)
 
 class Normalizing(HeatTreatment):
     """Normalizing process."""
     def __init__(self, **kwargs):
-        super().__init__("normalizing", "thermal_treatment", chinese_name="正火", **kwargs)
+        super().__init__("normalizing", "thermal_treatment", chinese_name="正火", 
+                        description="Heat treatment involving air cooling to room temperature for grain refinement and stress relief", **kwargs)
 
 # Special Machining Processes
 class EDM(ManufacturingProcess):
@@ -613,11 +641,14 @@ class WireEDM(EDM):
         super().__init__(**kwargs)
         self.name = "wire_edm"
         self.chinese_name = "线切割"
+        if 'description' not in kwargs:
+            self.description = "Electrical discharge machining using thin wire electrode for precision cutting of complex shapes and hard materials"
 
 class ECM(ManufacturingProcess):
     """Electrochemical machining."""
     def __init__(self, **kwargs):
-        super().__init__("ecm", "special_machining", chinese_name="电解加工", **kwargs)
+        super().__init__("ecm", "special_machining", chinese_name="电解加工", 
+                        description="Material removal process using electrochemical dissolution for machining complex shapes without tool wear", **kwargs)
 
 class LaserMachining(ManufacturingProcess):
     """Laser machining process."""
@@ -635,68 +666,81 @@ class LaserCutting(LaserMachining):
 class WaterjetCutting(ManufacturingProcess):
     """Waterjet cutting process."""
     def __init__(self, **kwargs):
-        super().__init__("waterjet_cutting", "special_machining", chinese_name="水切割", **kwargs)
+        super().__init__("waterjet_cutting", "special_machining", chinese_name="水切割", 
+                        description="High-pressure water jet cutting process for various materials with minimal heat affected zone", **kwargs)
 
 class UltrasonicMachining(ManufacturingProcess):
     """Ultrasonic machining process."""
     def __init__(self, **kwargs):
-        super().__init__("ultrasonic_machining", "special_machining", chinese_name="超声波加工", **kwargs)
+        super().__init__("ultrasonic_machining", "special_machining", chinese_name="超声波加工", 
+                        description="Material removal process using ultrasonic vibration and abrasive slurry for hard brittle materials", **kwargs)
 
 class ElectronBeamMachining(ManufacturingProcess):
     """Electron beam machining."""
     def __init__(self, **kwargs):
-        super().__init__("electron_beam_machining", "special_machining", chinese_name="电子束加工", **kwargs)
+        super().__init__("electron_beam_machining", "special_machining", chinese_name="电子束加工", 
+                        description="High-energy electron beam machining for precision drilling and cutting in vacuum environment", **kwargs)
 
 class IonBeamMachining(ManufacturingProcess):
     """Ion beam machining."""
     def __init__(self, **kwargs):
-        super().__init__("ion_beam_machining", "special_machining", chinese_name="离子束加工", **kwargs)
+        super().__init__("ion_beam_machining", "special_machining", chinese_name="离子束加工", 
+                        description="Ion beam sputtering process for ultra-precision machining and surface modification", **kwargs)
 
 class PlasmaMachining(ManufacturingProcess):
     """Plasma machining."""
     def __init__(self, **kwargs):
-        super().__init__("plasma_machining", "special_machining", chinese_name="等离子加工", **kwargs)
+        super().__init__("plasma_machining", "special_machining", chinese_name="等离子加工", 
+                        description="Plasma arc machining process for cutting and surface treatment of various materials", **kwargs)
 
 # Forming Processes
 class FormingProcess(ManufacturingProcess):
     """Base class for forming processes."""
     def __init__(self, name: str, chinese_name: str = "", **kwargs):
-        super().__init__(name, "forming_process", chinese_name, **kwargs)
+        super().__init__(name, "forming_process", chinese_name, 
+                        description="Manufacturing process category involving material shaping through plastic deformation or solidification", **kwargs)
 
 class Casting(FormingProcess):
     """Casting process."""
     def __init__(self, **kwargs):
-        super().__init__("casting", chinese_name="铸造", **kwargs)
+        super().__init__("casting", chinese_name="铸造", 
+                        description="Manufacturing process forming parts by pouring molten metal into molds and allowing solidification", **kwargs)
 
 class Forging(FormingProcess):
     """Forging process."""
     def __init__(self, **kwargs):
-        super().__init__("forging", chinese_name="锻造", **kwargs)
+        super().__init__("forging", chinese_name="锻造", 
+                        description="Metal forming process using compressive forces to shape heated metal through plastic deformation", **kwargs)
 
 class Stamping(FormingProcess):
     """Stamping process."""
     def __init__(self, **kwargs):
-        super().__init__("stamping", chinese_name="冲压", **kwargs)
+        super().__init__("stamping", chinese_name="冲压", 
+                        description="Sheet metal forming process using punch and die to create shapes through shearing and deformation", **kwargs)
 
 class Extrusion(FormingProcess):
     """Extrusion process."""
     def __init__(self, **kwargs):
-        super().__init__("extrusion", chinese_name="挤压", **kwargs)
+        super().__init__("extrusion", chinese_name="挤压", 
+                        description="Manufacturing process forcing material through dies to create continuous profiles with constant cross-section", **kwargs)
 
 class Rolling(FormingProcess):
     """Rolling process."""
     def __init__(self, **kwargs):
-        super().__init__("rolling", chinese_name="滚压", **kwargs)
+        super().__init__("rolling", chinese_name="滚压", 
+                        description="Metal forming process reducing thickness and shaping material by passing between rotating rolls", **kwargs)
 
 class Bending(FormingProcess):
     """Bending process."""
     def __init__(self, **kwargs):
-        super().__init__("bending", chinese_name="弯曲", **kwargs)
+        super().__init__("bending", chinese_name="弯曲", 
+                        description="Forming process creating angular shapes by applying bending moment to deform material plastically", **kwargs)
 
 class DeepDrawing(FormingProcess):
     """Deep drawing process."""
     def __init__(self, **kwargs):
-        super().__init__("deep_drawing", chinese_name="拉深", **kwargs)
+        super().__init__("deep_drawing", chinese_name="拉深", 
+                        description="Sheet metal forming process stretching flat blank into hollow shapes using punch and die", **kwargs)
 
 # Advanced Manufacturing Processes
 class AdditiveManufacturing(ManufacturingProcess):
