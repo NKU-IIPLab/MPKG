@@ -70,10 +70,24 @@ class ProcessParameter(Entity):
 class SpindleSpeed(ProcessParameter):
     """Spindle rotation speed parameter."""
     def __init__(self, value: Union[str, float], unit: str = "rpm", **kwargs):
-        super().__init__("spindle_speed", value, unit, chinese_name="主轴转速", **kwargs)
+        super().__init__("spindle_speed", value, unit, chinese_name="主轴转速", 
+                        description="The rotational speed of the spindle during machining processes, measured in revolutions per minute (rpm). This critical parameter determines the cutting speed and affects surface quality and tool life.", **kwargs)
         
-    def is_valid_range(self, min_speed: float = 0, max_speed: float = 10000) -> bool:
-        """Validate spindle speed within operational range."""
+    def is_valid_range(self, equipment_type: str = "general", min_speed: float = 0, max_speed: float = None) -> bool:
+        """Validate spindle speed within operational range based on equipment type."""
+        if max_speed is None:
+            # Equipment-specific speed limits
+            speed_limits = {
+                "lathe": 4000,
+                "milling_machine": 8000,
+                "cnc_machining_center": 12000,
+                "grinding_machine": 30000,
+                "drilling_machine": 6000,
+                "high_speed_spindle": 50000,
+                "general": 10000
+            }
+            max_speed = speed_limits.get(equipment_type, 10000)
+        
         if isinstance(self.value, (int, float)):
             return min_speed <= self.value <= max_speed
         return True
@@ -87,7 +101,8 @@ class SpindleSpeed(ProcessParameter):
 class CuttingSpeed(ProcessParameter):
     """Cutting speed parameter."""
     def __init__(self, value: Union[str, float], unit: str = "m/min", **kwargs):
-        super().__init__("cutting_speed", value, unit, chinese_name="切削速度", **kwargs)
+        super().__init__("cutting_speed", value, unit, chinese_name="切削速度", 
+                        description="The linear velocity of the cutting tool relative to the workpiece during machining, typically measured in meters per minute. It directly influences material removal rate and tool wear.", **kwargs)
     
     def calculate_spindle_speed(self, diameter: float) -> float:
         """Calculate required spindle speed for given diameter."""
@@ -98,7 +113,8 @@ class CuttingSpeed(ProcessParameter):
 class FeedRate(ProcessParameter):
     """Feed rate parameter."""
     def __init__(self, value: Union[str, float], unit: str = "mm/rev", **kwargs):
-        super().__init__("feed_rate", value, unit, chinese_name="进给量", **kwargs)
+        super().__init__("feed_rate", value, unit, chinese_name="进给量", 
+                        description="The distance the tool advances per revolution of the spindle during machining operations, measured in millimeters per revolution. This parameter controls chip thickness and surface finish quality.", **kwargs)
     
     def calculate_feed_speed(self, spindle_speed: float) -> float:
         """Calculate feed speed in mm/min."""
@@ -109,18 +125,21 @@ class FeedRate(ProcessParameter):
 class DepthOfCut(ProcessParameter):
     """Depth of cut parameter."""
     def __init__(self, value: Union[str, float], unit: str = "mm", **kwargs):
-        super().__init__("depth_of_cut", value, unit, chinese_name="切削深度", **kwargs)
+        super().__init__("depth_of_cut", value, unit, chinese_name="切削深度", 
+                        description="The depth of material removed in a single cutting pass, measured perpendicular to the cutting direction. This parameter affects cutting forces, power consumption, and machining efficiency.", **kwargs)
 
 class MachiningAllowance(ProcessParameter):
     """Machining allowance parameter."""
     def __init__(self, value: Union[str, float], unit: str = "mm", **kwargs):
-        super().__init__("machining_allowance", value, unit, chinese_name="加工余量", **kwargs)
+        super().__init__("machining_allowance", value, unit, chinese_name="加工余量", 
+                        description="The extra material reserved for subsequent machining operations, ensuring adequate stock for achieving final dimensions and surface quality requirements.", **kwargs)
 
 class SurfaceRoughness(ProcessParameter):
     """Surface roughness requirement."""
     def __init__(self, value: Union[str, float], unit: str = "μm", 
                  roughness_type: str = "Ra", **kwargs):
-        super().__init__("surface_roughness", value, unit, chinese_name="表面粗糙度要求", **kwargs)
+        super().__init__("surface_roughness", value, unit, chinese_name="表面粗糙度要求", 
+                        description="The surface quality requirement for machined parts, typically measured as Ra (arithmetic average roughness) in micrometers. This specification determines the finishing process and tool selection.", **kwargs)
         self.roughness_type = roughness_type
     
     def is_within_tolerance(self, measured_value: float) -> bool:
@@ -131,13 +150,31 @@ class SurfaceRoughness(ProcessParameter):
 
 class HardnessRequirement(ProcessParameter):
     """Hardness requirement parameter."""
-    def __init__(self, value: Union[str, float], unit: str = "HRC", **kwargs):
-        super().__init__("hardness_requirement", value, unit, chinese_name="硬度要求", **kwargs)
+    def __init__(self, value: Union[str, float], unit: str = "HRC", 
+                 hardness_type: str = "rockwell_c", **kwargs):
+        super().__init__("hardness_requirement", value, unit, chinese_name="硬度要求", 
+                        description="The specified hardness standard that parts must achieve, supporting multiple scales including HRC (Rockwell C), HB (Brinell), HV (Vickers), and HRA (Rockwell A). This requirement determines heat treatment processes and material selection.", **kwargs)
+        self.hardness_type = hardness_type
+    
+    def convert_hardness(self, target_scale: str) -> float:
+        """Convert hardness value between different scales (approximate conversion)."""
+        # Simplified conversion for demonstration
+        conversions = {
+            ("HRC", "HB"): lambda x: 10 * x + 80 if x < 40 else 327 - 5.4 * x,
+            ("HB", "HRC"): lambda x: (x - 80) / 10 if x < 400 else (327 - x) / 5.4,
+            ("HRC", "HV"): lambda x: 10 * x + 120,
+            ("HV", "HRC"): lambda x: (x - 120) / 10
+        }
+        if isinstance(self.value, (int, float)):
+            converter = conversions.get((self.unit, target_scale))
+            return converter(self.value) if converter else self.value
+        return 0.0
 
 class ToleranceGrade(ProcessParameter):
     """Target tolerance parameter."""
     def __init__(self, value: str, unit: str = "", **kwargs):
-        super().__init__("tolerance_grade", value, unit, chinese_name="目标公差", **kwargs)
+        super().__init__("tolerance_grade", value, unit, chinese_name="目标公差", 
+                        description="The dimensional accuracy requirement for machined parts, specifying allowable deviation from nominal dimensions (e.g., φ50h7). This determines machining precision and process capabilities.", **kwargs)
 
 # =============================================================================
 # Layer 2: Equipment Resource Layer
@@ -153,7 +190,8 @@ class Material(Resource):
     """Manufacturing materials."""
     def __init__(self, name: str, material_type: str = "metal", 
                  grade: Optional[str] = None, chinese_name: str = "材料", **kwargs):
-        super().__init__(name, "material", chinese_name, **kwargs)
+        super().__init__(name, "material", chinese_name, 
+                        description="The raw material used for manufacturing parts, including metals, alloys, and composites. Material properties determine machining parameters, tool selection, and process feasibility.", **kwargs)
         self.material_type = material_type
         self.grade = grade
 
@@ -186,6 +224,9 @@ class CuttingTool(Resource):
     """Cutting tools."""
     def __init__(self, name: str, tool_type: str, tool_material: str = "carbide", 
                  chinese_name: str = "刀具", **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "The tool used for material removal in cutting processes. Tool geometry, material, and coatings are selected based on workpiece material and machining requirements."
         super().__init__(name, "cutting_tool", chinese_name, **kwargs)
         self.tool_type = tool_type
         self.tool_material = tool_material
@@ -196,7 +237,7 @@ class CuttingTool(Resource):
             ("carbide", "steel"): 150,
             ("carbide", "stainless_steel"): 80,
             ("cbn", "hardened_steel"): 200,
-            ("ceramic", "cast_iron"): 300,
+            ("ceramic", "cast_iron"): 250,  # Adjusted from 300 to more realistic value
             ("hss", "aluminum"): 200
         }
         return speed_map.get((self.tool_material, workpiece_material), 100)
@@ -204,22 +245,34 @@ class CuttingTool(Resource):
 class CarbideTool(CuttingTool):
     """Carbide cutting tools."""
     def __init__(self, name: str, **kwargs):
-        super().__init__(name, "carbide_tool", "carbide", chinese_name="硬质合金刀具", **kwargs)
+        super().__init__(name, "carbide_tool", "carbide", chinese_name="硬质合金刀具", 
+                        description="Cemented carbide cutting tools offering excellent hardness and wear resistance, suitable for high-speed machining of steel and cast iron materials.", **kwargs)
 
 class CBNTool(CuttingTool):
     """CBN (Cubic Boron Nitride) cutting tools."""
     def __init__(self, name: str, **kwargs):
-        super().__init__(name, "cbn_tool", "cbn", chinese_name="CBN刀具", **kwargs)
+        super().__init__(name, "cbn_tool", "cbn", chinese_name="CBN刀具", 
+                        description="Cubic Boron Nitride cutting tools with exceptional hardness and thermal stability, specifically designed for machining hardened steels and superalloys at high cutting speeds.", **kwargs)
 
 class CeramicTool(CuttingTool):
     """Ceramic cutting tools."""
     def __init__(self, name: str, **kwargs):
-        super().__init__(name, "ceramic_tool", "ceramic", chinese_name="陶瓷刀具", **kwargs)
+        super().__init__(name, "ceramic_tool", "ceramic", chinese_name="陶瓷刀具", 
+                        description="Advanced ceramic cutting tools providing high temperature resistance and chemical stability, ideal for high-speed machining of cast iron and heat-resistant alloys.", **kwargs)
 
 class DiamondTool(CuttingTool):
     """Diamond cutting tools."""
     def __init__(self, name: str, **kwargs):
-        super().__init__(name, "diamond_tool", "diamond", chinese_name="金刚石刀具", **kwargs)
+        super().__init__(name, "diamond_tool", "diamond", chinese_name="金刚石刀具", 
+                        description="Ultra-precise diamond cutting tools offering unmatched hardness and surface finish quality, primarily used for machining non-ferrous metals and achieving mirror-like surface finishes.", **kwargs)
+
+class PCDTool(CuttingTool):
+    """PCD (Polycrystalline Diamond) cutting tools."""
+    def __init__(self, name: str, **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "Polycrystalline Diamond cutting tools combining diamond hardness with improved toughness, excellent for machining aluminum alloys, composites, and non-ferrous materials at high speeds."
+        super().__init__(name, "pcd_tool", "pcd", chinese_name="PCD刀具", **kwargs)
 
 # =============================================================================
 # Layer 3: Process Equipment Layer
@@ -238,7 +291,8 @@ class CNCMachiningCenter(Equipment):
     def __init__(self, name: str, model: Optional[str] = None, 
                  tool_positions: int = 16, max_accuracy: str = "IT4", **kwargs):
         super().__init__(name, "cnc_machining_center", model, 
-                        chinese_name="数控加工中心", **kwargs)
+                        chinese_name="数控加工中心", 
+                        description="Computer-controlled multi-axis machining equipment capable of performing various operations including milling, drilling, and boring with high precision and automation.", **kwargs)
         self.tool_positions = tool_positions
         self.max_accuracy = max_accuracy
         
@@ -257,7 +311,8 @@ class CNCMachiningCenter(Equipment):
 class Lathe(Equipment):
     """Lathe machine."""
     def __init__(self, name: str, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "lathe", model, chinese_name="车床", **kwargs)
+        super().__init__(name, "lathe", model, chinese_name="车床", 
+                        description="Machine tool where the workpiece rotates as the primary motion while the cutting tool moves linearly, primarily used for machining cylindrical parts and surfaces of revolution.", **kwargs)
     
     def calculate_taper_angle(self, large_dia: float, small_dia: float, length: float) -> float:
         """Calculate taper angle for taper turning."""
@@ -268,33 +323,39 @@ class Lathe(Equipment):
 class MillingMachine(Equipment):
     """Milling machine."""
     def __init__(self, name: str, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "milling_machine", model, chinese_name="铣床", **kwargs)
+        super().__init__(name, "milling_machine", model, chinese_name="铣床", 
+                        description="Machine tool where the cutting tool (milling cutter) rotates as the primary motion while the workpiece moves as the feed motion, used for machining flat surfaces, slots, and complex contours.", **kwargs)
 
 class GrindingMachine(Equipment):
     """Grinding machine."""
     def __init__(self, name: str, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "grinding_machine", model, chinese_name="磨床", **kwargs)
+        super().__init__(name, "grinding_machine", model, chinese_name="磨床", 
+                        description="Precision machine tool that uses abrasive grinding wheels rotating at high speeds to achieve fine surface finishes and tight dimensional tolerances on workpieces.", **kwargs)
 
 class DrillingMachine(Equipment):
     """Drilling machine."""
     def __init__(self, name: str, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "drilling_machine", model, chinese_name="钻床", **kwargs)
+        super().__init__(name, "drilling_machine", model, chinese_name="钻床", 
+                        description="Machine tool specifically designed for drilling holes in workpieces using drill bits, reamers, and other rotary cutting tools.", **kwargs)
 
 class EDMMachine(Equipment):
     """Electrical Discharge Machine."""
     def __init__(self, name: str, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "edm_machine", model, chinese_name="电火花机", **kwargs)
+        super().__init__(name, "edm_machine", model, chinese_name="电火花机", 
+                        description="Non-traditional machining equipment that uses electrical discharge erosion to machine conductive materials, particularly effective for hard materials and complex shapes.", **kwargs)
 
 class LaserCuttingMachine(Equipment):
     """Laser cutting machine."""
     def __init__(self, name: str, power: float = 1000, model: Optional[str] = None, **kwargs):
-        super().__init__(name, "laser_cutting_machine", model, chinese_name="激光切割机", **kwargs)
+        super().__init__(name, "laser_cutting_machine", model, chinese_name="激光切割机", 
+                        description="Advanced cutting equipment that uses focused laser beams to cut, engrave, or mark materials with high precision and minimal heat-affected zones.", **kwargs)
         self.power = power  # watts
 
 class Operator(Entity):
     """Machine operator."""
     def __init__(self, name: str, skill_level: str = "skilled", **kwargs):
-        super().__init__(name, chinese_name="操作人员", **kwargs)
+        super().__init__(name, chinese_name="操作人员", 
+                        description="Personnel responsible for operating manufacturing equipment and executing machining processes, with varying skill levels and specializations.", **kwargs)
         self.skill_level = skill_level
 
 # =============================================================================
@@ -316,11 +377,17 @@ class ManufacturingProcess(Entity):
 class MechanicalMachining(ManufacturingProcess):
     """Mechanical machining base class."""
     def __init__(self, name: str, chinese_name: str = "机械加工", **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "Manufacturing processes that use mechanical force to shape workpieces through various cutting, forming, and material removal techniques."
         super().__init__(name, "mechanical_machining", chinese_name, **kwargs)
 
 class CuttingProcess(MechanicalMachining):
     """Cutting machining processes."""
     def __init__(self, name: str, chinese_name: str = "切削加工", **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "Manufacturing processes that remove excess material from workpieces using cutting tools to achieve desired shapes, dimensions, and surface quality."
         super().__init__(name, chinese_name, **kwargs)
         self.process_type = "cutting_process"
     
@@ -331,6 +398,9 @@ class CuttingProcess(MechanicalMachining):
 class Turning(CuttingProcess):
     """Turning process."""
     def __init__(self, name: str = "turning", **kwargs):
+        # Set description if not already provided
+        if 'description' not in kwargs:
+            kwargs['description'] = "Machining process where the workpiece rotates as the primary motion while the cutting tool moves linearly to remove material and create cylindrical surfaces."
         super().__init__(name, chinese_name="车削", **kwargs)
         
     def calculate_cutting_time(self, length: float, spindle_speed: float, feed_rate: float) -> float:
@@ -364,7 +434,8 @@ class FinishTurning(Turning):
 class Milling(CuttingProcess):
     """Milling process."""
     def __init__(self, name: str = "milling", **kwargs):
-        super().__init__(name, chinese_name="铣削", **kwargs)
+        super().__init__(name, chinese_name="铣削", 
+                        description="Machining process where the cutting tool rotates as the primary motion while the workpiece or tool moves as the feed motion to create flat surfaces, slots, and complex contours.", **kwargs)
     
     def calculate_table_feed(self, feed_per_tooth: float, teeth: int, spindle_speed: float) -> float:
         """Calculate table feed speed in mm/min."""
@@ -391,7 +462,8 @@ class SlotMilling(Milling):
 class Drilling(CuttingProcess):
     """Drilling process."""
     def __init__(self, name: str = "drilling", **kwargs):
-        super().__init__(name, chinese_name="钻削", **kwargs)
+        super().__init__(name, chinese_name="钻削", 
+                        description="Machining process that creates holes in workpieces using rotating drill bits or other cutting tools with combined rotary and axial motions.", **kwargs)
     
     def calculate_drilling_time(self, depth: float, feed: float, spindle_speed: float) -> float:
         """Calculate drilling time in minutes."""
@@ -403,22 +475,26 @@ class Drilling(CuttingProcess):
 class Reaming(CuttingProcess):
     """Reaming process for precision hole finishing."""
     def __init__(self, **kwargs):
-        super().__init__("reaming", chinese_name="铰削", **kwargs)
+        super().__init__("reaming", chinese_name="铰削", 
+                        description="Precision finishing process that removes small amounts of material from pre-drilled holes to achieve accurate dimensions and improved surface finish.", **kwargs)
 
 class Boring(CuttingProcess):
     """Boring process for internal machining."""
     def __init__(self, **kwargs):
-        super().__init__("boring", chinese_name="镗削", **kwargs)
+        super().__init__("boring", chinese_name="镗削", 
+                        description="Internal machining process that enlarges existing holes or creates precise internal cylindrical surfaces using single-point cutting tools.", **kwargs)
 
 class Tapping(CuttingProcess):
     """Tapping process for thread cutting."""
     def __init__(self, **kwargs):
-        super().__init__("tapping", chinese_name="攻丝", **kwargs)
+        super().__init__("tapping", chinese_name="攻丝", 
+                        description="Threading process that creates internal threads in pre-drilled holes using taps with combined rotary and axial motions.", **kwargs)
 
 class Grinding(CuttingProcess):
     """Grinding process."""
     def __init__(self, name: str = "grinding", **kwargs):
-        super().__init__(name, chinese_name="磨削", **kwargs)
+        super().__init__(name, chinese_name="磨削", 
+                        description="Precision machining process that uses abrasive particles on rotating grinding wheels to achieve fine surface finishes and tight dimensional tolerances.", **kwargs)
 
 class CylindricalGrinding(Grinding):
     """Cylindrical grinding."""
@@ -447,37 +523,44 @@ class CenterlessGrinding(Grinding):
 class Planing(CuttingProcess):
     """Planing process."""
     def __init__(self, **kwargs):
-        super().__init__("planing", chinese_name="刨削", **kwargs)
+        super().__init__("planing", chinese_name="刨削", 
+                        description="Linear cutting process where the cutting tool makes horizontal reciprocating straight-line motions relative to the workpiece to machine flat surfaces.", **kwargs)
 
 class Shaping(CuttingProcess):
     """Shaping process."""
     def __init__(self, **kwargs):
-        super().__init__("shaping", chinese_name="插削", **kwargs)
+        super().__init__("shaping", chinese_name="插削", 
+                        description="Linear cutting process where the cutting tool makes vertical reciprocating straight-line motions relative to the workpiece to machine flat surfaces and slots.", **kwargs)
 
 class Broaching(CuttingProcess):
     """Broaching process."""
     def __init__(self, **kwargs):
-        super().__init__("broaching", chinese_name="拉削", **kwargs)
+        super().__init__("broaching", chinese_name="拉削", 
+                        description="Cutting process that uses a broach tool with successive cutting teeth to machine internal or external surfaces with high productivity and accuracy.", **kwargs)
 
 class Honing(ManufacturingProcess):
     """Honing process for surface finishing."""
     def __init__(self, **kwargs):
-        super().__init__("honing", "finishing_process", chinese_name="珩磨", **kwargs)
+        super().__init__("honing", "finishing_process", chinese_name="珩磨", 
+                        description="Precision finishing process that uses honing tools with controlled pressure to create crosshatch patterns and achieve precise cylindrical surfaces with excellent surface quality.", **kwargs)
 
 class Lapping(ManufacturingProcess):
     """Lapping process for ultra-precision finishing."""
     def __init__(self, **kwargs):
-        super().__init__("lapping", "finishing_process", chinese_name="研磨", **kwargs)
+        super().__init__("lapping", "finishing_process", chinese_name="研磨", 
+                        description="Ultra-precision finishing process that uses fine abrasive particles in a slurry to achieve extremely smooth surfaces and tight dimensional tolerances through relative motion.", **kwargs)
 
 class Polishing(ManufacturingProcess):
     """Polishing process for surface quality."""
     def __init__(self, **kwargs):
-        super().__init__("polishing", "surface_treatment", chinese_name="抛光", **kwargs)
+        super().__init__("polishing", "surface_treatment", chinese_name="抛光", 
+                        description="Surface finishing process using mechanical, chemical, or electrochemical methods to achieve bright, smooth, and mirror-like surface finishes on workpieces.", **kwargs)
 
 class Superfinishing(ManufacturingProcess):
     """Superfinishing process."""
     def __init__(self, **kwargs):
-        super().__init__("superfinishing", "finishing_process", chinese_name="超精加工", **kwargs)
+        super().__init__("superfinishing", "finishing_process", chinese_name="超精加工", 
+                        description="Fine finishing process using fine-grit abrasives under light pressure with oscillating and slow longitudinal feed motions to achieve micro-level surface improvements.", **kwargs)
 
 # Heat Treatment Processes
 class HeatTreatment(ManufacturingProcess):
@@ -489,7 +572,8 @@ class HeatTreatment(ManufacturingProcess):
 class Carburizing(HeatTreatment):
     """Carburizing process."""
     def __init__(self, **kwargs):
-        super().__init__("carburizing", "chemical_heat_treatment", chinese_name="渗碳", **kwargs)
+        super().__init__("carburizing", "chemical_heat_treatment", chinese_name="渗碳", 
+                        description="Chemical heat treatment process that increases carbon content in the surface layer of steel parts to improve hardness and wear resistance while maintaining core toughness.", **kwargs)
 
 class Nitriding(HeatTreatment):
     """Nitriding process."""
@@ -520,7 +604,8 @@ class Normalizing(HeatTreatment):
 class EDM(ManufacturingProcess):
     """Electrical Discharge Machining."""
     def __init__(self, **kwargs):
-        super().__init__("edm", "special_machining", chinese_name="电火花加工", **kwargs)
+        super().__init__("edm", "special_machining", chinese_name="电火花加工", 
+                        description="Non-traditional machining process that uses electrical discharge erosion to machine conductive materials through controlled electrical discharges in a dielectric medium.", **kwargs)
 
 class WireEDM(EDM):
     """Wire electrical discharge machining."""
@@ -537,7 +622,8 @@ class ECM(ManufacturingProcess):
 class LaserMachining(ManufacturingProcess):
     """Laser machining process."""
     def __init__(self, **kwargs):
-        super().__init__("laser_machining", "special_machining", chinese_name="激光加工", **kwargs)
+        super().__init__("laser_machining", "special_machining", chinese_name="激光加工", 
+                        description="Advanced machining process that uses focused laser beams to cut, drill, weld, or surface treat materials with high precision and minimal heat-affected zones.", **kwargs)
 
 class LaserCutting(LaserMachining):
     """Laser cutting process."""
@@ -617,7 +703,8 @@ class AdditiveManufacturing(ManufacturingProcess):
     """Additive manufacturing (3D Printing)."""
     def __init__(self, technology: str = "SLM", **kwargs):
         super().__init__("additive_manufacturing", "advanced_manufacturing", 
-                        chinese_name="增材制造", **kwargs)
+                        chinese_name="增材制造", 
+                        description="Advanced manufacturing process that builds parts layer by layer from digital models, using various materials and technologies such as selective laser melting (SLM) and fused deposition modeling (FDM).", **kwargs)
         self.technology = technology
 
 class HybridMachining(ManufacturingProcess):
@@ -644,13 +731,15 @@ class FiveAxisMachining(ManufacturingProcess):
     """Five-axis machining."""
     def __init__(self, **kwargs):
         super().__init__("five_axis_machining", "advanced_manufacturing",
-                        chinese_name="五轴加工", **kwargs)
+                        chinese_name="五轴加工", 
+                        description="Advanced machining technique that uses five coordinate axes simultaneously, enabling complex geometries and improved surface quality while reducing setup times and fixture requirements.", **kwargs)
 
 class MicroMachining(ManufacturingProcess):
     """Micro machining."""
     def __init__(self, **kwargs):
         super().__init__("micro_machining", "precision_machining",
-                        chinese_name="微细加工", **kwargs)
+                        chinese_name="微细加工", 
+                        description="Ultra-precision manufacturing process for creating micro-scale features and components with dimensions typically in the micrometer range, requiring specialized equipment and techniques.", **kwargs)
 
 class NanoMachining(ManufacturingProcess):
     """Nano machining."""
@@ -665,12 +754,14 @@ class NanoMachining(ManufacturingProcess):
 class MaterialRelation(Relation):
     """Material relations."""
     def __init__(self, head_entity: Entity, tail_entity: Material, **kwargs):
-        super().__init__(head_entity, tail_entity, chinese_name="材料", **kwargs)
+        super().__init__(head_entity, tail_entity, chinese_name="材料", 
+                        description="Specifies that the subject component is composed of the specified material, establishing the material composition relationship.", **kwargs)
         
 class ProcessingMethodRelation(Relation):
     """Processing method relation."""
     def __init__(self, head_entity: Entity, tail_entity: ManufacturingProcess, **kwargs):
-        super().__init__(head_entity, tail_entity, chinese_name="加工方法", **kwargs)
+        super().__init__(head_entity, tail_entity, chinese_name="加工方法", 
+                        description="Indicates that the subject component is processed through the specified manufacturing method or process.", **kwargs)
 
 class ProcessSequenceRelation(Relation):
     """Process sequence relation."""
@@ -687,7 +778,8 @@ class SurfaceRoughnessRequirementRelation(Relation):
 class EquipmentUsageRelation(Relation):
     """Equipment usage relation."""
     def __init__(self, head_entity: ManufacturingProcess, tail_entity: Equipment, **kwargs):
-        super().__init__(head_entity, tail_entity, chinese_name="使用设备", **kwargs)
+        super().__init__(head_entity, tail_entity, chinese_name="使用设备", 
+                        description="Specifies that the manufacturing process uses the designated equipment for operation execution.", **kwargs)
 
 class ToolUsageRelation(Relation):
     """Tool usage relation."""
@@ -697,7 +789,8 @@ class ToolUsageRelation(Relation):
 class SpindleSpeedSettingRelation(Relation):
     """Spindle speed setting relation."""
     def __init__(self, head_entity: ManufacturingProcess, tail_entity: SpindleSpeed, **kwargs):
-        super().__init__(head_entity, tail_entity, chinese_name="主轴转速", **kwargs)
+        super().__init__(head_entity, tail_entity, chinese_name="主轴转速", 
+                        description="Defines the rotational speed of the spindle during the machining process, typically measured in revolutions per minute.", **kwargs)
 
 class CuttingSpeedSettingRelation(Relation):
     """Cutting speed setting relation."""
