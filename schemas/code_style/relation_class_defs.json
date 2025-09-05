@@ -1,0 +1,39 @@
+{
+    "Relation": "class Relation:\n\t\"\"\"Base class for all manufacturing relations.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, chinese_name: str = None):\n\t\tself.head_entity = head_entity\n\t\tself.tail_entity = tail_entity\n\t\tself.chinese_name = chinese_name",
+    
+    "UsesEquipment": "class UsesEquipment(Relation):\n\t\"\"\"Process uses equipment relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Equipment):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用设备\")",
+    
+    "UsesCuttingTool": "class UsesCuttingTool(Relation):\n\t\"\"\"Process uses cutting tool relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingTool):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用刀具\")",
+    
+    "ProcessesMaterial": "class ProcessesMaterial(Relation):\n\t\"\"\"Process material relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Material):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工材料\")",
+    
+    "HasParameter": "class HasParameter(Relation):\n\t\"\"\"Process has parameter relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ProcessParameter):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工参数\")",
+    
+    "HasSpindleSpeed": "class HasSpindleSpeed(HasParameter):\n\t\"\"\"Process has spindle speed relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: SpindleSpeed):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"主轴转速\"",
+    
+    "HasFeedRate": "class HasFeedRate(HasParameter):\n\t\"\"\"Process has feed rate relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: FeedRate):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"进给量\"",
+    
+    "HasCuttingDepth": "class HasCuttingDepth(HasParameter):\n\t\"\"\"Process has cutting depth relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingDepth):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"切削深度\"",
+    
+    "HasCuttingSpeed": "class HasCuttingSpeed(HasParameter):\n\t\"\"\"Process has cutting speed relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingSpeed):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"切削速度\"",
+    
+    "HasSurfaceRoughness": "class HasSurfaceRoughness(Relation):\n\t\"\"\"Process has surface roughness requirement.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: SurfaceRoughness):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"表面粗糙度要求\")",
+    
+    "HasTolerance": "class HasTolerance(Relation):\n\t\"\"\"Process has tolerance requirement.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ToleranceGrade):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"目标公差\")",
+    
+    "HasProcessingTime": "class HasProcessingTime(Relation):\n\t\"\"\"Process has processing time.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ProcessingTime):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工时长\")",
+    
+    "HasCoolingMethod": "class HasCoolingMethod(Relation):\n\t\"\"\"Process has cooling method.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CoolingMethod):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冷却方式\")",
+    
+    "OperatedBy": "class OperatedBy(Relation):\n\t\"\"\"Equipment operated by operator.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Operator):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"操作人员\")",
+    
+    "ProcessSequenceRelation": "class ProcessSequenceRelation(Relation):\n\t\"\"\"Process sequence relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: MachiningProcess):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工工序\")",
+    
+    "ProcessMethodRelation": "class ProcessMethodRelation(Relation):\n\t\"\"\"Process method relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Entity):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工方法\")",
+    
+    "RequiresInspection": "class RequiresInspection(Relation):\n\t\"\"\"Process requires quality inspection.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: QualityInspection):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"质量检验\")",
+    
+    "MaterialProperty": "class MaterialProperty(Relation):\n\t\"\"\"Material property relation.\"\"\"\n\tdef __init__(self, head_entity: Material, tail_entity: Entity):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"材料属性\")",
+    
+    "MaterialComposition": "class MaterialComposition(MaterialProperty):\n\t\"\"\"Material composition relation.\"\"\"\n\tdef __init__(self, head_entity: Material, tail_entity: Entity):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"材料\""
+}

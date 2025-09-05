@@ -1,0 +1,191 @@
+{
+    "Entity": "class Entity:\n\tdef __init__(self, name: str, chinese_name: str = None):\n\t\tself.name = name\n\t\tself.chinese_name = chinese_name",
+    
+    "ProcessParameter": "class ProcessParameter(Entity):\n\t\"\"\"Base class for all process parameters.\"\"\"\n\tdef __init__(self, name: str, value: Union[str, float], unit: str = None, chinese_name: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tself.value = value\n\t\tself.unit = unit\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "SpindleSpeed": "class SpindleSpeed(ProcessParameter):\n\t\"\"\"Spindle rotation speed parameter.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"rpm\", **kwargs):\n\t\tsuper().__init__(\"spindle_speed\", value, unit, chinese_name=\"主轴转速\", **kwargs)\n\n\tdef calculate_cutting_speed(self, diameter: float) -> float:\n\t\t\"\"\"Calculate cutting speed based on spindle speed and diameter.\"\"\"\n\t\tif isinstance(self.value, (int, float)):\n\t\t\treturn 3.14159 * diameter * self.value / 1000\n\t\treturn None",
+    
+    "FeedRate": "class FeedRate(ProcessParameter):\n\t\"\"\"Feed rate parameter.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"mm/min\", **kwargs):\n\t\tsuper().__init__(\"feed_rate\", value, unit, chinese_name=\"进给量\", **kwargs)",
+    
+    "CuttingDepth": "class CuttingDepth(ProcessParameter):\n\t\"\"\"Cutting depth parameter.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"mm\", **kwargs):\n\t\tsuper().__init__(\"cutting_depth\", value, unit, chinese_name=\"切削深度\", **kwargs)",
+    
+    "CuttingSpeed": "class CuttingSpeed(ProcessParameter):\n\t\"\"\"Cutting speed parameter.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"m/min\", **kwargs):\n\t\tsuper().__init__(\"cutting_speed\", value, unit, chinese_name=\"切削速度\", **kwargs)",
+    
+    "SurfaceRoughness": "class SurfaceRoughness(ProcessParameter):\n\t\"\"\"Surface roughness requirement.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"Ra\", **kwargs):\n\t\tsuper().__init__(\"surface_roughness\", value, unit, chinese_name=\"表面粗糙度要求\", **kwargs)",
+    
+    "ToleranceGrade": "class ToleranceGrade(ProcessParameter):\n\t\"\"\"Tolerance grade specification.\"\"\"\n\tdef __init__(self, value: str, **kwargs):\n\t\tsuper().__init__(\"tolerance_grade\", value, unit=None, chinese_name=\"目标公差\", **kwargs)",
+    
+    "ProcessingTime": "class ProcessingTime(ProcessParameter):\n\t\"\"\"Processing time parameter.\"\"\"\n\tdef __init__(self, value: Union[str, float], unit: str = \"min\", **kwargs):\n\t\tsuper().__init__(\"processing_time\", value, unit, chinese_name=\"加工时长\", **kwargs)",
+    
+    "CoolingMethod": "class CoolingMethod(ProcessParameter):\n\t\"\"\"Cooling method specification.\"\"\"\n\tdef __init__(self, value: str, **kwargs):\n\t\tsuper().__init__(\"cooling_method\", value, unit=None, chinese_name=\"冷却方式\", **kwargs)",
+    
+    "Equipment": "class Equipment(Entity):\n\t\"\"\"Base class for manufacturing equipment.\"\"\"\n\tdef __init__(self, name: str, model: str = None, chinese_name: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tself.model = model\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "Lathe": "class Lathe(Equipment):\n\t\"\"\"Lathe equipment.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"车床\", **kwargs)",
+    
+    "MillingMachine": "class MillingMachine(Equipment):\n\t\"\"\"Milling machine equipment.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"铣床\", **kwargs)",
+    
+    "GrindingMachine": "class GrindingMachine(Equipment):\n\t\"\"\"Grinding machine equipment.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"磨床\", **kwargs)",
+    
+    "DrillingMachine": "class DrillingMachine(Equipment):\n\t\"\"\"Drilling machine equipment.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"钻床\", **kwargs)",
+    
+    "CNCMachine": "class CNCMachine(Equipment):\n\t\"\"\"CNC machine center.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"数控加工中心\", **kwargs)",
+    
+    "EDMachine": "class EDMachine(Equipment):\n\t\"\"\"Electrical discharge machine.\"\"\"\n\tdef __init__(self, name: str, model: str = None, **kwargs):\n\t\tsuper().__init__(name, model, chinese_name=\"电火花机床\", **kwargs)",
+    
+    "CuttingTool": "class CuttingTool(Entity):\n\t\"\"\"Base class for cutting tools.\"\"\"\n\tdef __init__(self, name: str, material: str = None, chinese_name: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tself.material = material\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "CarbideTool": "class CarbideTool(CuttingTool):\n\t\"\"\"Carbide cutting tool.\"\"\"\n\tdef __init__(self, name: str, **kwargs):\n\t\tsuper().__init__(name, material=\"carbide\", chinese_name=\"硬质合金刀具\", **kwargs)",
+    
+    "CBNTool": "class CBNTool(CuttingTool):\n\t\"\"\"CBN cutting tool.\"\"\"\n\tdef __init__(self, name: str, **kwargs):\n\t\tsuper().__init__(name, material=\"CBN\", chinese_name=\"CBN刀具\", **kwargs)",
+    
+    "HSSMTool": "class HSSMTool(CuttingTool):\n\t\"\"\"High speed steel tool.\"\"\"\n\tdef __init__(self, name: str, **kwargs):\n\t\tsuper().__init__(name, material=\"HSSM\", chinese_name=\"高速钢刀具\", **kwargs)",
+    
+    "DiamondTool": "class DiamondTool(CuttingTool):\n\t\"\"\"Diamond cutting tool.\"\"\"\n\tdef __init__(self, name: str, **kwargs):\n\t\tsuper().__init__(name, material=\"diamond\", chinese_name=\"金刚石刀具\", **kwargs)",
+    
+    "Material": "class Material(Entity):\n\t\"\"\"Base class for materials.\"\"\"\n\tdef __init__(self, name: str, composition: str = None, chinese_name: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tself.composition = composition\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "TitaniumAlloy": "class TitaniumAlloy(Material):\n\t\"\"\"Titanium alloy material.\"\"\"\n\tdef __init__(self, name: str, composition: str = \"Ti-6Al-4V\", **kwargs):\n\t\tsuper().__init__(name, composition, chinese_name=\"钛合金\", **kwargs)",
+    
+    "StainlessSteel": "class StainlessSteel(Material):\n\t\"\"\"Stainless steel material.\"\"\"\n\tdef __init__(self, name: str, composition: str = \"304/316\", **kwargs):\n\t\tsuper().__init__(name, composition, chinese_name=\"不锈钢\", **kwargs)",
+    
+    "CarbonSteel": "class CarbonSteel(Material):\n\t\"\"\"Carbon steel material.\"\"\"\n\tdef __init__(self, name: str, composition: str = \"45#\", **kwargs):\n\t\tsuper().__init__(name, composition, chinese_name=\"碳钢\", **kwargs)",
+    
+    "AluminumAlloy": "class AluminumAlloy(Material):\n\t\"\"\"Aluminum alloy material.\"\"\"\n\tdef __init__(self, name: str, composition: str = \"6061\", **kwargs):\n\t\tsuper().__init__(name, composition, chinese_name=\"铝合金\", **kwargs)",
+    
+    "CopperAlloy": "class CopperAlloy(Material):\n\t\"\"\"Copper alloy material.\"\"\"\n\tdef __init__(self, name: str, composition: str = \"brass/bronze\", **kwargs):\n\t\tsuper().__init__(name, composition, chinese_name=\"铜合金\", **kwargs)",
+    
+    "MachiningProcess": "class MachiningProcess(Entity):\n\t\"\"\"Base class for machining processes.\"\"\"\n\tdef __init__(self, name: str, chinese_name: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "Turning": "class Turning(MachiningProcess):\n\t\"\"\"Turning process.\"\"\"\n\tdef __init__(self, name: str = \"turning\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"车削\", **kwargs)",
+    
+    "RoughTurning": "class RoughTurning(Turning):\n\t\"\"\"Rough turning process.\"\"\"\n\tdef __init__(self, name: str = \"rough_turning\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"粗车\"",
+    
+    "SemiFinishTurning": "class SemiFinishTurning(Turning):\n\t\"\"\"Semi-finish turning process.\"\"\"\n\tdef __init__(self, name: str = \"semi_finish_turning\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"半精车\"",
+    
+    "FinishTurning": "class FinishTurning(Turning):\n\t\"\"\"Finish turning process.\"\"\"\n\tdef __init__(self, name: str = \"finish_turning\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"精车\"",
+    
+    "Milling": "class Milling(MachiningProcess):\n\t\"\"\"Milling process.\"\"\"\n\tdef __init__(self, name: str = \"milling\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"铣削\", **kwargs)",
+    
+    "RoughMilling": "class RoughMilling(Milling):\n\t\"\"\"Rough milling process.\"\"\"\n\tdef __init__(self, name: str = \"rough_milling\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"粗铣\"",
+    
+    "FinishMilling": "class FinishMilling(Milling):\n\t\"\"\"Finish milling process.\"\"\"\n\tdef __init__(self, name: str = \"finish_milling\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"精铣\"",
+    
+    "Grinding": "class Grinding(MachiningProcess):\n\t\"\"\"Grinding process.\"\"\"\n\tdef __init__(self, name: str = \"grinding\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"磨削\", **kwargs)",
+    
+    "SurfaceGrinding": "class SurfaceGrinding(Grinding):\n\t\"\"\"Surface grinding process.\"\"\"\n\tdef __init__(self, name: str = \"surface_grinding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"平面磨削\"",
+    
+    "CylindricalGrinding": "class CylindricalGrinding(Grinding):\n\t\"\"\"Cylindrical grinding process.\"\"\"\n\tdef __init__(self, name: str = \"cylindrical_grinding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"外圆磨削\"",
+    
+    "InternalGrinding": "class InternalGrinding(Grinding):\n\t\"\"\"Internal grinding process.\"\"\"\n\tdef __init__(self, name: str = \"internal_grinding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"内圆磨削\"",
+    
+    "Drilling": "class Drilling(MachiningProcess):\n\t\"\"\"Drilling process.\"\"\"\n\tdef __init__(self, name: str = \"drilling\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"钻削\", **kwargs)",
+    
+    "Boring": "class Boring(MachiningProcess):\n\t\"\"\"Boring process.\"\"\"\n\tdef __init__(self, name: str = \"boring\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"镗削\", **kwargs)",
+    
+    "Reaming": "class Reaming(MachiningProcess):\n\t\"\"\"Reaming process.\"\"\"\n\tdef __init__(self, name: str = \"reaming\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"铰削\", **kwargs)",
+    
+    "Tapping": "class Tapping(MachiningProcess):\n\t\"\"\"Tapping process.\"\"\"\n\tdef __init__(self, name: str = \"tapping\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"攻丝\", **kwargs)",
+    
+    "EDM": "class EDM(MachiningProcess):\n\t\"\"\"Electrical discharge machining.\"\"\"\n\tdef __init__(self, name: str = \"EDM\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"电火花加工\", **kwargs)",
+    
+    "WireEDM": "class WireEDM(EDM):\n\t\"\"\"Wire EDM process.\"\"\"\n\tdef __init__(self, name: str = \"wire_EDM\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"线切割\"",
+    
+    "PlungeEDM": "class PlungeEDM(EDM):\n\t\"\"\"Plunge EDM process.\"\"\"\n\tdef __init__(self, name: str = \"plunge_EDM\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"电火花成型\"",
+    
+    "Honing": "class Honing(MachiningProcess):\n\t\"\"\"Honing process.\"\"\"\n\tdef __init__(self, name: str = \"honing\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"珩磨\", **kwargs)",
+    
+    "Lapping": "class Lapping(MachiningProcess):\n\t\"\"\"Lapping process.\"\"\"\n\tdef __init__(self, name: str = \"lapping\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"研磨\", **kwargs)",
+    
+    "Polishing": "class Polishing(MachiningProcess):\n\t\"\"\"Polishing process.\"\"\"\n\tdef __init__(self, name: str = \"polishing\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"抛光\", **kwargs)",
+    
+    "HeatTreatment": "class HeatTreatment(MachiningProcess):\n\t\"\"\"Heat treatment process.\"\"\"\n\tdef __init__(self, name: str = \"heat_treatment\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"热处理\", **kwargs)",
+    
+    "Quenching": "class Quenching(HeatTreatment):\n\t\"\"\"Quenching process.\"\"\"\n\tdef __init__(self, name: str = \"quenching\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"淬火\"",
+    
+    "Tempering": "class Tempering(HeatTreatment):\n\t\"\"\"Tempering process.\"\"\"\n\tdef __init__(self, name: str = \"tempering\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"回火\"",
+    
+    "Carburizing": "class Carburizing(HeatTreatment):\n\t\"\"\"Carburizing process.\"\"\"\n\tdef __init__(self, name: str = \"carburizing\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"渗碳\"",
+    
+    "Nitriding": "class Nitriding(HeatTreatment):\n\t\"\"\"Nitriding process.\"\"\"\n\tdef __init__(self, name: str = \"nitriding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"渗氮\"",
+    
+    "SurfaceTreatment": "class SurfaceTreatment(MachiningProcess):\n\t\"\"\"Surface treatment process.\"\"\"\n\tdef __init__(self, name: str = \"surface_treatment\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"表面处理\", **kwargs)",
+    
+    "Plating": "class Plating(SurfaceTreatment):\n\t\"\"\"Plating process.\"\"\"\n\tdef __init__(self, name: str = \"plating\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"电镀\"",
+    
+    "Coating": "class Coating(SurfaceTreatment):\n\t\"\"\"Coating process.\"\"\"\n\tdef __init__(self, name: str = \"coating\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"涂层\"",
+    
+    "Anodizing": "class Anodizing(SurfaceTreatment):\n\t\"\"\"Anodizing process.\"\"\"\n\tdef __init__(self, name: str = \"anodizing\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"阳极氧化\"",
+    
+    "Forming": "class Forming(MachiningProcess):\n\t\"\"\"Forming process.\"\"\"\n\tdef __init__(self, name: str = \"forming\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"成型加工\", **kwargs)",
+    
+    "Forging": "class Forging(Forming):\n\t\"\"\"Forging process.\"\"\"\n\tdef __init__(self, name: str = \"forging\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"锻造\"",
+    
+    "Casting": "class Casting(Forming):\n\t\"\"\"Casting process.\"\"\"\n\tdef __init__(self, name: str = \"casting\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"铸造\"",
+    
+    "Stamping": "class Stamping(Forming):\n\t\"\"\"Stamping process.\"\"\"\n\tdef __init__(self, name: str = \"stamping\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"冲压\"",
+    
+    "Bending": "class Bending(Forming):\n\t\"\"\"Bending process.\"\"\"\n\tdef __init__(self, name: str = \"bending\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"弯曲\"",
+    
+    "Welding": "class Welding(MachiningProcess):\n\t\"\"\"Welding process.\"\"\"\n\tdef __init__(self, name: str = \"welding\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"焊接\", **kwargs)",
+    
+    "ArcWelding": "class ArcWelding(Welding):\n\t\"\"\"Arc welding process.\"\"\"\n\tdef __init__(self, name: str = \"arc_welding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"弧焊\"",
+    
+    "LaserWelding": "class LaserWelding(Welding):\n\t\"\"\"Laser welding process.\"\"\"\n\tdef __init__(self, name: str = \"laser_welding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"激光焊\"",
+    
+    "ResistanceWelding": "class ResistanceWelding(Welding):\n\t\"\"\"Resistance welding process.\"\"\"\n\tdef __init__(self, name: str = \"resistance_welding\", **kwargs):\n\t\tsuper().__init__(name, **kwargs)\n\t\tself.chinese_name = \"电阻焊\"",
+    
+    "QualityInspection": "class QualityInspection(Entity):\n\t\"\"\"Quality inspection process.\"\"\"\n\tdef __init__(self, name: str = \"quality_inspection\", chinese_name: str = \"质量检验\", **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "DimensionalInspection": "class DimensionalInspection(QualityInspection):\n\t\"\"\"Dimensional inspection.\"\"\"\n\tdef __init__(self, name: str = \"dimensional_inspection\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"尺寸检验\", **kwargs)",
+    
+    "SurfaceInspection": "class SurfaceInspection(QualityInspection):\n\t\"\"\"Surface quality inspection.\"\"\"\n\tdef __init__(self, name: str = \"surface_inspection\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"表面检验\", **kwargs)",
+    
+    "HardnessTest": "class HardnessTest(QualityInspection):\n\t\"\"\"Hardness testing.\"\"\"\n\tdef __init__(self, name: str = \"hardness_test\", **kwargs):\n\t\tsuper().__init__(name, chinese_name=\"硬度检测\", **kwargs)",
+    
+    "Operator": "class Operator(Entity):\n\t\"\"\"Machine operator.\"\"\"\n\tdef __init__(self, name: str, chinese_name: str = \"操作人员\", **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "ProcessSequence": "class ProcessSequence(Entity):\n\t\"\"\"Process sequence entity.\"\"\"\n\tdef __init__(self, name: str, chinese_name: str = \"加工工序\", **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "ToolPosition": "class ToolPosition(Entity):\n\t\"\"\"Tool position specification.\"\"\"\n\tdef __init__(self, count: int, chinese_name: str = \"刀位数量\", **kwargs):\n\t\tsuper().__init__(f\"tool_positions_{count}\", chinese_name)\n\t\tself.count = count\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "ProcessMethod": "class ProcessMethod(Entity):\n\t\"\"\"Processing method entity.\"\"\"\n\tdef __init__(self, name: str, chinese_name: str = \"加工方法\", **kwargs):\n\t\tsuper().__init__(name, chinese_name)\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "Relation": "class Relation:\n\t\"\"\"Base class for all manufacturing relations.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, chinese_name: str = None):\n\t\tself.head_entity = head_entity\n\t\tself.tail_entity = tail_entity\n\t\tself.chinese_name = chinese_name",
+    
+    "UsesEquipment": "class UsesEquipment(Relation):\n\t\"\"\"Process uses equipment relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Equipment):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用设备\")",
+    
+    "UsesCuttingTool": "class UsesCuttingTool(Relation):\n\t\"\"\"Process uses cutting tool relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingTool):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用刀具\")",
+    
+    "ProcessesMaterial": "class ProcessesMaterial(Relation):\n\t\"\"\"Process material relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Material):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工材料\")",
+    
+    "HasParameter": "class HasParameter(Relation):\n\t\"\"\"Process has parameter relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ProcessParameter):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工参数\")",
+    
+    "HasSpindleSpeed": "class HasSpindleSpeed(HasParameter):\n\t\"\"\"Process has spindle speed relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: SpindleSpeed):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"主轴转速\"",
+    
+    "HasFeedRate": "class HasFeedRate(HasParameter):\n\t\"\"\"Process has feed rate relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: FeedRate):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"进给量\"",
+    
+    "HasCuttingDepth": "class HasCuttingDepth(HasParameter):\n\t\"\"\"Process has cutting depth relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingDepth):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"切削深度\"",
+    
+    "HasCuttingSpeed": "class HasCuttingSpeed(HasParameter):\n\t\"\"\"Process has cutting speed relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingSpeed):\n\t\tsuper().__init__(head_entity, tail_entity)\n\t\tself.chinese_name = \"切削速度\"",
+    
+    "HasSurfaceRoughness": "class HasSurfaceRoughness(Relation):\n\t\"\"\"Process has surface roughness requirement.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: SurfaceRoughness):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"表面粗糙度要求\")",
+    
+    "HasTolerance": "class HasTolerance(Relation):\n\t\"\"\"Process has tolerance requirement.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ToleranceGrade):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"目标公差\")",
+    
+    "HasProcessingTime": "class HasProcessingTime(Relation):\n\t\"\"\"Process has processing time.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ProcessingTime):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工时长\")",
+    
+    "HasCoolingMethod": "class HasCoolingMethod(Relation):\n\t\"\"\"Process has cooling method.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CoolingMethod):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冷却方式\")",
+    
+    "OperatedBy": "class OperatedBy(Relation):\n\t\"\"\"Equipment operated by operator.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Operator):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"操作人员\")",
+    
+    "ProcessSequenceRelation": "class ProcessSequenceRelation(Relation):\n\t\"\"\"Process sequence relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: MachiningProcess):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工工序\")",
+    
+    "HasToolPositions": "class HasToolPositions(Relation):\n\t\"\"\"Equipment has tool positions.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: ToolPosition):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刀位数量\")",
+    
+    "ProcessMethodRelation": "class ProcessMethodRelation(Relation):\n\t\"\"\"Process method relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: ProcessMethod):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工方法\")",
+    
+    "RequiresInspection": "class RequiresInspection(Relation):\n\t\"\"\"Process requires quality inspection.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: QualityInspection):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"质量检验\")",
+    
+    "MaterialProperty": "class MaterialProperty(Relation):\n\t\"\"\"Material property relation.\"\"\"\n\tdef __init__(self, head_entity: Material, tail_entity: Entity):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"材料属性\")"
+}
