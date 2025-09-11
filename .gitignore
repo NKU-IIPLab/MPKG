@@ -183,6 +183,7 @@ test_*.py
 # Claude Code 相关文件 (Claude Code related files)
 claude.md
 CLAUDE.md
+.claude/
 
 # 完整docs目录排除 (Exclude entire docs directory)
 docs/
