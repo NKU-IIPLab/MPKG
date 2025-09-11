@@ -1,0 +1,2505 @@
+Prefix: : <http://www.mpkg.org/manufacturing#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+Ontology: <http://www.mpkg.org/manufacturing>
+<http://www.mpkg.org/manufacturing/1.0.0>
+
+Annotations: 
+    rdfs:label "Manufacturing Domain Ontology"@en,
+    rdfs:label "制造领域本体"@zh,
+    rdfs:comment "An OWL ontology for manufacturing domain knowledge representation, covering machining processes, equipment, materials, and parameters."@en,
+    rdfs:comment "制造领域知识表示的OWL本体，涵盖机械加工工艺、设备、材料和参数。"@zh,
+    owl:versionInfo "1.0.0"
+
+ObjectProperty: hasMaterial
+    Annotations: 
+        rdfs:label "has material"@en,
+        rdfs:label "材料"@zh,
+        rdfs:comment "The part is made of specified material, e.g., 'Titanium Part - has material - Ti-6Al-4V'"@en,
+        rdfs:comment "主体零件由指定的材料构成-如'钛合金零件-材料-T-6A1-4V'"@zh
+    Domain: Part
+    Range: Material
+
+ObjectProperty: hasProcessingMethod
+    Annotations: 
+        rdfs:label "has processing method"@en,
+        rdfs:label "加工方法"@zh,
+        rdfs:comment "The part is processed by specified method"@en,
+        rdfs:comment "主体零件通过指定的加工方法进行处理-如'精密轴套-加工方法-车削'"@zh
+    Domain: Part
+    Range: Process
+
+ObjectProperty: hasProcessSequence
+    Annotations: 
+        rdfs:label "has process sequence"@en,
+        rdfs:label "加工工序"@zh,
+        rdfs:comment "The part follows specified process sequence"@en,
+        rdfs:comment "主体零件按照指定的工序顺序进行加工-如'粗车-半精车-精车-磨削'"@zh
+    Domain: Part
+    Range: ProcessSequence
+
+ObjectProperty: usesEquipment
+    Annotations: 
+        rdfs:label "uses equipment"@en,
+        rdfs:label "使用设备"@zh,
+        rdfs:comment "The process uses specified equipment"@en,
+        rdfs:comment "主体工艺使用指定的设备进行操作-如'粗车加工-使用设备-KBSZ车床840'"@zh
+    Domain: Process
+    Range: Equipment
+
+ObjectProperty: usesTool
+    Annotations: 
+        rdfs:label "uses tool"@en,
+        rdfs:label "使用刀具"@zh,
+        rdfs:comment "The process uses specified cutting tool"@en,
+        rdfs:comment "主体实体在执行过程中需要或推荐采用客体实体作为其实施的必要工具"@zh
+    Domain: Process
+    Range: Tool
+
+ObjectProperty: hasSpindleSpeed
+    Annotations: 
+        rdfs:label "has spindle speed"@en,
+        rdfs:label "主轴转速"@zh,
+        rdfs:comment "The spindle rotation speed during processing"@en,
+        rdfs:comment "加工过程中主轴的旋转速度-如'粗车加工-主轴转速-800r/min'"@zh
+    Domain: Process
+    Range: SpindleSpeed
+
+ObjectProperty: hasCuttingSpeed
+    Annotations: 
+        rdfs:label "has cutting speed"@en,
+        rdfs:label "切削速度"@zh,
+        rdfs:comment "The linear speed of tool relative to workpiece"@en,
+        rdfs:comment "加工过程中工具相对于工件的线速度-如'车削-切削速度-120m/min'"@zh
+    Domain: Process
+    Range: CuttingSpeed
+
+ObjectProperty: hasFeedRate
+    Annotations: 
+        rdfs:label "has feed rate"@en,
+        rdfs:label "进给量"@zh,
+        rdfs:comment "The feed distance per revolution"@en,
+        rdfs:comment "加工过程中工具每转进给的距离-如'车削加工-进给量-0.1mm/r'"@zh
+    Domain: Process
+    Range: FeedRate
+
+ObjectProperty: hasCoolingMethod
+    Annotations: 
+        rdfs:label "has cooling method"@en,
+        rdfs:label "冷却方式"@zh,
+        rdfs:comment "The cooling method used in process"@en,
+        rdfs:comment "主体工艺采用指定的冷却方式进行操作-如'车削加工-冷却方式-切削液'"@zh
+    Domain: Process
+    Range: CoolingMethod
+
+ObjectProperty: operatedBy
+    Annotations: 
+        rdfs:label "operated by"@en,
+        rdfs:label "操作人员"@zh,
+        rdfs:comment "The equipment is operated by specified personnel"@en,
+        rdfs:comment "指定人员负责操作特定设备或执行特定工艺-如'数控加工中心XH714-操作人员-刘思嫄'"@zh
+    Domain: Equipment
+    Range: Operator
+
+ObjectProperty: locatedIn
+    Annotations: 
+        rdfs:label "located in"@en,
+        rdfs:label "所在位置"@zh,
+        rdfs:comment "The physical location of equipment"@en,
+        rdfs:comment "设备的物理位置或所属区域-如'数控加工中心XH714-所在位置-C车间'"@zh
+    Domain: Equipment
+    Range: Location
+
+ObjectProperty: belongsToProcess
+    Annotations: 
+        rdfs:label "belongs to process"@en,
+        rdfs:label "属于（工艺）"@zh,
+        rdfs:comment "The subject is a specific instance or subtype of the object process category"@en,
+        rdfs:comment "主体实体是客体实体所代表的工艺类别的一个具体实例或子类型"@zh
+    SubPropertyOf: rdfs:subClassOf
+
+ObjectProperty: hasHeatTreatmentMethod
+    Annotations: 
+        rdfs:label "has heat treatment method"@en,
+        rdfs:label "热处理方式"@zh,
+        rdfs:comment "The heat treatment method applied to the part"@en,
+        rdfs:comment "主体零件经过指定的热处理方式进行处理-如'主轴-热处理方式-调质处理'"@zh
+    Domain: Part
+    Range: HeatTreatment
+
+ObjectProperty: requiresCoolingMethod
+    Annotations: 
+        rdfs:label "requires cooling method"@en,
+        rdfs:label "需要冷却方式"@zh,
+        rdfs:comment "The cooling method required for the process"@en,
+        rdfs:comment "加工过程需要的冷却方式"@zh
+    Domain: Process
+    Range: CoolingMethod
+
+ObjectProperty: followsProcessSequence  
+    Annotations: 
+        rdfs:label "follows process sequence"@en,
+        rdfs:label "遵循工序"@zh,
+        rdfs:comment "The sequence of processes to be followed"@en,
+        rdfs:comment "需要遵循的工序顺序"@zh
+    Domain: Part
+    Range: ProcessSequence
+
+ObjectProperty: performedIn
+    Annotations: 
+        rdfs:label "performed in"@en,
+        rdfs:label "执行于"@zh,
+        rdfs:comment "Location where the process is performed"@en,
+        rdfs:comment "工艺执行的位置"@zh
+    Domain: Process
+    Range: Location
+
+ObjectProperty: producesDefect
+    Annotations: 
+        rdfs:label "produces defect"@en,
+        rdfs:label "产生缺陷"@zh,
+        rdfs:comment "Defect that may be produced by the process"@en,
+        rdfs:comment "工艺可能产生的缺陷"@zh
+    Domain: Process
+    Range: Defect
+
+ObjectProperty: preventedBy
+    Annotations: 
+        rdfs:label "prevented by"@en,
+        rdfs:label "预防方法"@zh,
+        rdfs:comment "Method to prevent the defect"@en,
+        rdfs:comment "预防缺陷的方法"@zh
+    Domain: Defect
+    Range: Process
+
+ObjectProperty: requiresTool
+    Annotations: 
+        rdfs:label "requires tool"@en,
+        rdfs:label "需要刀具"@zh,
+        rdfs:comment "Tool required for the process"@en,
+        rdfs:comment "工艺需要的刀具"@zh
+    Domain: Process
+    Range: Tool
+
+ObjectProperty: hasToolMaterial
+    Annotations: 
+        rdfs:label "has tool material"@en,
+        rdfs:label "刀具材料"@zh,
+        rdfs:comment "Material of the cutting tool"@en,
+        rdfs:comment "切削刀具的材料"@zh
+    Domain: Tool
+    Range: Material
+
+ObjectProperty: hasWorkpieceMaterial
+    Annotations: 
+        rdfs:label "has workpiece material"@en,
+        rdfs:label "工件材料"@zh,
+        rdfs:comment "Material of the workpiece"@en,
+        rdfs:comment "工件的材料"@zh
+    Domain: Part
+    Range: Material
+
+ObjectProperty: precedes
+    Annotations: 
+        rdfs:label "precedes"@en,
+        rdfs:label "先于"@zh,
+        rdfs:comment "Process that precedes another"@en,
+        rdfs:comment "先于另一个工艺的工艺"@zh
+    Domain: Process
+    Range: Process
+    Characteristics: Transitive
+
+ObjectProperty: follows
+    Annotations: 
+        rdfs:label "follows"@en,
+        rdfs:label "后于"@zh,
+        rdfs:comment "Process that follows another"@en,
+        rdfs:comment "后于另一个工艺的工艺"@zh
+    Domain: Process
+    Range: Process
+    InverseOf: precedes
+
+ObjectProperty: achievesQuality
+    Annotations: 
+        rdfs:label "achieves quality"@en,
+        rdfs:label "达到质量"@zh,
+        rdfs:comment "Quality level achieved by the process"@en,
+        rdfs:comment "工艺达到的质量水平"@zh
+    Domain: Process
+    Range: QualityLevel
+
+ObjectProperty: hasCapability
+    Annotations: 
+        rdfs:label "has capability"@en,
+        rdfs:label "具有能力"@zh,
+        rdfs:comment "Capability of the equipment"@en,
+        rdfs:comment "设备的能力"@zh
+    Domain: Equipment
+    Range: Capability
+
+ObjectProperty: appliedTo
+    Annotations: 
+        rdfs:label "applied to"@en,
+        rdfs:label "应用于"@zh,
+        rdfs:comment "Target of the process application"@en,
+        rdfs:comment "工艺应用的目标"@zh
+    Domain: Process
+    Range: Part
+
+ObjectProperty: usesFixture
+    Annotations: 
+        rdfs:label "uses fixture"@en,
+        rdfs:label "使用夹具"@zh,
+        rdfs:comment "Fixture used in the process"@en,
+        rdfs:comment "工艺中使用的夹具"@zh
+    Domain: Process
+    Range: Fixture
+
+ObjectProperty: hasMeasuringTool
+    Annotations: 
+        rdfs:label "has measuring tool"@en,
+        rdfs:label "测量工具"@zh,
+        rdfs:comment "Measuring tool used for inspection"@en,
+        rdfs:comment "用于检验的测量工具"@zh
+    Domain: Process
+    Range: MeasuringTool
+
+ObjectProperty: requiresSkill
+    Annotations: 
+        rdfs:label "requires skill"@en,
+        rdfs:label "需要技能"@zh,
+        rdfs:comment "Skill level required for the process"@en,
+        rdfs:comment "工艺需要的技能水平"@zh
+    Domain: Process
+    Range: SkillLevel
+
+ObjectProperty: hasProcessPlan
+    Annotations: 
+        rdfs:label "has process plan"@en,
+        rdfs:label "工艺规程"@zh,
+        rdfs:comment "Process plan for manufacturing"@en,
+        rdfs:comment "制造的工艺规程"@zh
+    Domain: Part
+    Range: ProcessPlan
+
+#################################################################
+# Data Properties
+#################################################################
+
+DataProperty: hasProcessTime
+    Annotations: 
+        rdfs:label "has process time"@en,
+        rdfs:label "加工时间"@zh,
+        rdfs:comment "Time required for the process"@en,
+        rdfs:comment "工艺所需的时间"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasCycleTime
+    Annotations: 
+        rdfs:label "has cycle time"@en,
+        rdfs:label "循环时间"@zh,
+        rdfs:comment "Cycle time for repetitive process"@en,
+        rdfs:comment "重复工艺的循环时间"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasSetupTime
+    Annotations: 
+        rdfs:label "has setup time"@en,
+        rdfs:label "调机时间"@zh,
+        rdfs:comment "Setup time for equipment"@en,
+        rdfs:comment "设备调试时间"@zh
+    Domain: Equipment
+    Range: xsd:float
+
+DataProperty: hasToolLife
+    Annotations: 
+        rdfs:label "has tool life"@en,
+        rdfs:label "刀具寿命"@zh,
+        rdfs:comment "Expected tool life"@en,
+        rdfs:comment "预期刀具寿命"@zh
+    Domain: Tool
+    Range: xsd:float
+
+DataProperty: hasPowerConsumption
+    Annotations: 
+        rdfs:label "has power consumption"@en,
+        rdfs:label "功率消耗"@zh,
+        rdfs:comment "Power consumption of equipment"@en,
+        rdfs:comment "设备的功率消耗"@zh
+    Domain: Equipment
+    Range: xsd:float
+
+DataProperty: hasAccuracy
+    Annotations: 
+        rdfs:label "has accuracy"@en,
+        rdfs:label "精度"@zh,
+        rdfs:comment "Accuracy of the process or equipment"@en,
+        rdfs:comment "工艺或设备的精度"@zh
+    Domain: owl:Thing
+    Range: xsd:string
+
+DataProperty: hasRepeatability
+    Annotations: 
+        rdfs:label "has repeatability"@en,
+        rdfs:label "重复精度"@zh,
+        rdfs:comment "Repeatability of the process"@en,
+        rdfs:comment "工艺的重复精度"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasCost
+    Annotations: 
+        rdfs:label "has cost"@en,
+        rdfs:label "成本"@zh,
+        rdfs:comment "Cost of the process or material"@en,
+        rdfs:comment "工艺或材料的成本"@zh
+    Domain: owl:Thing
+    Range: xsd:float
+
+DataProperty: hasTemperature
+    Annotations: 
+        rdfs:label "has temperature"@en,
+        rdfs:label "温度"@zh,
+        rdfs:comment "Operating temperature"@en,
+        rdfs:comment "操作温度"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasPressure
+    Annotations: 
+        rdfs:label "has pressure"@en,
+        rdfs:label "压力"@zh,
+        rdfs:comment "Operating pressure"@en,
+        rdfs:comment "操作压力"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasVibration
+    Annotations: 
+        rdfs:label "has vibration"@en,
+        rdfs:label "振动"@zh,
+        rdfs:comment "Vibration level"@en,
+        rdfs:comment "振动水平"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasNoise
+    Annotations: 
+        rdfs:label "has noise level"@en,
+        rdfs:label "噪音水平"@zh,
+        rdfs:comment "Noise level in decibels"@en,
+        rdfs:comment "以分贝为单位的噪音水平"@zh
+    Domain: Equipment
+    Range: xsd:float
+
+DataProperty: hasEfficiency
+    Annotations: 
+        rdfs:label "has efficiency"@en,
+        rdfs:label "效率"@zh,
+        rdfs:comment "Process or equipment efficiency"@en,
+        rdfs:comment "工艺或设备效率"@zh
+    Domain: owl:Thing
+    Range: xsd:float
+
+DataProperty: hasQualityRate
+    Annotations: 
+        rdfs:label "has quality rate"@en,
+        rdfs:label "合格率"@zh,
+        rdfs:comment "Quality pass rate"@en,
+        rdfs:comment "质量合格率"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasMaintenanceInterval
+    Annotations: 
+        rdfs:label "has maintenance interval"@en,
+        rdfs:label "维护间隔"@zh,
+        rdfs:comment "Maintenance interval in hours"@en,
+        rdfs:comment "以小时为单位的维护间隔"@zh
+    Domain: Equipment
+    Range: xsd:float
+
+DataProperty: hasWorkpieceSize
+    Annotations: 
+        rdfs:label "has workpiece size"@en,
+        rdfs:label "工件尺寸"@zh,
+        rdfs:comment "Maximum workpiece dimensions"@en,
+        rdfs:comment "最大工件尺寸"@zh
+    Domain: Equipment
+    Range: xsd:string
+
+DataProperty: hasBatchSize
+    Annotations: 
+        rdfs:label "has batch size"@en,
+        rdfs:label "批量大小"@zh,
+        rdfs:comment "Production batch size"@en,
+        rdfs:comment "生产批量大小"@zh
+    Domain: Process
+    Range: xsd:integer
+
+DataProperty: hasProcessCode
+    Annotations: 
+        rdfs:label "has process code"@en,
+        rdfs:label "工艺代码"@zh,
+        rdfs:comment "Process identification code"@en,
+        rdfs:comment "工艺识别代码"@zh
+    Domain: Process
+    Range: xsd:string
+
+DataProperty: hasMaterialGrade
+    Annotations: 
+        rdfs:label "has material grade"@en,
+        rdfs:label "材料牌号"@zh,
+        rdfs:comment "Material grade specification"@en,
+        rdfs:comment "材料牌号规格"@zh
+    Domain: Material
+    Range: xsd:string
+
+DataProperty: hasDensity
+    Annotations: 
+        rdfs:label "has density"@en,
+        rdfs:label "密度"@zh,
+        rdfs:comment "Material density"@en,
+        rdfs:comment "材料密度"@zh
+    Domain: Material
+    Range: xsd:float
+
+DataProperty: hasTensileStrength
+    Annotations: 
+        rdfs:label "has tensile strength"@en,
+        rdfs:label "拉伸强度"@zh,
+        rdfs:comment "Tensile strength of material"@en,
+        rdfs:comment "材料的拉伸强度"@zh
+    Domain: Material
+    Range: xsd:float
+
+DataProperty: hasYieldStrength
+    Annotations: 
+        rdfs:label "has yield strength"@en,
+        rdfs:label "屈服强度"@zh,
+        rdfs:comment "Yield strength of material"@en,
+        rdfs:comment "材料的屈服强度"@zh
+    Domain: Material
+    Range: xsd:float
+
+DataProperty: hasElongation
+    Annotations: 
+        rdfs:label "has elongation"@en,
+        rdfs:label "延伸率"@zh,
+        rdfs:comment "Material elongation percentage"@en,
+        rdfs:comment "材料延伸率"@zh
+    Domain: Material
+    Range: xsd:float
+
+DataProperty: hasCuttingDepth
+    Annotations: 
+        rdfs:label "has cutting depth"@en,
+        rdfs:label "切削深度"@zh,
+        rdfs:comment "The cutting depth value"@en,
+        rdfs:comment "主体工艺的切削深度为指定的数值范围-如'粗车加工-切削深度-1mm'"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasAllowance
+    Annotations: 
+        rdfs:label "has machining allowance"@en,
+        rdfs:label "加工余量"@zh,
+        rdfs:comment "Material allowance for next process"@en,
+        rdfs:comment "加工过程中为下道工序预留的材料量-如'粗车加工-加工余量-1.6mm'"@zh
+    Domain: Process
+    Range: xsd:float
+
+DataProperty: hasHeatTreatmentMethod
+    Annotations: 
+        rdfs:label "has heat treatment method"@en,
+        rdfs:label "热处理方式"@zh,
+        rdfs:comment "Heat treatment method applied"@en,
+        rdfs:comment "主体零件经过指定的热处理方式进行处理-如'主轴-热处理方式-调质处理'"@zh
+    Domain: Part
+    Range: xsd:string
+
+DataProperty: hasHardnessRequirement
+    Annotations: 
+        rdfs:label "has hardness requirement"@en,
+        rdfs:label "硬度要求"@zh,
+        rdfs:comment "Hardness standard requirement"@en,
+        rdfs:comment "主体零件需要达到指定的硬度标准-如'调质处理-硬度要求-HRC30-35'"@zh
+    Domain: Part
+    Range: xsd:string
+
+DataProperty: hasTolerance
+    Annotations: 
+        rdfs:label "has tolerance"@en,
+        rdfs:label "目标公差"@zh,
+        rdfs:comment "Dimensional tolerance requirement"@en,
+        rdfs:comment "主体零件需要达到的尺寸精度要求-如'主轴-目标公差-φ50h7'"@zh
+    Domain: Part
+    Range: xsd:string
+
+DataProperty: hasToolPositions
+    Annotations: 
+        rdfs:label "has tool positions"@en,
+        rdfs:label "刀位数量"@zh,
+        rdfs:comment "Number of tool positions"@en,
+        rdfs:comment "设备可容纳的刀具数量-如'数控加工中心XH714-刀位数量-16'"@zh
+    Domain: Equipment
+    Range: xsd:integer
+
+DataProperty: suitableFor
+    Annotations: 
+        rdfs:label "suitable for"@en,
+        rdfs:label "适用于"@zh,
+        rdfs:comment "Suitable applications or scenarios"@en,
+        rdfs:comment "设备或工艺适合的加工对象或应用场景-如'数控加工中心XH714-适用于-型腔和表面加工'"@zh
+    Domain: Equipment
+    Range: xsd:string
+
+DataProperty: hasMaxPrecision
+    Annotations: 
+        rdfs:label "has maximum precision"@en,
+        rdfs:label "最高精度"@zh,
+        rdfs:comment "Maximum achievable precision"@en,
+        rdfs:comment "设备能够达到的最高加工精度等级-如'数控加工中心XH714-最高精度-IT4等级'"@zh
+    Domain: Equipment
+    Range: xsd:string
+
+#################################################################
+# Classes
+#################################################################
+
+Class: Entity
+    Annotations: 
+        rdfs:label "Entity"@en,
+        rdfs:label "实体"@zh,
+        rdfs:comment "Base class representing all fundamental elements in the manufacturing domain including physical objects, processes, and abstract concepts"@en,
+        rdfs:comment "所有制造实体的基类"@zh
+
+Class: Process
+    Annotations: 
+        rdfs:label "Process"@en,
+        rdfs:label "工艺"@zh,
+        rdfs:comment "Manufacturing operations and procedures that transform raw materials into finished products through various methods and techniques"@en,
+        rdfs:comment "制造工艺和操作"@zh
+
+Class: Parameter
+    Annotations: 
+        rdfs:label "Parameter"@en,
+        rdfs:label "参数"@zh,
+        rdfs:comment "Quantifiable process variables and specifications that control and define manufacturing operations and their outcomes"@en,
+        rdfs:comment "工艺参数和规格"@zh
+
+Class: Material
+    Annotations: 
+        rdfs:label "Material"@en,
+        rdfs:label "材料"@zh,
+        rdfs:comment "Raw materials, alloys, and substances used in manufacturing processes with specific chemical compositions and mechanical properties"@en,
+        rdfs:comment "制造材料"@zh
+    SubClassOf: Entity
+
+Class: Equipment
+    Annotations: 
+        rdfs:label "Equipment"@en,
+        rdfs:label "设备"@zh,
+        rdfs:comment "Manufacturing machines, tools, and devices used to perform processing operations and transform materials into products"@en,
+        rdfs:comment "制造设备和机器"@zh
+    SubClassOf: Entity
+
+Class: Tool
+    Annotations: 
+        rdfs:label "Tool"@en,
+        rdfs:label "刀具"@zh,
+        rdfs:comment "Cutting implements and instruments that directly contact and remove material from workpieces during machining operations"@en,
+        rdfs:comment "切削刀具和工具"@zh
+    SubClassOf: Entity
+
+Class: Part
+    Annotations: 
+        rdfs:label "Part"@en,
+        rdfs:label "零件"@zh,
+        rdfs:comment "Manufactured components and products resulting from processing operations, with specified dimensions, tolerances, and properties"@en,
+        rdfs:comment "制造零件和组件"@zh
+    SubClassOf: Entity
+
+Class: Operator
+    Annotations: 
+        rdfs:label "Operator"@en,
+        rdfs:label "操作人员"@zh,
+        rdfs:comment "Skilled personnel responsible for operating equipment, executing processes, and ensuring quality in manufacturing operations"@en,
+        rdfs:comment "设备操作员和人员"@zh
+    SubClassOf: Entity
+
+Class: Location
+    Annotations: 
+        rdfs:label "Location"@en,
+        rdfs:label "位置"@zh,
+        rdfs:comment "Physical areas within manufacturing facilities including workshops, production lines, and storage areas where operations occur"@en,
+        rdfs:comment "物理位置和车间"@zh
+    SubClassOf: Entity
+
+Class: MechanicalMachining
+    Annotations: 
+        rdfs:label "Mechanical Machining"@en,
+        rdfs:label "机械加工"@zh,
+        rdfs:comment "Manufacturing processes that use mechanical force and cutting tools to shape materials by removing excess material"@en,
+        rdfs:comment "利用机械力对各种工件进行加工的方法"@zh
+    SubClassOf: Process
+
+Class: PressureForming
+    Annotations: 
+        rdfs:label "Pressure Forming"@en,
+        rdfs:label "压力加工"@zh,
+        rdfs:comment "Manufacturing processes that shape materials through plastic deformation using pressure without material removal"@en,
+        rdfs:comment "使毛坯材料产生塑性变形或分离而无切削的加工方法"@zh
+    SubClassOf: Process
+
+Class: CuttingMachining
+    Annotations: 
+        rdfs:label "Cutting Machining"@en,
+        rdfs:label "切削加工"@zh,
+        rdfs:comment "Material removal processes using sharp cutting tools to achieve desired shapes, dimensions, and surface finish"@en,
+        rdfs:comment "利用切削工具从工件上切除多余材料的加工方法"@zh
+    SubClassOf: MechanicalMachining
+
+Class: Turning
+    Annotations: 
+        rdfs:label "Turning"@en,
+        rdfs:label "车削"@zh,
+        rdfs:comment "Machining process where workpiece rotates as primary motion while cutting tool feeds linearly to remove material and create cylindrical shapes"@en,
+        rdfs:comment "工件旋转作主运动.车刀作进给运动的切削加工方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Milling
+    Annotations: 
+        rdfs:label "Milling"@en,
+        rdfs:label "铣削"@zh,
+        rdfs:comment "Machining process where rotating multi-tooth cutter removes material as workpiece or cutter feeds to create flat surfaces, slots, and complex contours"@en,
+        rdfs:comment "铣刀旋转作主运动.工件或铣刀作进给运动的切削加工方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Planing
+    Annotations: 
+        rdfs:label "Planing"@en,
+        rdfs:label "刨削"@zh,
+        rdfs:comment "Machining process using linear reciprocating motion of cutting tool to create flat surfaces on large workpieces"@en,
+        rdfs:comment "用刨刀对工件作水平相对直线往复运动的切削加工方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Drilling
+    Annotations: 
+        rdfs:label "Drilling"@en,
+        rdfs:label "钻削"@zh,
+        rdfs:comment "Machining process using rotating drill bits to create round holes in workpieces through axial feed motion"@en,
+        rdfs:comment "用钻头或扩孔钻在工件上加工孔的方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Reaming
+    Annotations: 
+        rdfs:label "Reaming"@en,
+        rdfs:label "铰削"@zh,
+        rdfs:comment "Precision hole finishing process using multi-fluted reamers to remove small amounts of material for improved dimensional accuracy and surface finish"@en,
+        rdfs:comment "用铰刀从工件孔壁上切除微量金属层.以提高其尺寸精度和降低表面粗糙度的方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Boring
+    Annotations: 
+        rdfs:label "Boring"@en,
+        rdfs:label "镗削"@zh,
+        rdfs:comment "Machining process for enlarging and finishing existing holes using rotating single-point boring tools"@en,
+        rdfs:comment "镗刀旋转作主运动.工件或镗刀作进给运动的切削加工方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Grinding
+    Annotations: 
+        rdfs:label "Grinding"@en,
+        rdfs:label "磨削"@zh,
+        rdfs:comment "Precision machining process using abrasive wheels at high surface speeds to achieve fine surface finish and tight tolerances"@en,
+        rdfs:comment "用磨具以较高的线速度对工件表面进行加工的方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Honing
+    Annotations: 
+        rdfs:label "Honing"@en,
+        rdfs:label "珩磨"@zh,
+        rdfs:comment "Ultra-precision finishing process using abrasive stones with combined rotary and reciprocating motion under controlled pressure"@en,
+        rdfs:comment "利用珩磨工具对工件表面施加一定压力.珩磨工具同时作相对旋转和直线往复运动.切除工件上极小余量的精加工方法"@zh
+    SubClassOf: CuttingMachining
+
+Class: Polishing
+    Annotations: 
+        rdfs:label "Polishing"@en,
+        rdfs:label "抛光"@zh,
+        rdfs:comment "Surface finishing process using mechanical, chemical, or electrochemical methods to achieve mirror-like surface quality"@en,
+        rdfs:comment "利用机械、化学或电化学的作用、使工件获得光亮、平整表面的加工方法"@zh
+    SubClassOf: Process
+
+Class: Casting
+    Annotations: 
+        rdfs:label "Casting"@en,
+        rdfs:label "铸造"@zh,
+        rdfs:comment "Manufacturing process where molten metal is poured, injected, or drawn into mold cavities and solidified to create parts with complex geometries"@en,
+        rdfs:comment "将熔融金属浇注、压射或吸入铸型型腔中.待其凝固后而得到一定形状和性能铸件的方法"@zh
+    SubClassOf: Process
+
+Class: Forging
+    Annotations: 
+        rdfs:label "Forging"@en,
+        rdfs:label "锻造"@zh,
+        rdfs:comment "Manufacturing process using compressive forces to shape metal through controlled plastic deformation, improving grain structure and mechanical properties"@en,
+        rdfs:comment "在加工设备及工(模)具的作用下.使金属坯料或铸锭产生局部或全部的塑性变形.以获得一定几何形状、尺寸和质量的锻件的加工方法"@zh
+    SubClassOf: PressureForming
+
+Class: HeatTreatment
+    Annotations: 
+        rdfs:label "Heat Treatment"@en,
+        rdfs:label "热处理"@zh,
+        rdfs:comment "Thermal processing of metals and alloys through controlled heating, holding, and cooling cycles to modify microstructure and achieve desired mechanical properties"@en,
+        rdfs:comment "将固态金属或合金在一定介质中加热、保温和冷却.以改变其整体或表面组织.从而获得所需要性能的加工方法"@zh
+    SubClassOf: Process
+
+Class: SurfaceTreatment
+    Annotations: 
+        rdfs:label "Surface Treatment"@en,
+        rdfs:label "表面处理"@zh,
+        rdfs:comment "Processes that modify surface layer properties including hardness, wear resistance, corrosion resistance, and appearance"@en,
+        rdfs:comment "改变工件表面层的机械性能、物理性能或化学性能的加工方法"@zh
+    SubClassOf: Process
+
+Class: Carburizing
+    Annotations: 
+        rdfs:label "Carburizing"@en,
+        rdfs:label "渗碳"@zh,
+        rdfs:comment "Thermochemical treatment process that introduces carbon atoms into steel surface layer to increase hardness and wear resistance while maintaining tough core"@en,
+        rdfs:comment "向钢件表面层渗入碳原子的化学热处理工艺"@zh
+    SubClassOf: HeatTreatment
+
+Class: SpindleSpeed
+    Annotations: 
+        rdfs:label "Spindle Speed"@en,
+        rdfs:label "主轴转速"@zh,
+        rdfs:comment "Rotational velocity of machine tool spindle measured in revolutions per minute, determining cutting speed and surface finish quality"@en,
+        rdfs:comment "主轴旋转速度，单位为转/分钟"@zh
+    SubClassOf: Parameter
+
+Class: CuttingSpeed
+    Annotations: 
+        rdfs:label "Cutting Speed"@en,
+        rdfs:label "切削速度"@zh,
+        rdfs:comment "Relative linear velocity between cutting tool and workpiece surface, critical for tool life and machining efficiency"@en,
+        rdfs:comment "切削工具的线速度，单位为米/分钟"@zh
+    SubClassOf: Parameter
+
+Class: FeedRate
+    Annotations: 
+        rdfs:label "Feed Rate"@en,
+        rdfs:label "进给量"@zh,
+        rdfs:comment "Distance the cutting tool advances per workpiece revolution or per tool revolution, affecting chip formation and surface finish"@en,
+        rdfs:comment "每转进给距离，单位为毫米/转"@zh
+    SubClassOf: Parameter
+
+Class: CoolingMethod
+    Annotations: 
+        rdfs:label "Cooling Method"@en,
+        rdfs:label "冷却方式"@zh,
+        rdfs:comment "Technique for removing heat and chips during machining, including flood cooling, mist cooling, and dry machining"@en,
+        rdfs:comment "加工过程中的冷却方法"@zh
+    SubClassOf: Parameter
+
+Class: Lathe
+    Annotations: 
+        rdfs:label "Lathe"@en,
+        rdfs:label "车床"@zh,
+        rdfs:comment "Machine tool that rotates workpiece against cutting tools for turning, facing, boring, and threading operations"@en,
+        rdfs:comment "用于车削加工的机床"@zh
+    SubClassOf: Equipment
+
+Class: MillingMachine
+    Annotations: 
+        rdfs:label "Milling Machine"@en,
+        rdfs:label "铣床"@zh,
+        rdfs:comment "Machine tool using rotating multi-tooth cutters to remove material from workpieces for creating flat and contoured surfaces"@en,
+        rdfs:comment "用于铣削加工的机床"@zh
+    SubClassOf: Equipment
+
+Class: GrindingMachine
+    Annotations: 
+        rdfs:label "Grinding Machine"@en,
+        rdfs:label "磨床"@zh,
+        rdfs:comment "Precision machine tool using abrasive wheels for achieving high dimensional accuracy and superior surface finish"@en,
+        rdfs:comment "用于磨削加工的机床"@zh
+    SubClassOf: Equipment
+
+Class: CNCMachiningCenter
+    Annotations: 
+        rdfs:label "CNC Machining Center"@en,
+        rdfs:label "数控加工中心"@zh,
+        rdfs:comment "Advanced computer-controlled machine tool capable of performing multiple machining operations with automatic tool changing"@en,
+        rdfs:comment "计算机控制的多轴加工中心"@zh
+    SubClassOf: Equipment
+
+Class: CarbideTool
+    Annotations: 
+        rdfs:label "Carbide Tool"@en,
+        rdfs:label "硬质合金刀具"@zh,
+        rdfs:comment "High-performance cutting tool made from tungsten carbide particles bonded with cobalt, offering high hardness and wear resistance"@en,
+        rdfs:comment "由硬质合金制成的切削刀具"@zh
+    SubClassOf: Tool
+
+Class: CBNTool
+    Annotations: 
+        rdfs:label "CBN Tool"@en,
+        rdfs:label "CBN刀具"@zh,
+        rdfs:comment "Ultra-hard cutting tool made from cubic boron nitride, second only to diamond in hardness, ideal for machining hardened steels"@en,
+        rdfs:comment "立方氮化硼切削刀具"@zh
+    SubClassOf: Tool
+
+Class: TitaniumAlloy
+    Annotations: 
+        rdfs:label "Titanium Alloy"@en,
+        rdfs:label "钛合金"@zh,
+        rdfs:comment "High-strength, low-density alloys based on titanium with excellent corrosion resistance and high-temperature performance"@en,
+        rdfs:comment "钛基合金材料"@zh
+    SubClassOf: Material
+
+Class: Steel
+    Annotations: 
+        rdfs:label "Steel"@en,
+        rdfs:label "钢"@zh,
+        rdfs:comment "Iron-carbon alloys with carbon content up to 2.14%, the most widely used engineering material in manufacturing"@en,
+        rdfs:comment "铁碳合金材料"@zh
+    SubClassOf: Material
+
+Class: StainlessSteel
+    Annotations: 
+        rdfs:label "Stainless Steel"@en,
+        rdfs:label "不锈钢"@zh,
+        rdfs:comment "Steel alloys containing minimum 10.5% chromium providing excellent corrosion resistance and aesthetic appearance"@en,
+        rdfs:comment "耐腐蚀钢合金"@zh
+    SubClassOf: Steel
+
+Class: ProcessSequence
+    Annotations: 
+        rdfs:label "Process Sequence"@en,
+        rdfs:label "工序序列"@zh,
+        rdfs:comment "Systematically arranged series of manufacturing operations performed in specific order to transform raw material into finished product"@en,
+        rdfs:comment "制造工序的有序序列"@zh
+
+Class: RoughTurning
+    Annotations: 
+        rdfs:label "Rough Turning"@en,
+        rdfs:label "粗车"@zh,
+        rdfs:comment "First stage turning operation removing large amounts of material quickly with emphasis on productivity over surface finish"@en,
+        rdfs:comment "大余量去除的初始车削"@zh
+    SubClassOf: Turning
+
+Class: SemiFinishTurning
+    Annotations: 
+        rdfs:label "Semi-Finish Turning"@en,
+        rdfs:label "半精车"@zh,
+        rdfs:comment "Intermediate turning stage balancing material removal rate and dimensional accuracy, preparing for final finishing"@en,
+        rdfs:comment "中间车削操作"@zh
+    SubClassOf: Turning
+
+Class: FinishTurning
+    Annotations: 
+        rdfs:label "Finish Turning"@en,
+        rdfs:label "精车"@zh,
+        rdfs:comment "Final turning operation with small depth of cut and fine feed to achieve required dimensions, tolerances, and surface finish"@en,
+        rdfs:comment "用于精度和表面质量的最终车削"@zh
+    SubClassOf: Turning
+
+Class: ExternalTurning
+    Annotations: 
+        rdfs:label "External Turning"@en,
+        rdfs:label "车外圆"@zh,
+        rdfs:comment "Turning external cylindrical surfaces"@en,
+        rdfs:comment "车削外圆柱面"@zh
+    SubClassOf: Turning
+
+Class: ExternalGrinding
+    Annotations: 
+        rdfs:label "External Grinding"@en,
+        rdfs:label "磨外圆"@zh,
+        rdfs:comment "Grinding external cylindrical surfaces"@en,
+        rdfs:comment "磨削外圆柱面"@zh
+    SubClassOf: Grinding
+
+Class: FaceMilling
+    Annotations: 
+        rdfs:label "Face Milling"@en,
+        rdfs:label "铣平面"@zh,
+        rdfs:comment "Milling flat surfaces"@en,
+        rdfs:comment "铣削平面"@zh
+    SubClassOf: Milling
+
+# Electric Machining Classes
+Class: ElectricMachining
+    Annotations: 
+        rdfs:label "Electric Machining"@en,
+        rdfs:label "电加工"@zh,
+        rdfs:comment "Machining processes using electrical energy"@en,
+        rdfs:comment "直接利用电能对工件进行加工的方法"@zh
+    SubClassOf: Process
+
+Class: EDM
+    Annotations: 
+        rdfs:label "Electrical Discharge Machining"@en,
+        rdfs:label "电火花加工"@zh,
+        rdfs:comment "Material removal by electrical discharges"@en,
+        rdfs:comment "在一定的介质中、通过工具电极之间的脉冲放电的电蚀作用、对工件进行加工的方法"@zh
+    SubClassOf: ElectricMachining
+
+Class: ECM
+    Annotations: 
+        rdfs:label "Electrochemical Machining"@en,
+        rdfs:label "电解加工"@zh,
+        rdfs:comment "Material removal by electrochemical process"@en,
+        rdfs:comment "利用金属工件在电解液中所产生的阳极溶解作用、而进行加工的方法"@zh
+    SubClassOf: ElectricMachining
+
+Class: ElectronBeamMachining
+    Annotations: 
+        rdfs:label "Electron Beam Machining"@en,
+        rdfs:label "电子束加工"@zh,
+        rdfs:comment "Material removal using focused electron beam"@en,
+        rdfs:comment "在真空条件下、利用电子枪中产生的电子经加速、聚焦，形成高能量大密度的细电子束以轰击工件被加工部位"@zh
+    SubClassOf: ElectricMachining
+
+Class: IonBeamMachining
+    Annotations: 
+        rdfs:label "Ion Beam Machining"@en,
+        rdfs:label "离子束加工"@zh,
+        rdfs:comment "Material removal using focused ion beam"@en,
+        rdfs:comment "利用离子源产生的离子、在真空中经加速聚焦而形成高速高能的束状离子流、从而对工件进行加工的方法"@zh
+    SubClassOf: ElectricMachining
+
+Class: PlasmaMachining
+    Annotations: 
+        rdfs:label "Plasma Machining"@en,
+        rdfs:label "等离子加工"@zh,
+        rdfs:comment "Material removal using plasma arc"@en,
+        rdfs:comment "利用高温高速的等离子流使工件的局部金属熔化和蒸发、从而对工件进行加工的方法"@zh
+    SubClassOf: ElectricMachining
+
+Class: LaserMachining
+    Annotations: 
+        rdfs:label "Laser Machining"@en,
+        rdfs:label "激光加工"@zh,
+        rdfs:comment "Material processing using laser beam"@en,
+        rdfs:comment "利用激光束进行材料加工"@zh
+    SubClassOf: Process
+
+Class: LaserCutting
+    Annotations: 
+        rdfs:label "Laser Cutting"@en,
+        rdfs:label "激光切割"@zh,
+        rdfs:comment "Cutting materials using laser beam"@en,
+        rdfs:comment "使用激光束切割材料"@zh
+    SubClassOf: LaserMachining
+
+Class: LaserWelding
+    Annotations: 
+        rdfs:label "Laser Welding"@en,
+        rdfs:label "激光焊接"@zh,
+        rdfs:comment "Welding using laser beam"@en,
+        rdfs:comment "使用激光束进行焊接"@zh
+    SubClassOf: LaserMachining
+
+Class: LaserDrilling
+    Annotations: 
+        rdfs:label "Laser Drilling"@en,
+        rdfs:label "激光打孔"@zh,
+        rdfs:comment "Drilling holes using laser beam"@en,
+        rdfs:comment "用激光加工原理加工工件的孔"@zh
+    SubClassOf: LaserMachining
+
+# Ultrasonic Machining
+Class: UltrasonicMachining
+    Annotations: 
+        rdfs:label "Ultrasonic Machining"@en,
+        rdfs:label "超声波加工"@zh,
+        rdfs:comment "Material removal using ultrasonic vibrations"@en,
+        rdfs:comment "利用超声振动进行材料去除"@zh
+    SubClassOf: Process
+
+# Water Jet Machining
+Class: WaterJetMachining
+    Annotations: 
+        rdfs:label "Water Jet Machining"@en,
+        rdfs:label "水射流加工"@zh,
+        rdfs:comment "Material cutting using high-pressure water jet"@en,
+        rdfs:comment "使用高压水射流切割材料"@zh
+    SubClassOf: Process
+
+Class: AbrasiveWaterJet
+    Annotations: 
+        rdfs:label "Abrasive Water Jet"@en,
+        rdfs:label "磨料水射流"@zh,
+        rdfs:comment "Water jet cutting with abrasive particles"@en,
+        rdfs:comment "带磨料颗粒的水射流切割"@zh
+    SubClassOf: WaterJetMachining
+
+# Forming Processes
+Class: FormingProcess
+    Annotations: 
+        rdfs:label "Forming Process"@en,
+        rdfs:label "成形加工"@zh,
+        rdfs:comment "Processes that shape materials through deformation"@en,
+        rdfs:comment "通过变形来塑造材料的工艺"@zh
+    SubClassOf: Process
+
+Class: Stamping
+    Annotations: 
+        rdfs:label "Stamping"@en,
+        rdfs:label "冲压"@zh,
+        rdfs:comment "Forming sheet metal using dies"@en,
+        rdfs:comment "使板料经分离或成形而得到制件的加工方法"@zh
+    SubClassOf: FormingProcess
+
+Class: Bending
+    Annotations: 
+        rdfs:label "Bending"@en,
+        rdfs:label "弯曲"@zh,
+        rdfs:comment "Forming material by bending"@en,
+        rdfs:comment "使工件单边伸长收缩而弯曲成形的方法"@zh
+    SubClassOf: FormingProcess
+
+Class: DeepDrawing
+    Annotations: 
+        rdfs:label "Deep Drawing"@en,
+        rdfs:label "拉深"@zh,
+        rdfs:comment "Forming sheet metal into deep shapes"@en,
+        rdfs:comment "板料或空心料在轴向拉应力作用下、使其产生塑性变形取得所需制件的成形方法"@zh
+    SubClassOf: FormingProcess
+
+Class: Extrusion
+    Annotations: 
+        rdfs:label "Extrusion"@en,
+        rdfs:label "挤压"@zh,
+        rdfs:comment "Forming by forcing material through a die"@en,
+        rdfs:comment "用挤压工具以一定的压力作用于金属坯料或工件、使其产生塑性变形"@zh
+    SubClassOf: FormingProcess
+
+Class: Rolling
+    Annotations: 
+        rdfs:label "Rolling"@en,
+        rdfs:label "轧制"@zh,
+        rdfs:comment "Forming by passing through rollers"@en,
+        rdfs:comment "通过辊子来成形"@zh
+    SubClassOf: FormingProcess
+
+Class: Spinning
+    Annotations: 
+        rdfs:label "Spinning"@en,
+        rdfs:label "旋压"@zh,
+        rdfs:comment "Forming by spinning workpiece"@en,
+        rdfs:comment "通过旋转工件来成形"@zh
+    SubClassOf: FormingProcess
+
+# Welding and Joining
+Class: WeldingAndJoining
+    Annotations: 
+        rdfs:label "Welding and Joining"@en,
+        rdfs:label "焊接与连接"@zh,
+        rdfs:comment "Processes for joining materials"@en,
+        rdfs:comment "用于连接材料的工艺"@zh
+    SubClassOf: Process
+
+Class: ArcWelding
+    Annotations: 
+        rdfs:label "Arc Welding"@en,
+        rdfs:label "电弧焊"@zh,
+        rdfs:comment "Welding using electric arc"@en,
+        rdfs:comment "使用电弧进行焊接"@zh
+    SubClassOf: WeldingAndJoining
+
+Class: TIGWelding
+    Annotations: 
+        rdfs:label "TIG Welding"@en,
+        rdfs:label "氩弧焊"@zh,
+        rdfs:comment "Tungsten inert gas welding"@en,
+        rdfs:comment "钨极惰性气体保护焊"@zh
+    SubClassOf: ArcWelding
+
+Class: MIGWelding
+    Annotations: 
+        rdfs:label "MIG Welding"@en,
+        rdfs:label "熔化极惰性气体保护焊"@zh,
+        rdfs:comment "Metal inert gas welding"@en,
+        rdfs:comment "金属惰性气体保护焊"@zh
+    SubClassOf: ArcWelding
+
+Class: ResistanceWelding
+    Annotations: 
+        rdfs:label "Resistance Welding"@en,
+        rdfs:label "电阻焊"@zh,
+        rdfs:comment "Welding using electrical resistance"@en,
+        rdfs:comment "使用电阻进行焊接"@zh
+    SubClassOf: WeldingAndJoining
+
+Class: Brazing
+    Annotations: 
+        rdfs:label "Brazing"@en,
+        rdfs:label "钢焊"@zh,
+        rdfs:comment "Joining using filler metal"@en,
+        rdfs:comment "使用填充金属进行连接"@zh
+    SubClassOf: WeldingAndJoining
+
+Class: Soldering
+    Annotations: 
+        rdfs:label "Soldering"@en,
+        rdfs:label "软焊"@zh,
+        rdfs:comment "Low-temperature joining process"@en,
+        rdfs:comment "低温连接工艺"@zh
+    SubClassOf: WeldingAndJoining
+
+Class: Adhesive Bonding
+    Annotations: 
+        rdfs:label "Adhesive Bonding"@en,
+        rdfs:label "粘接"@zh,
+        rdfs:comment "Joining using adhesives"@en,
+        rdfs:comment "借助粘结剂形成的连接"@zh
+    SubClassOf: WeldingAndJoining
+
+Class: Riveting
+    Annotations: 
+        rdfs:label "Riveting"@en,
+        rdfs:label "铆接"@zh,
+        rdfs:comment "Joining using rivets"@en,
+        rdfs:comment "借助铆钉形成的不可拆连接"@zh
+    SubClassOf: WeldingAndJoining
+
+# Heat Treatment Subclasses
+Class: Annealing
+    Annotations: 
+        rdfs:label "Annealing"@en,
+        rdfs:label "退火"@zh,
+        rdfs:comment "Heat treatment to reduce hardness"@en,
+        rdfs:comment "降低硬度的热处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: Quenching
+    Annotations: 
+        rdfs:label "Quenching"@en,
+        rdfs:label "淬火"@zh,
+        rdfs:comment "Rapid cooling heat treatment"@en,
+        rdfs:comment "快速冷却热处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: Tempering
+    Annotations: 
+        rdfs:label "Tempering"@en,
+        rdfs:label "回火"@zh,
+        rdfs:comment "Heat treatment after quenching"@en,
+        rdfs:comment "淬火后的热处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: Normalizing
+    Annotations: 
+        rdfs:label "Normalizing"@en,
+        rdfs:label "正火"@zh,
+        rdfs:comment "Heat treatment to refine grain structure"@en,
+        rdfs:comment "细化晶粒结构的热处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: CaseHardening
+    Annotations: 
+        rdfs:label "Case Hardening"@en,
+        rdfs:label "表面硬化"@zh,
+        rdfs:comment "Surface hardening treatment"@en,
+        rdfs:comment "表面硬化处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: StressRelieving
+    Annotations: 
+        rdfs:label "Stress Relieving"@en,
+        rdfs:label "去应力退火"@zh,
+        rdfs:comment "Heat treatment to remove residual stress"@en,
+        rdfs:comment "去除残余应力的热处理"@zh
+    SubClassOf: HeatTreatment
+
+Class: Nitriding
+    Annotations: 
+        rdfs:label "Nitriding"@en,
+        rdfs:label "渗氮"@zh,
+        rdfs:comment "Surface treatment adding nitrogen"@en,
+        rdfs:comment "在一定温度下，使活性氮原子渗入工件表面的化学热处理工艺"@zh
+    SubClassOf: HeatTreatment
+
+# Additional specific machining processes
+Class: ThreadCutting
+    Annotations: 
+        rdfs:label "Thread Cutting"@en,
+        rdfs:label "车螺纹"@zh,
+        rdfs:comment "Cutting threads on workpiece"@en,
+        rdfs:comment "在工件上切削螺纹"@zh
+    SubClassOf: Turning
+
+Class: ThreadMilling
+    Annotations: 
+        rdfs:label "Thread Milling"@en,
+        rdfs:label "铣螺纹"@zh,
+        rdfs:comment "Milling threads on workpiece"@en,
+        rdfs:comment "用铣削方法加工工件的螺纹"@zh
+    SubClassOf: Milling
+
+Class: ThreadGrinding
+    Annotations: 
+        rdfs:label "Thread Grinding"@en,
+        rdfs:label "磨螺纹"@zh,
+        rdfs:comment "Grinding threads for precision"@en,
+        rdfs:comment "用单线或多线砂轮磨削工件的螺纹"@zh
+    SubClassOf: Grinding
+
+Class: GearCutting
+    Annotations: 
+        rdfs:label "Gear Cutting"@en,
+        rdfs:label "齿轮加工"@zh,
+        rdfs:comment "Machining gear teeth"@en,
+        rdfs:comment "加工齿轮齿面"@zh
+    SubClassOf: CuttingMachining
+
+Class: GearHobbing
+    Annotations: 
+        rdfs:label "Gear Hobbing"@en,
+        rdfs:label "滚齿"@zh,
+        rdfs:comment "Cutting gears using hob"@en,
+        rdfs:comment "用齿轮滚刀按展成法加工齿轮、蜗轮等的齿面"@zh
+    SubClassOf: GearCutting
+
+Class: GearShaping
+    Annotations: 
+        rdfs:label "Gear Shaping"@en,
+        rdfs:label "插齿"@zh,
+        rdfs:comment "Cutting gears using shaper"@en,
+        rdfs:comment "用插齿刀按展成法或成形法加工内、外齿轮或齿条等的齿面"@zh
+    SubClassOf: GearCutting
+
+Class: GearGrinding
+    Annotations: 
+        rdfs:label "Gear Grinding"@en,
+        rdfs:label "磨齿"@zh,
+        rdfs:comment "Grinding gear teeth for precision"@en,
+        rdfs:comment "用砂轮按展成法或成形法磨削齿轮或齿条等的齿面"@zh
+    SubClassOf: Grinding
+
+Class: GearShaving
+    Annotations: 
+        rdfs:label "Gear Shaving"@en,
+        rdfs:label "剃齿"@zh,
+        rdfs:comment "Finishing gear teeth"@en,
+        rdfs:comment "用剃齿刀对齿轮或蜗轮等的齿面进行精加工"@zh
+    SubClassOf: GearCutting
+
+# Finishing Processes
+Class: FinishingProcess
+    Annotations: 
+        rdfs:label "Finishing Process"@en,
+        rdfs:label "精加工"@zh,
+        rdfs:comment "Final machining for surface quality"@en,
+        rdfs:comment "用于表面质量的最终加工"@zh
+    SubClassOf: Process
+
+Class: Lapping
+    Annotations: 
+        rdfs:label "Lapping"@en,
+        rdfs:label "研磨"@zh,
+        rdfs:comment "Ultra-precision surface finishing"@en,
+        rdfs:comment "超精密表面精加工"@zh
+    SubClassOf: FinishingProcess
+
+Class: Buffing
+    Annotations: 
+        rdfs:label "Buffing"@en,
+        rdfs:label "抛光"@zh,
+        rdfs:comment "Polishing to high luster"@en,
+        rdfs:comment "抛光至高光泽"@zh
+    SubClassOf: FinishingProcess
+
+Class: Burnishing
+    Annotations: 
+        rdfs:label "Burnishing"@en,
+        rdfs:label "滚压光整"@zh,
+        rdfs:comment "Surface finishing by plastic deformation"@en,
+        rdfs:comment "通过塑性变形进行表面精加工"@zh
+    SubClassOf: FinishingProcess
+
+Class: Electropolishing
+    Annotations: 
+        rdfs:label "Electropolishing"@en,
+        rdfs:label "电解抛光"@zh,
+        rdfs:comment "Electrochemical surface finishing"@en,
+        rdfs:comment "电化学表面精加工"@zh
+    SubClassOf: FinishingProcess
+
+# Quality Control Classes
+Class: QualityLevel
+    Annotations: 
+        rdfs:label "Quality Level"@en,
+        rdfs:label "质量等级"@zh,
+        rdfs:comment "Quality standards and levels"@en,
+        rdfs:comment "质量标准和等级"@zh
+    SubClassOf: Entity
+
+Class: Defect
+    Annotations: 
+        rdfs:label "Defect"@en,
+        rdfs:label "缺陷"@zh,
+        rdfs:comment "Manufacturing defects and issues"@en,
+        rdfs:comment "制造缺陷和问题"@zh
+    SubClassOf: Entity
+
+Class: SurfaceDefect
+    Annotations: 
+        rdfs:label "Surface Defect"@en,
+        rdfs:label "表面缺陷"@zh,
+        rdfs:comment "Imperfections on the material surface including scratches, pits, scale, and other irregularities affecting appearance and performance"@en,
+        rdfs:comment "材料表面的缺陷"@zh
+    SubClassOf: Defect
+
+Class: Crack
+    Annotations: 
+        rdfs:label "Crack"@en,
+        rdfs:label "裂纹"@zh,
+        rdfs:comment "Linear discontinuities in material caused by stress concentration, thermal shock, or fatigue, potentially leading to catastrophic failure"@en,
+        rdfs:comment "由应力集中、热冲击或疲劳引起的材料线性不连续，可能导致灾难性失效"@zh
+    SubClassOf: SurfaceDefect
+
+Class: Porosity
+    Annotations: 
+        rdfs:label "Porosity"@en,
+        rdfs:label "气孔"@zh,
+        rdfs:comment "Void defects formed by gas bubbles trapped during solidification or processing, affecting material density and mechanical properties"@en,
+        rdfs:comment "凝固或加工过程中气泡被困而形成的空洞缺陷，影响材料密度和机械性能"@zh
+    SubClassOf: Defect
+
+Class: Inclusion
+    Annotations: 
+        rdfs:label "Inclusion"@en,
+        rdfs:label "夹杂物"@zh,
+        rdfs:comment "Non-metallic or foreign material particles trapped within the metal matrix during solidification or processing, which can affect material properties and structural integrity"@en,
+        rdfs:comment "金属基体在凝固或加工过程中包裹的非金属或外来材料颗粒，可能影响材料性能和结构完整性"@zh
+    SubClassOf: Defect
+
+Class: Segregation
+    Annotations: 
+        rdfs:label "Segregation"@en,
+        rdfs:label "偏析"@zh,
+        rdfs:comment "Non-uniform distribution of alloying elements, inclusions, or porosity within an alloy, typically occurring during solidification and affecting material homogeneity"@en,
+        rdfs:comment "合金中合金元素、夹杂物或气孔等分布不均匀的现象，通常在凝固过程中产生，影响材料的均匀性"@zh
+    SubClassOf: Defect
+
+Class: Brittleness
+    Annotations: 
+        rdfs:label "Brittleness"@en,
+        rdfs:label "脆性"@zh,
+        rdfs:comment "Material property characterized by fracture with little or no plastic deformation, resulting in reduced toughness and impact resistance"@en,
+        rdfs:comment "材料在断裂前很少或没有塑性变形的特性，导致韧性和抗冲击性降低的缺陷"@zh
+    SubClassOf: Defect
+
+Class: ColdBrittleness
+    Annotations: 
+        rdfs:label "Cold Brittleness"@en,
+        rdfs:label "冷脆"@zh,
+        rdfs:comment "Phenomenon where steel's impact toughness decreases sharply with temperature reduction below 100°C, leading to brittle failure at low temperatures"@en,
+        rdfs:comment "在低温（一般指100℃以下）钢的冲击韧度随温度的降低而急剧下降的现象，导致低温下的脆性破坏"@zh
+    SubClassOf: Brittleness
+
+Class: BlueBrittleness
+    Annotations: 
+        rdfs:label "Blue Brittleness"@en,
+        rdfs:label "蓝脆"@zh,
+        rdfs:comment "Steel brittleness occurring at 200-300°C when surface oxidation film appears blue, characterized by higher tensile strength but lower plasticity and toughness compared to room temperature"@en,
+        rdfs:comment "钢在200-300℃(表面氧化膜呈蓝色)时抗拉强度及硬度比常温的高，塑性及韧度比常温的低的现象"@zh
+    SubClassOf: Brittleness
+
+Class: HotBrittleness
+    Annotations: 
+        rdfs:label "Hot Brittleness"@en,
+        rdfs:label "热脆"@zh,
+        rdfs:comment "Intergranular cracking phenomenon in certain alloys when subjected to stress or deformation at temperatures approaching the melting point"@en,
+        rdfs:comment "有些合金在接近熔点的温度受到应力或形变时沿晶界开裂的现象"@zh
+    SubClassOf: Brittleness
+
+Class: HydrogenEmbrittlement
+    Annotations: 
+        rdfs:label "Hydrogen Embrittlement"@en,
+        rdfs:label "氢脆"@zh,
+        rdfs:comment "Reduction in ductility and toughness of metals or alloys caused by hydrogen absorption into the material structure, leading to premature failure"@en,
+        rdfs:comment "金属或合金因吸收氢而引起的韧度降低现象，氢进入材料结构导致过早失效"@zh
+    SubClassOf: Brittleness
+
+Class: WhiteSpot
+    Annotations: 
+        rdfs:label "White Spot"@en,
+        rdfs:label "白点"@zh,
+        rdfs:comment "Steel defect caused by hydrogen precipitation, appearing as circular or elliptical silver-white spots on longitudinal fractures and as cracks on etched macroscopic samples"@en,
+        rdfs:comment "白点是钢中因氢的析出而引起的一种缺陷，在纵向断口上呈现接近圆形或椭圆形的银白色斑点，在侵蚀后的宏观磨片上呈现发裂"@zh
+    SubClassOf: Defect
+
+Class: Overheating
+    Annotations: 
+        rdfs:label "Overheating"@en,
+        rdfs:label "过热"@zh,
+        rdfs:comment "Phenomenon where metal or alloy grain size grows excessively large due to overheating during heat treatment, resulting in significant deterioration of mechanical properties"@en,
+        rdfs:comment "金属或合金在热处理加热时，由于温度过高，晶粒长得很大，以致性能显著降低的现象"@zh
+    SubClassOf: Defect
+
+Class: DimensionalDefect
+    Annotations: 
+        rdfs:label "Dimensional Defect"@en,
+        rdfs:label "尺寸缺陷"@zh,
+        rdfs:comment "Deviations from specified dimensions including oversizing, undersizing, or out-of-tolerance conditions affecting part fit and function"@en,
+        rdfs:comment "尺寸方面的缺陷"@zh
+    SubClassOf: Defect
+
+Class: GeometricDefect
+    Annotations: 
+        rdfs:label "Geometric Defect"@en,
+        rdfs:label "几何缺陷"@zh,
+        rdfs:comment "Deviations from specified geometric form including flatness, straightness, circularity, and profile errors"@en,
+        rdfs:comment "几何形状缺陷"@zh
+    SubClassOf: Defect
+
+Class: Warpage
+    Annotations: 
+        rdfs:label "Warpage"@en,
+        rdfs:label "翘曲"@zh,
+        rdfs:comment "Distortion or bending of parts from their intended shape due to residual stress, uneven cooling, or improper processing"@en,
+        rdfs:comment "偏离预期形状的变形"@zh
+    SubClassOf: GeometricDefect
+
+Class: Runout
+    Annotations: 
+        rdfs:label "Runout"@en,
+        rdfs:label "跳动"@zh,
+        rdfs:comment "Radial or axial deviation of a rotating part from its true axis, affecting balance and precision in rotating machinery"@en,
+        rdfs:comment "旋转时的偏差"@zh
+    SubClassOf: GeometricDefect
+
+# Measurement and Inspection Classes
+Class: MeasuringTool
+    Annotations: 
+        rdfs:label "Measuring Tool"@en,
+        rdfs:label "测量工具"@zh,
+        rdfs:comment "Tools for measurement and inspection"@en,
+        rdfs:comment "用于测量和检验的工具"@zh
+    SubClassOf: Entity
+
+Class: Caliper
+    Annotations: 
+        rdfs:label "Caliper"@en,
+        rdfs:label "卡尺"@zh,
+        rdfs:comment "Precision measuring instrument"@en,
+        rdfs:comment "精密测量仪器"@zh
+    SubClassOf: MeasuringTool
+
+Class: Micrometer
+    Annotations: 
+        rdfs:label "Micrometer"@en,
+        rdfs:label "千分尺"@zh,
+        rdfs:comment "High precision measuring tool"@en,
+        rdfs:comment "高精度测量工具"@zh
+    SubClassOf: MeasuringTool
+
+Class: Gauge
+    Annotations: 
+        rdfs:label "Gauge"@en,
+        rdfs:label "量规"@zh,
+        rdfs:comment "Fixed dimension measuring tool"@en,
+        rdfs:comment "固定尺寸测量工具"@zh
+    SubClassOf: MeasuringTool
+
+Class: CMM
+    Annotations: 
+        rdfs:label "Coordinate Measuring Machine"@en,
+        rdfs:label "三坐标测量机"@zh,
+        rdfs:comment "3D coordinate measuring machine"@en,
+        rdfs:comment "三维坐标测量机"@zh
+    SubClassOf: MeasuringTool
+
+# Additional Support Classes
+Class: Fixture
+    Annotations: 
+        rdfs:label "Fixture"@en,
+        rdfs:label "夹具"@zh,
+        rdfs:comment "Workholding device"@en,
+        rdfs:comment "工件夹持装置"@zh
+    SubClassOf: Entity
+
+Class: Jig
+    Annotations: 
+        rdfs:label "Jig"@en,
+        rdfs:label "钻模"@zh,
+        rdfs:comment "Guiding device for tools"@en,
+        rdfs:comment "工具导向装置"@zh
+    SubClassOf: Entity
+
+Class: Coolant
+    Annotations: 
+        rdfs:label "Coolant"@en,
+        rdfs:label "冷却液"@zh,
+        rdfs:comment "Cooling fluid for machining"@en,
+        rdfs:comment "加工用冷却液"@zh
+    SubClassOf: Entity
+
+Class: Lubricant
+    Annotations: 
+        rdfs:label "Lubricant"@en,
+        rdfs:label "润滑剂"@zh,
+        rdfs:comment "Lubrication for machining"@en,
+        rdfs:comment "加工用润滑剂"@zh
+    SubClassOf: Entity
+
+Class: ProcessPlan
+    Annotations: 
+        rdfs:label "Process Plan"@en,
+        rdfs:label "工艺规程"@zh,
+        rdfs:comment "Manufacturing process planning"@en,
+        rdfs:comment "制造工艺规划"@zh
+    SubClassOf: Entity
+
+Class: Capability
+    Annotations: 
+        rdfs:label "Capability"@en,
+        rdfs:label "能力"@zh,
+        rdfs:comment "Equipment or process capability"@en,
+        rdfs:comment "设备或工艺能力"@zh
+    SubClassOf: Entity
+
+Class: SkillLevel
+    Annotations: 
+        rdfs:label "Skill Level"@en,
+        rdfs:label "技能水平"@zh,
+        rdfs:comment "Operator skill level"@en,
+        rdfs:comment "操作员技能水平"@zh
+    SubClassOf: Entity
+
+# Additional Tool Classes
+Class: DrillBit
+    Annotations: 
+        rdfs:label "Drill Bit"@en,
+        rdfs:label "钻头"@zh,
+        rdfs:comment "Tool for drilling holes"@en,
+        rdfs:comment "用于钻孔的工具"@zh
+    SubClassOf: Tool
+
+Class: Reamer
+    Annotations: 
+        rdfs:label "Reamer"@en,
+        rdfs:label "铰刀"@zh,
+        rdfs:comment "Tool for reaming holes"@en,
+        rdfs:comment "用于铰孔的工具"@zh
+    SubClassOf: Tool
+
+Class: Tap
+    Annotations: 
+        rdfs:label "Tap"@en,
+        rdfs:label "丝锥"@zh,
+        rdfs:comment "Tool for cutting internal threads"@en,
+        rdfs:comment "用于切削内螺纹的工具"@zh
+    SubClassOf: Tool
+
+Class: Die
+    Annotations: 
+        rdfs:label "Die"@en,
+        rdfs:label "板牙"@zh,
+        rdfs:comment "Tool for cutting external threads"@en,
+        rdfs:comment "用于切削外螺纹的工具"@zh
+    SubClassOf: Tool
+
+Class: EndMill
+    Annotations: 
+        rdfs:label "End Mill"@en,
+        rdfs:label "立铣刀"@zh,
+        rdfs:comment "Cutting tool for milling"@en,
+        rdfs:comment "用于铣削的切削工具"@zh
+    SubClassOf: Tool
+
+Class: FaceMill
+    Annotations: 
+        rdfs:label "Face Mill"@en,
+        rdfs:label "面铣刀"@zh,
+        rdfs:comment "Tool for face milling"@en,
+        rdfs:comment "用于面铣削的工具"@zh
+    SubClassOf: Tool
+
+Class: BoringBar
+    Annotations: 
+        rdfs:label "Boring Bar"@en,
+        rdfs:label "镗刀杆"@zh,
+        rdfs:comment "Tool for boring operations"@en,
+        rdfs:comment "用于镗削操作的工具"@zh
+    SubClassOf: Tool
+
+Class: BroachTool
+    Annotations: 
+        rdfs:label "Broach"@en,
+        rdfs:label "拉刀"@zh,
+        rdfs:comment "Tool for broaching"@en,
+        rdfs:comment "用于拉削的工具"@zh
+    SubClassOf: Tool
+
+Class: GrindingWheel
+    Annotations: 
+        rdfs:label "Grinding Wheel"@en,
+        rdfs:label "砂轮"@zh,
+        rdfs:comment "Abrasive wheel for grinding"@en,
+        rdfs:comment "用于磨削的砂轮"@zh
+    SubClassOf: Tool
+
+Class: HoningStone
+    Annotations: 
+        rdfs:label "Honing Stone"@en,
+        rdfs:label "珩磨条"@zh,
+        rdfs:comment "Abrasive stone for honing"@en,
+        rdfs:comment "用于珩磨的磨石"@zh
+    SubClassOf: Tool
+
+Class: PolishingCompound
+    Annotations: 
+        rdfs:label "Polishing Compound"@en,
+        rdfs:label "抛光剂"@zh,
+        rdfs:comment "Compound for polishing"@en,
+        rdfs:comment "用于抛光的化合物"@zh
+    SubClassOf: Tool
+
+# Additional Equipment Classes
+Class: DrillingMachine
+    Annotations: 
+        rdfs:label "Drilling Machine"@en,
+        rdfs:label "钻床"@zh,
+        rdfs:comment "Machine for drilling operations"@en,
+        rdfs:comment "用于钻削操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: BoringMachine
+    Annotations: 
+        rdfs:label "Boring Machine"@en,
+        rdfs:label "镗床"@zh,
+        rdfs:comment "Machine for boring operations"@en,
+        rdfs:comment "用于镗削操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: PlaningMachine
+    Annotations: 
+        rdfs:label "Planing Machine"@en,
+        rdfs:label "刨床"@zh,
+        rdfs:comment "Machine for planing operations"@en,
+        rdfs:comment "用于刨削操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: ShapingMachine
+    Annotations: 
+        rdfs:label "Shaping Machine"@en,
+        rdfs:label "插床"@zh,
+        rdfs:comment "Machine for shaping operations"@en,
+        rdfs:comment "用于插削操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: BroachingMachine
+    Annotations: 
+        rdfs:label "Broaching Machine"@en,
+        rdfs:label "拉床"@zh,
+        rdfs:comment "Machine for broaching operations"@en,
+        rdfs:comment "用于拉削操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: HoningMachine
+    Annotations: 
+        rdfs:label "Honing Machine"@en,
+        rdfs:label "珩磨机"@zh,
+        rdfs:comment "Machine for honing operations"@en,
+        rdfs:comment "用于珩磨操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: LappingMachine
+    Annotations: 
+        rdfs:label "Lapping Machine"@en,
+        rdfs:label "研磨机"@zh,
+        rdfs:comment "Machine for lapping operations"@en,
+        rdfs:comment "用于研磨操作的机床"@zh
+    SubClassOf: Equipment
+
+Class: EDMachine
+    Annotations: 
+        rdfs:label "EDM Machine"@en,
+        rdfs:label "电火花机床"@zh,
+        rdfs:comment "Electrical discharge machine"@en,
+        rdfs:comment "电火花加工机床"@zh
+    SubClassOf: Equipment
+
+Class: LaserCutter
+    Annotations: 
+        rdfs:label "Laser Cutter"@en,
+        rdfs:label "激光切割机"@zh,
+        rdfs:comment "Machine for laser cutting"@en,
+        rdfs:comment "用于激光切割的机器"@zh
+    SubClassOf: Equipment
+
+Class: WaterJetCutter
+    Annotations: 
+        rdfs:label "Water Jet Cutter"@en,
+        rdfs:label "水射流切割机"@zh,
+        rdfs:comment "Machine for water jet cutting"@en,
+        rdfs:comment "用于水射流切割的机器"@zh
+    SubClassOf: Equipment
+
+Class: Press
+    Annotations: 
+        rdfs:label "Press"@en,
+        rdfs:label "压力机"@zh,
+        rdfs:comment "Machine for pressing operations"@en,
+        rdfs:comment "用于压制操作的机器"@zh
+    SubClassOf: Equipment
+
+Class: RollingMill
+    Annotations: 
+        rdfs:label "Rolling Mill"@en,
+        rdfs:label "轧机"@zh,
+        rdfs:comment "Machine for rolling operations"@en,
+        rdfs:comment "用于轧制操作的机器"@zh
+    SubClassOf: Equipment
+
+Class: ForgingHammer
+    Annotations: 
+        rdfs:label "Forging Hammer"@en,
+        rdfs:label "锻锤"@zh,
+        rdfs:comment "Equipment for forging"@en,
+        rdfs:comment "用于锻造的设备"@zh
+    SubClassOf: Equipment
+
+Class: HeatTreatmentFurnace
+    Annotations: 
+        rdfs:label "Heat Treatment Furnace"@en,
+        rdfs:label "热处理炉"@zh,
+        rdfs:comment "Furnace for heat treatment"@en,
+        rdfs:comment "用于热处理的炉子"@zh
+    SubClassOf: Equipment
+
+Class: WeldingMachine
+    Annotations: 
+        rdfs:label "Welding Machine"@en,
+        rdfs:label "焊接机"@zh,
+        rdfs:comment "Equipment for welding"@en,
+        rdfs:comment "用于焊接的设备"@zh
+    SubClassOf: Equipment
+
+#################################################################
+# Individuals
+#################################################################
+
+# Material Individuals
+Individual: Ti6Al4V
+    Annotations: 
+        rdfs:label "Ti-6Al-4V",
+        rdfs:comment "Aerospace grade titanium alloy"@en,
+        rdfs:comment "航空级钛合金"@zh
+    Types: TitaniumAlloy
+    Facts:
+        hasDensity 4.43,
+        hasTensileStrength 950,
+        hasYieldStrength 880,
+        hasMaterialGrade "Grade 5"
+
+Individual: Steel45
+    Annotations: 
+        rdfs:label "45# Steel",
+        rdfs:comment "Medium carbon steel"@en,
+        rdfs:comment "45号钢"@zh
+    Types: Steel
+    Facts:
+        hasDensity 7.85,
+        hasTensileStrength 600,
+        hasYieldStrength 355,
+        hasMaterialGrade "45#"
+
+Individual: SS304
+    Annotations: 
+        rdfs:label "304 Stainless Steel",
+        rdfs:comment "Austenitic stainless steel"@en,
+        rdfs:comment "304不锈钢"@zh
+    Types: StainlessSteel
+    Facts:
+        hasDensity 8.0,
+        hasTensileStrength 520,
+        hasYieldStrength 215,
+        hasMaterialGrade "304"
+
+Individual: SS316L
+    Annotations: 
+        rdfs:label "316L Stainless Steel",
+        rdfs:comment "Low carbon austenitic stainless steel"@en,
+        rdfs:comment "316L不锈钢"@zh
+    Types: StainlessSteel
+    Facts:
+        hasDensity 8.0,
+        hasTensileStrength 485,
+        hasYieldStrength 170,
+        hasMaterialGrade "316L"
+
+Individual: Al6061
+    Annotations: 
+        rdfs:label "6061 Aluminum",
+        rdfs:comment "Aluminum alloy with magnesium and silicon"@en,
+        rdfs:comment "6061铝合金"@zh
+    Types: Material
+    Facts:
+        hasDensity 2.7,
+        hasTensileStrength 310,
+        hasYieldStrength 275,
+        hasMaterialGrade "6061-T6"
+
+Individual: Al7075
+    Annotations: 
+        rdfs:label "7075 Aluminum",
+        rdfs:comment "High-strength aluminum alloy"@en,
+        rdfs:comment "7075铝合金"@zh
+    Types: Material
+    Facts:
+        hasDensity 2.81,
+        hasTensileStrength 572,
+        hasYieldStrength 503,
+        hasMaterialGrade "7075-T6"
+
+Individual: BrassH62
+    Annotations: 
+        rdfs:label "H62 Brass",
+        rdfs:comment "Common brass alloy"@en,
+        rdfs:comment "H62黄铜"@zh
+    Types: Material
+    Facts:
+        hasDensity 8.5,
+        hasTensileStrength 380,
+        hasYieldStrength 140,
+        hasMaterialGrade "H62"
+
+Individual: CastIronHT250
+    Annotations: 
+        rdfs:label "HT250 Cast Iron",
+        rdfs:comment "Gray cast iron"@en,
+        rdfs:comment "HT250灰铸铁"@zh
+    Types: Material
+    Facts:
+        hasDensity 7.35,
+        hasTensileStrength 250,
+        hasMaterialGrade "HT250"
+
+Individual: Inconel718
+    Annotations: 
+        rdfs:label "Inconel 718",
+        rdfs:comment "Nickel-based superalloy"@en,
+        rdfs:comment "因科镍718合金"@zh
+    Types: Material
+    Facts:
+        hasDensity 8.19,
+        hasTensileStrength 1375,
+        hasYieldStrength 1100,
+        hasMaterialGrade "718"
+
+# Equipment Individuals
+Individual: KBSZ840Lathe
+    Annotations: 
+        rdfs:label "KBSZ-840",
+        rdfs:comment "Heavy duty CNC lathe"@en,
+        rdfs:comment "重型数控车床"@zh
+    Types: Lathe
+    Facts:
+        hasMaxPrecision "IT7",
+        hasPowerConsumption 15.0,
+        hasWorkpieceSize "φ840×2000mm",
+        locatedIn Location1
+
+Individual: XH714Center
+    Annotations: 
+        rdfs:label "XH714",
+        rdfs:comment "Vertical machining center"@en,
+        rdfs:comment "立式加工中心"@zh
+    Types: CNCMachiningCenter
+    Facts: 
+        hasToolPositions 16,
+        hasMaxPrecision "IT4",
+        suitableFor "Cavity and surface machining",
+        hasPowerConsumption 20.0,
+        hasWorkpieceSize "700×400×500mm",
+        operatedBy Operator1
+
+Individual: DMG_MORI_NLX2500
+    Annotations: 
+        rdfs:label "DMG MORI NLX2500",
+        rdfs:comment "High-precision turning center"@en,
+        rdfs:comment "高精度车削中心"@zh
+    Types: Lathe
+    Facts:
+        hasMaxPrecision "IT5",
+        hasToolPositions 12,
+        hasPowerConsumption 25.0,
+        hasWorkpieceSize "φ366×640mm"
+
+Individual: HAAS_VF2
+    Annotations: 
+        rdfs:label "HAAS VF-2",
+        rdfs:comment "Vertical milling machine"@en,
+        rdfs:comment "立式铣床"@zh
+    Types: MillingMachine
+    Facts:
+        hasMaxPrecision "IT6",
+        hasToolPositions 20,
+        hasPowerConsumption 18.0,
+        hasWorkpieceSize "762×406×508mm"
+
+Individual: OKUMA_LB3000
+    Annotations: 
+        rdfs:label "OKUMA LB3000",
+        rdfs:comment "CNC horizontal lathe"@en,
+        rdfs:comment "数控卧式车床"@zh
+    Types: Lathe
+    Facts:
+        hasMaxPrecision "IT5",
+        hasToolPositions 10,
+        hasPowerConsumption 22.0
+
+Individual: MAKINO_a51nx
+    Annotations: 
+        rdfs:label "MAKINO a51nx",
+        rdfs:comment "Horizontal machining center"@en,
+        rdfs:comment "卧式加工中心"@zh
+    Types: CNCMachiningCenter
+    Facts:
+        hasMaxPrecision "IT4",
+        hasToolPositions 60,
+        hasPowerConsumption 30.0
+
+Individual: STUDER_S33
+    Annotations: 
+        rdfs:label "STUDER S33",
+        rdfs:comment "Universal cylindrical grinder"@en,
+        rdfs:comment "万能外圆磨床"@zh
+    Types: GrindingMachine
+    Facts:
+        hasMaxPrecision "IT3",
+        hasPowerConsumption 15.0,
+        hasWorkpieceSize "φ200×700mm"
+
+Individual: MITSUBISHI_EA12V
+    Annotations: 
+        rdfs:label "MITSUBISHI EA12V",
+        rdfs:comment "Wire EDM machine"@en,
+        rdfs:comment "线切割机床"@zh
+    Types: EDMachine
+    Facts:
+        hasMaxPrecision "IT4",
+        hasPowerConsumption 8.0,
+        hasWorkpieceSize "420×320×200mm"
+
+Individual: TRUMPF_TruLaser3030
+    Annotations: 
+        rdfs:label "TRUMPF TruLaser 3030",
+        rdfs:comment "Fiber laser cutting machine"@en,
+        rdfs:comment "光纤激光切割机"@zh
+    Types: LaserCutter
+    Facts:
+        hasMaxPrecision "±0.1mm",
+        hasPowerConsumption 35.0,
+        hasWorkpieceSize "3000×1500mm"
+
+# Tool Individuals
+Individual: CBN_InsertTool
+    Annotations: 
+        rdfs:label "CBN Insert",
+        rdfs:comment "Cubic boron nitride cutting insert"@en,
+        rdfs:comment "立方氮化硼刀片"@zh
+    Types: CBNTool
+    Facts:
+        hasToolLife 120.0,
+        suitableFor "Hard turning"
+
+Individual: Carbide_EndMill10mm
+    Annotations: 
+        rdfs:label "10mm Carbide End Mill",
+        rdfs:comment "4-flute carbide end mill"@en,
+        rdfs:comment "10毫米硬质合金立铣刀"@zh
+    Types: EndMill
+    Facts:
+        hasToolLife 80.0,
+        suitableFor "Steel milling"
+
+Individual: HSS_DrillBit8mm
+    Annotations: 
+        rdfs:label "8mm HSS Drill",
+        rdfs:comment "High-speed steel drill bit"@en,
+        rdfs:comment "8毫米高速钢钻头"@zh
+    Types: DrillBit
+    Facts:
+        hasToolLife 40.0,
+        suitableFor "General drilling"
+
+Individual: Diamond_GrindingWheel
+    Annotations: 
+        rdfs:label "Diamond Grinding Wheel",
+        rdfs:comment "Diamond abrasive grinding wheel"@en,
+        rdfs:comment "金刚石砂轮"@zh
+    Types: GrindingWheel
+    Facts:
+        hasToolLife 200.0,
+        suitableFor "Precision grinding"
+
+Individual: Ceramic_CuttingInsert
+    Annotations: 
+        rdfs:label "Ceramic Insert",
+        rdfs:comment "Ceramic cutting insert for high-speed machining"@en,
+        rdfs:comment "陶瓷刀片"@zh
+    Types: Tool
+    Facts:
+        hasToolLife 60.0,
+        suitableFor "High-speed machining"
+
+# Process Individuals
+Individual: RoughTurningProcess
+    Annotations: 
+        rdfs:label "Rough Turning Process",
+        rdfs:comment "Initial rough turning operation"@en,
+        rdfs:comment "粗车加工工艺"@zh
+    Types: RoughTurning
+    Facts:
+        hasSpindleSpeed SpindleSpeed1,
+        hasFeedRate FeedRate1,
+        hasDepthOfCut DepthOfCut1,
+        usesEquipment KBSZ840Lathe,
+        usesTool Carbide_InsertTool1
+
+Individual: FinishTurningProcess
+    Annotations: 
+        rdfs:label "Finish Turning Process",
+        rdfs:comment "Final turning for precision"@en,
+        rdfs:comment "精车加工工艺"@zh
+    Types: FinishTurning
+    Facts:
+        hasSpindleSpeed SpindleSpeed2,
+        hasFeedRate FeedRate2,
+        hasDepthOfCut DepthOfCut2,
+        achievesQuality QualityLevel1
+
+Individual: FaceMillingProcess
+    Annotations: 
+        rdfs:label "Face Milling Process",
+        rdfs:comment "Milling flat surfaces"@en,
+        rdfs:comment "面铣削工艺"@zh
+    Types: FaceMilling
+    Facts:
+        hasCuttingSpeed CuttingSpeed1,
+        usesEquipment HAAS_VF2,
+        usesTool FaceMill1
+
+Individual: HeatTreatmentProcess1
+    Annotations: 
+        rdfs:label "Quenching and Tempering",
+        rdfs:comment "Heat treatment for hardness"@en,
+        rdfs:comment "调质处理"@zh
+    Types: HeatTreatment
+    Facts:
+        hasTemperature 850.0,
+        hasHardnessRequirement "HRC30-35"
+
+# Parameter Individuals
+Individual: SpindleSpeed1
+    Annotations: 
+        rdfs:label "800 RPM"
+    Types: SpindleSpeed
+    Facts:
+        hasValue 800
+
+Individual: SpindleSpeed2
+    Annotations: 
+        rdfs:label "1200 RPM"
+    Types: SpindleSpeed
+    Facts:
+        hasValue 1200
+
+Individual: FeedRate1
+    Annotations: 
+        rdfs:label "0.2 mm/rev"
+    Types: FeedRate
+    Facts:
+        hasValue 0.2
+
+Individual: FeedRate2
+    Annotations: 
+        rdfs:label "0.1 mm/rev"
+    Types: FeedRate
+    Facts:
+        hasValue 0.1
+
+Individual: CuttingSpeed1
+    Annotations: 
+        rdfs:label "120 m/min"
+    Types: CuttingSpeed
+    Facts:
+        hasValue 120
+
+Individual: DepthOfCut1
+    Annotations: 
+        rdfs:label "2.0 mm"
+    Types: DepthOfCut
+    Facts:
+        hasValue 2.0
+
+Individual: DepthOfCut2
+    Annotations: 
+        rdfs:label "0.5 mm"
+    Types: DepthOfCut
+    Facts:
+        hasValue 0.5
+
+# Location and Operator Individuals
+Individual: Location1
+    Annotations: 
+        rdfs:label "Workshop C",
+        rdfs:comment "C车间"@zh
+    Types: Location
+
+Individual: Location2
+    Annotations: 
+        rdfs:label "Workshop A",
+        rdfs:comment "A车间"@zh
+    Types: Location
+
+Individual: Operator1
+    Annotations: 
+        rdfs:label "Liu Siyuan",
+        rdfs:comment "刘思嫄"@zh
+    Types: Operator
+
+Individual: Operator2
+    Annotations: 
+        rdfs:label "Zhang Wei",
+        rdfs:comment "张伟"@zh
+    Types: Operator
+
+# Quality Level Individuals
+Individual: QualityLevel1
+    Annotations: 
+        rdfs:label "IT7 Grade",
+        rdfs:comment "Standard tolerance grade"@en,
+        rdfs:comment "标准公差等级"@zh
+    Types: QualityLevel
+
+Individual: QualityLevel2
+    Annotations: 
+        rdfs:label "Ra1.6",
+        rdfs:comment "Surface roughness requirement"@en,
+        rdfs:comment "表面粗糙度要求"@zh
+    Types: QualityLevel
+
+# Coolant Individuals
+Individual: CuttingFluid1
+    Annotations: 
+        rdfs:label "Water-based Cutting Fluid",
+        rdfs:comment "水基切削液"@zh
+    Types: Coolant
+
+Individual: CuttingOil1
+    Annotations: 
+        rdfs:label "Cutting Oil",
+        rdfs:comment "切削油"@zh
+    Types: Coolant
+
+#################################################################
+# General Axioms and Rules
+#################################################################
+
+# Disjoint Classes
+DisjointClasses: Process, Entity, Parameter
+DisjointClasses: Material, Equipment, Tool, Part
+DisjointClasses: Turning, Milling, Grinding, Drilling
+DisjointClasses: CuttingMachining, FormingProcess, HeatTreatment, WeldingAndJoining
+
+# Property Chains
+ObjectProperty: hasManufacturingProcess
+    SubPropertyChain: hasMaterial o suitableFor o usesProcess
+
+# Functional Properties
+FunctionalProperty: operatedBy
+FunctionalProperty: locatedIn
+
+# Inverse Functional Properties
+InverseFunctionalProperty: operates
+    InverseOf: operatedBy
+
+# Transitive Properties
+TransitiveProperty: precedes
+TransitiveProperty: follows
+
+# Symmetric Properties
+SymmetricProperty: isCompatibleWith
+
+# Asymmetric Properties
+AsymmetricProperty: precedes
+
+# Reflexive Properties
+ReflexiveProperty: isSimilarTo
+
+# Irreflexive Properties
+IrreflexiveProperty: precedes
+
+#################################################################
+# Class Restrictions and Axioms
+#################################################################
+
+Class: HighPrecisionProcess
+    EquivalentTo: Process and (achievesQuality some (QualityLevel and (hasValue some xsd:string[pattern "IT[0-4]"])))
+    
+Class: RoughMachining
+    EquivalentTo: Process and (hasDepthOfCut some (DepthOfCut and (hasValue some xsd:float[> 1.0])))
+    
+Class: FinishMachining
+    EquivalentTo: Process and (hasDepthOfCut some (DepthOfCut and (hasValue some xsd:float[<= 0.5])))
+
+Class: HardMachining
+    EquivalentTo: Process and (appliedTo some (Part and (hasHardnessRequirement some xsd:string[pattern "HRC[4-9][0-9]"])))
+
+Class: AutomatedProcess
+    EquivalentTo: Process and (usesEquipment some CNCMachiningCenter)
+
+Class: ManualProcess
+    EquivalentTo: Process and not (usesEquipment some CNCMachiningCenter)
+
+#################################################################
+# SWRL Rules (Semantic Web Rule Language)
+#################################################################
+
+# Rule: If a process uses CBN tool, it should be for hard materials
+Rule: Process(?p) ^ usesTool(?p, ?t) ^ CBNTool(?t) ^ hasMaterial(?part, ?m) ^ appliedTo(?p, ?part) 
+      -> hasHardnessRequirement(?part, "HRC45+")
+
+# Rule: High speed requires coolant
+Rule: Process(?p) ^ hasCuttingSpeed(?p, ?s) ^ CuttingSpeed(?s) ^ hasValue(?s, ?v) ^ swrlb:greaterThan(?v, 200) 
+      -> requiresCoolingMethod(?p, ?coolant) ^ Coolant(?coolant)
+
+# Rule: Precision process requires finish machining
+Rule: Part(?p) ^ hasToleranceGrade(?p, ?t) ^ ToleranceGrade(?t) ^ hasValue(?t, "IT6") 
+      -> hasProcessingMethod(?p, ?fm) ^ FinishMachining(?fm)
+
+# Rule: Titanium requires special tools
+Rule: Process(?p) ^ appliedTo(?p, ?part) ^ hasMaterial(?part, ?m) ^ TitaniumAlloy(?m) 
+      -> usesTool(?p, ?t) ^ (CBNTool(?t) or CarbideTool(?t))
+
+#################################################################
+# Ontology Metadata
+#################################################################
+
+AnnotationProperty: dcterms:creator
+AnnotationProperty: dcterms:date
+AnnotationProperty: dcterms:description
+AnnotationProperty: dcterms:title
+
+Ontology: <http://www.mpkg.org/manufacturing>
+    Annotations:
+        dcterms:title "Manufacturing Domain Ontology"@en,
+        dcterms:title "制造领域本体"@zh,
+        dcterms:creator "MPKG Project Team",
+        dcterms:description "A comprehensive OWL ontology for manufacturing domain knowledge representation, covering machining processes, equipment, materials, parameters, quality control, and defects. This ontology supports reasoning about manufacturing process planning, parameter optimization, and quality assurance."@en,
+        dcterms:description "全面的制造领域知识表示OWL本体，涵盖机械加工工艺、设备、材料、参数、质量控制和缺陷。该本体支持制造工艺规划、参数优化和质量保证的推理。"@zh,
+        owl:versionInfo "2.0.0",
+        rdfs:seeAlso <http://www.mpkg.org/schemas/example_schema.csv>
+
+# Assembly and Inspection
+Class: Assembly
+    Annotations: 
+        rdfs:label "Assembly"@en,
+        rdfs:label "装配"@zh,
+        rdfs:comment "Process of assembling parts"@en,
+        rdfs:comment "装配零件的过程"@zh
+    SubClassOf: Process
+
+Class: Inspection
+    Annotations: 
+        rdfs:label "Inspection"@en,
+        rdfs:label "检验"@zh,
+        rdfs:comment "Quality inspection process"@en,
+        rdfs:comment "质量检验过程"@zh
+    SubClassOf: Process
+
+Class: DimensionalInspection
+    Annotations: 
+        rdfs:label "Dimensional Inspection"@en,
+        rdfs:label "尺寸检验"@zh,
+        rdfs:comment "Inspection of dimensions"@en,
+        rdfs:comment "尺寸的检验"@zh
+    SubClassOf: Inspection
+
+Class: VisualInspection
+    Annotations: 
+        rdfs:label "Visual Inspection"@en,
+        rdfs:label "外观检验"@zh,
+        rdfs:comment "Visual quality inspection"@en,
+        rdfs:comment "外观质量检验"@zh
+    SubClassOf: Inspection
+
+Class: NonDestructiveTesting
+    Annotations: 
+        rdfs:label "Non-Destructive Testing"@en,
+        rdfs:label "无损检测"@zh,
+        rdfs:comment "Testing without damaging the part"@en,
+        rdfs:comment "不损坏零件的检测"@zh
+    SubClassOf: Inspection
+
+# Surface Treatments
+Class: Plating
+    Annotations: 
+        rdfs:label "Plating"@en,
+        rdfs:label "电镀"@zh,
+        rdfs:comment "Electroplating process"@en,
+        rdfs:comment "电镀工艺"@zh
+    SubClassOf: SurfaceTreatment
+
+Class: Coating
+    Annotations: 
+        rdfs:label "Coating"@en,
+        rdfs:label "涂层"@zh,
+        rdfs:comment "Surface coating process"@en,
+        rdfs:comment "表面涂层工艺"@zh
+    SubClassOf: SurfaceTreatment
+
+Class: Anodizing
+    Annotations: 
+        rdfs:label "Anodizing"@en,
+        rdfs:label "阳极氧化"@zh,
+        rdfs:comment "Anodic oxidation process"@en,
+        rdfs:comment "阳极氧化工艺"@zh
+    SubClassOf: SurfaceTreatment
+
+Class: Passivation
+    Annotations: 
+        rdfs:label "Passivation"@en,
+        rdfs:label "钝化"@zh,
+        rdfs:comment "Surface passivation treatment"@en,
+        rdfs:comment "表面钝化处理"@zh
+    SubClassOf: SurfaceTreatment
+
+Class: ShotPeening
+    Annotations: 
+        rdfs:label "Shot Peening"@en,
+        rdfs:label "喷丸"@zh,
+        rdfs:comment "Shot peening surface treatment"@en,
+        rdfs:comment "喷丸表面处理"@zh
+    SubClassOf: SurfaceTreatment
+
+Class: SandBlasting
+    Annotations: 
+        rdfs:label "Sand Blasting"@en,
+        rdfs:label "喷砂"@zh,
+        rdfs:comment "Sand blasting surface treatment"@en,
+        rdfs:comment "喷砂表面处理"@zh
+    SubClassOf: SurfaceTreatment
+
+# Cleaning Processes
+Class: CleaningProcess
+    Annotations: 
+        rdfs:label "Cleaning Process"@en,
+        rdfs:label "清洗工艺"@zh,
+        rdfs:comment "Process for cleaning parts"@en,
+        rdfs:comment "清洗零件的工艺"@zh
+    SubClassOf: Process
+
+Class: Deburring
+    Annotations: 
+        rdfs:label "Deburring"@en,
+        rdfs:label "去毛刺"@zh,
+        rdfs:comment "Removing burrs from parts"@en,
+        rdfs:comment "去除零件毛刺"@zh
+    SubClassOf: CleaningProcess
+
+Class: Degreasing
+    Annotations: 
+        rdfs:label "Degreasing"@en,
+        rdfs:label "脱脂"@zh,
+        rdfs:comment "Removing grease and oil"@en,
+        rdfs:comment "去除油脂"@zh
+    SubClassOf: CleaningProcess
+
+Class: Pickling
+    Annotations: 
+        rdfs:label "Pickling"@en,
+        rdfs:label "酸洗"@zh,
+        rdfs:comment "Acid cleaning process"@en,
+        rdfs:comment "酸洗工艺"@zh
+    SubClassOf: CleaningProcess
+
+# Additional Material Types
+Class: Aluminum
+    Annotations: 
+        rdfs:label "Aluminum"@en,
+        rdfs:label "铝"@zh,
+        rdfs:comment "Aluminum and its alloys"@en,
+        rdfs:comment "铝及其合金"@zh
+    SubClassOf: Material
+
+Class: Copper
+    Annotations: 
+        rdfs:label "Copper"@en,
+        rdfs:label "铜"@zh,
+        rdfs:comment "Copper and its alloys"@en,
+        rdfs:comment "铜及其合金"@zh
+    SubClassOf: Material
+
+Class: Brass
+    Annotations: 
+        rdfs:label "Brass"@en,
+        rdfs:label "黄铜"@zh,
+        rdfs:comment "Brass alloys"@en,
+        rdfs:comment "黄铜合金"@zh
+    SubClassOf: Copper
+
+Class: Bronze
+    Annotations: 
+        rdfs:label "Bronze"@en,
+        rdfs:label "青铜"@zh,
+        rdfs:comment "Copper-tin alloy with superior strength, wear resistance, and corrosion resistance compared to brass, widely used for bearings, gears, and marine applications"@en,
+        rdfs:comment "铜锡合金，相比黄铜具有更高的强度、耐磨性和耐腐蚀性，广泛用于轴承、齿轮和船舶应用"@zh
+    SubClassOf: Copper
+
+Class: CastIron
+    Annotations: 
+        rdfs:label "Cast Iron"@en,
+        rdfs:label "铸铁"@zh,
+        rdfs:comment "Iron-carbon alloy with carbon content exceeding 2.11%, featuring excellent castability, damping capacity, and wear resistance for machine bases and engine blocks"@en,
+        rdfs:comment "含碳量超过2.11%的铁碳合金，具有优良的铸造性、减震性和耐磨性，用于机床基座和发动机缸体"@zh
+    SubClassOf: Material
+
+Class: Superalloy
+    Annotations: 
+        rdfs:label "Superalloy"@en,
+        rdfs:label "高温合金"@zh,
+        rdfs:comment "Advanced nickel or cobalt-based alloys designed to maintain exceptional mechanical properties at temperatures exceeding 650°C for turbine and aerospace applications"@en,
+        rdfs:comment "专为在超过650°C高温下保持卓越机械性能而设计的先进镍基或钴基合金，用于涡轮机和航空航天应用"@zh
+    SubClassOf: Material
+
+Class: Composite
+    Annotations: 
+        rdfs:label "Composite"@en,
+        rdfs:label "复合材料"@zh,
+        rdfs:comment "Engineered materials combining two or more constituents with different properties to achieve superior performance characteristics beyond individual components"@en,
+        rdfs:comment "由两种或多种不同性能的组分复合而成的工程材料，其性能超越单一组分材料"@zh
+    SubClassOf: Material
+
+Class: Ceramic
+    Annotations: 
+        rdfs:label "Ceramic"@en,
+        rdfs:label "陶瓷"@zh,
+        rdfs:comment "Inorganic non-metallic materials with high hardness, heat resistance, and chemical stability, used for cutting tools, wear parts, and high-temperature applications"@en,
+        rdfs:comment "具有高硬度、耐热性和化学稳定性的无机非金属材料，用于切削工具、耐磨零件和高温应用"@zh
+    SubClassOf: Material
+
+Class: Plastic
+    Annotations: 
+        rdfs:label "Plastic"@en,
+        rdfs:label "塑料"@zh,
+        rdfs:comment "Synthetic polymer materials offering lightweight, corrosion resistance, and design flexibility for various manufacturing applications from prototyping to production"@en,
+        rdfs:comment "合成高分子材料，具有轻质、耐腐蚀和设计灵活性，适用于从原型制作到生产制造的各种应用"@zh
+    SubClassOf: Material

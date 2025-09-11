@@ -1,0 +1,1789 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.mpkg.org/manufacturing#"
+     xml:base="http://www.mpkg.org/manufacturing"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:manufacturing="http://www.mpkg.org/manufacturing#">
+    
+    <!-- ================================================================= -->
+    <!-- Ontology Declaration - 本体声明 -->
+    <!-- ================================================================= -->
+    
+    <owl:Ontology rdf:about="http://www.mpkg.org/manufacturing">
+        <owl:versionIRI rdf:resource="http://www.mpkg.org/manufacturing/2.0.0"/>
+        <rdfs:label xml:lang="en">Manufacturing Domain Ontology</rdfs:label>
+        <rdfs:label xml:lang="zh">制造领域本体</rdfs:label>
+        <rdfs:comment xml:lang="en">A comprehensive OWL ontology for manufacturing domain knowledge representation, covering 167 machining processes, equipment, materials, parameters, and quality aspects.</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造领域知识表示的综合OWL本体，涵盖167种机械加工工艺、设备、材料、参数和质量方面。</rdfs:comment>
+        <owl:versionInfo>2.0.0 - Enhanced version with complete manufacturing taxonomy</owl:versionInfo>
+        <rdfs:seeAlso>schemas/example_schema.csv</rdfs:seeAlso>
+    </owl:Ontology>
+    
+    <!-- Material Relations - 材料关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasMaterial">
+        <rdfs:label xml:lang="en">has material</rdfs:label>
+        <rdfs:label xml:lang="zh">材料</rdfs:label>
+        <rdfs:comment xml:lang="en">The part is made of specified material, e.g., 'Titanium Part - has material - Ti-6Al-4V'</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件由指定的材料构成-如"钛合金零件-材料-T-6A1-4V"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+    </owl:ObjectProperty>
+    
+    <!-- Processing Method Relations - 加工方法关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasProcessingMethod">
+        <rdfs:label xml:lang="en">has processing method</rdfs:label>
+        <rdfs:label xml:lang="zh">加工方法</rdfs:label>
+        <rdfs:comment xml:lang="en">The part is processed by specified method</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件通过指定的加工方法进行处理-如"精密轴套-加工方法-车削"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+    </owl:ObjectProperty>
+    
+    <!-- Process Sequence Relations - 工序关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasProcessSequence">
+        <rdfs:label xml:lang="en">has process sequence</rdfs:label>
+        <rdfs:label xml:lang="zh">加工工序</rdfs:label>
+        <rdfs:comment xml:lang="en">The part follows specified process sequence</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件按照指定的工序顺序进行加工-如"粗车-半精车-精车-磨削"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#ProcessSequence"/>
+    </owl:ObjectProperty>
+    
+    <!-- Equipment Usage Relations - 设备使用关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#usesEquipment">
+        <rdfs:label xml:lang="en">uses equipment</rdfs:label>
+        <rdfs:label xml:lang="zh">使用设备</rdfs:label>
+        <rdfs:comment xml:lang="en">The process uses specified equipment</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体工艺使用指定的设备进行操作-如"粗车加工-使用设备-KBSZ车床840"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+    </owl:ObjectProperty>
+    
+    <!-- Tool Usage Relations - 刀具使用关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#usesTool">
+        <rdfs:label xml:lang="en">uses tool</rdfs:label>
+        <rdfs:label xml:lang="zh">使用刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">The process uses specified cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体实体在执行过程中需要或推荐采用客体实体作为其实施的必要工具</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+    </owl:ObjectProperty>
+    
+    <!-- Parameter Relations - 参数关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasSpindleSpeed">
+        <rdfs:label xml:lang="en">has spindle speed</rdfs:label>
+        <rdfs:label xml:lang="zh">主轴转速</rdfs:label>
+        <rdfs:comment xml:lang="en">The spindle rotation speed during processing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">加工过程中主轴的旋转速度-如"粗车加工-主轴转速-800r/min"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#SpindleSpeed"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasCuttingSpeed">
+        <rdfs:label xml:lang="en">has cutting speed</rdfs:label>
+        <rdfs:label xml:lang="zh">切削速度</rdfs:label>
+        <rdfs:comment xml:lang="en">The linear speed of tool relative to workpiece</rdfs:comment>
+        <rdfs:comment xml:lang="zh">加工过程中工具相对于工件的线速度-如"车削-切削速度-120m/min"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#CuttingSpeed"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasFeedRate">
+        <rdfs:label xml:lang="en">has feed rate</rdfs:label>
+        <rdfs:label xml:lang="zh">进给量</rdfs:label>
+        <rdfs:comment xml:lang="en">The feed distance per revolution</rdfs:comment>
+        <rdfs:comment xml:lang="zh">加工过程中工具每转进给的距离-如"车削加工-进给量-0.1mm/r"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#FeedRate"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasCoolingMethod">
+        <rdfs:label xml:lang="en">has cooling method</rdfs:label>
+        <rdfs:label xml:lang="zh">冷却方式</rdfs:label>
+        <rdfs:comment xml:lang="en">The cooling method used in process</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体工艺采用指定的冷却方式进行操作-如"车削加工-冷却方式-切削液"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#CoolingMethod"/>
+    </owl:ObjectProperty>
+    
+    <!-- Personnel Relations - 人员关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#operatedBy">
+        <rdfs:label xml:lang="en">operated by</rdfs:label>
+        <rdfs:label xml:lang="zh">操作人员</rdfs:label>
+        <rdfs:comment xml:lang="en">The equipment is operated by specified personnel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">指定人员负责操作特定设备或执行特定工艺-如"数控加工中心XH714-操作人员-刘思嫄"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Operator"/>
+    </owl:ObjectProperty>
+    
+    <!-- Location Relations - 位置关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#locatedIn">
+        <rdfs:label xml:lang="en">located in</rdfs:label>
+        <rdfs:label xml:lang="zh">所在位置</rdfs:label>
+        <rdfs:comment xml:lang="en">The physical location of equipment</rdfs:comment>
+        <rdfs:comment xml:lang="zh">设备的物理位置或所属区域-如"数控加工中心XH714-所在位置-C车间"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#Location"/>
+    </owl:ObjectProperty>
+    
+    <!-- Process Taxonomy Relations - 工艺分类关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#belongsToProcess">
+        <rdfs:label xml:lang="en">belongs to process</rdfs:label>
+        <rdfs:label xml:lang="zh">属于（工艺）</rdfs:label>
+        <rdfs:comment xml:lang="en">The subject is a specific instance or subtype of the object process category</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体实体是客体实体所代表的工艺类别的一个具体实例或子类型</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+    </owl:ObjectProperty>
+    
+    <!-- Heat Treatment Relations - 热处理关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#hasHeatTreatmentMethod">
+        <rdfs:label xml:lang="en">has heat treatment method</rdfs:label>
+        <rdfs:label xml:lang="zh">热处理方式</rdfs:label>
+        <rdfs:comment xml:lang="en">Heat treatment method applied to the part</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件经过指定的热处理方式进行处理-如"主轴-热处理方式-调质处理"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.mpkg.org/manufacturing#HeatTreatment"/>
+    </owl:ObjectProperty>
+    
+    <!-- Application Relations - 应用关系 -->
+    <owl:ObjectProperty rdf:about="http://www.mpkg.org/manufacturing#suitableFor">
+        <rdfs:label xml:lang="en">suitable for</rdfs:label>
+        <rdfs:label xml:lang="zh">适用于</rdfs:label>
+        <rdfs:comment xml:lang="en">Equipment or process suitable for specific applications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">设备或工艺适合的加工对象或应用场景-如"数控加工中心XH714-适用于-型腔和表面加工"</rdfs:comment>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.mpkg.org/manufacturing#Equipment"/>
+                    <rdf:Description rdf:about="http://www.mpkg.org/manufacturing#Process"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:ObjectProperty>
+    
+    <!-- Surface Quality Properties - 表面质量属性 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasSurfaceRoughness">
+        <rdfs:label xml:lang="en">has surface roughness</rdfs:label>
+        <rdfs:label xml:lang="zh">表面粗糙度要求</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface quality requirement</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件需要达到指定的表面质量要求-如"钛合金零件-表面粗糙度要求-Ra1.6"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Cutting Parameters - 切削参数 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasCuttingDepth">
+        <rdfs:label xml:lang="en">has cutting depth</rdfs:label>
+        <rdfs:label xml:lang="zh">切削深度</rdfs:label>
+        <rdfs:comment xml:lang="en">The cutting depth value in mm</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体工艺的切削深度为指定的数值范围-如"粗车加工-切削深度-1mm"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasAllowance">
+        <rdfs:label xml:lang="en">has machining allowance</rdfs:label>
+        <rdfs:label xml:lang="zh">加工余量</rdfs:label>
+        <rdfs:comment xml:lang="en">Material allowance for next process in mm</rdfs:comment>
+        <rdfs:comment xml:lang="zh">加工过程中为下道工序预留的材料量-如"粗车加工-加工余量-1.6mm"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Material Properties - 材料特性 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasHardnessRequirement">
+        <rdfs:label xml:lang="en">has hardness requirement</rdfs:label>
+        <rdfs:label xml:lang="zh">硬度要求</rdfs:label>
+        <rdfs:comment xml:lang="en">Hardness standard requirement</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件需要达到指定的硬度标准-如"调质处理-硬度要求-HRC30-35"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Dimensional Properties - 尺寸属性 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasTolerance">
+        <rdfs:label xml:lang="en">has tolerance</rdfs:label>
+        <rdfs:label xml:lang="zh">目标公差</rdfs:label>
+        <rdfs:comment xml:lang="en">Dimensional tolerance requirement</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主体零件需要达到的尺寸精度要求-如"主轴-目标公差-φ50h7"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Equipment Capabilities - 设备能力 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasToolPositions">
+        <rdfs:label xml:lang="en">has tool positions</rdfs:label>
+        <rdfs:label xml:lang="zh">刀位数量</rdfs:label>
+        <rdfs:comment xml:lang="en">Number of tool positions</rdfs:comment>
+        <rdfs:comment xml:lang="zh">设备可容纳的刀具数量-如"数控加工中心XH714-刀位数量-16"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasMaxPrecision">
+        <rdfs:label xml:lang="en">has maximum precision</rdfs:label>
+        <rdfs:label xml:lang="zh">最高精度</rdfs:label>
+        <rdfs:comment xml:lang="en">Maximum achievable precision</rdfs:comment>
+        <rdfs:comment xml:lang="zh">设备能够达到的最高加工精度等级-如"数控加工中心XH714-最高精度-IT4等级"</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Process Dimensions - 工序尺寸 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasProcessDimension">
+        <rdfs:label xml:lang="en">has process dimension</rdfs:label>
+        <rdfs:label xml:lang="zh">工序尺寸</rdfs:label>
+        <rdfs:comment xml:lang="en">Dimension to be achieved in this process</rdfs:comment>
+        <rdfs:comment xml:lang="zh">某工序加工应达到的尺寸</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Process Total Allowance - 加工总余量 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasTotalAllowance">
+        <rdfs:label xml:lang="en">has total allowance</rdfs:label>
+        <rdfs:label xml:lang="zh">加工总余量</rdfs:label>
+        <rdfs:comment xml:lang="en">Total material allowance from blank to finished part</rdfs:comment>
+        <rdfs:comment xml:lang="zh">毛坯尺寸与零件图的设计尺寸之差</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#Part"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+    <!-- Process Sequence Allowance - 工序余量 -->
+    <owl:DatatypeProperty rdf:about="http://www.mpkg.org/manufacturing#hasSequenceAllowance">
+        <rdfs:label xml:lang="en">has sequence allowance</rdfs:label>
+        <rdfs:label xml:lang="zh">工序余量</rdfs:label>
+        <rdfs:comment xml:lang="en">Allowance between adjacent processes</rdfs:comment>
+        <rdfs:comment xml:lang="zh">相邻两工序的工艺尺寸之差</rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.mpkg.org/manufacturing#ProcessSequence"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Entity">
+        <rdfs:label xml:lang="en">Entity</rdfs:label>
+        <rdfs:label xml:lang="zh">实体</rdfs:label>
+        <rdfs:comment xml:lang="en">Base class for all manufacturing entities</rdfs:comment>
+        <rdfs:comment xml:lang="zh">所有制造实体的基类</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Process">
+        <rdfs:label xml:lang="en">Process</rdfs:label>
+        <rdfs:label xml:lang="zh">工艺</rdfs:label>
+        <rdfs:comment xml:lang="en">Manufacturing processes and operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造工艺和操作</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Parameter">
+        <rdfs:label xml:lang="en">Parameter</rdfs:label>
+        <rdfs:label xml:lang="zh">参数</rdfs:label>
+        <rdfs:comment xml:lang="en">Process parameters and specifications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">工艺参数和规格</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#QualityDefect">
+        <rdfs:label xml:lang="en">Quality Defect</rdfs:label>
+        <rdfs:label xml:lang="zh">质量缺陷</rdfs:label>
+        <rdfs:comment xml:lang="en">Manufacturing quality issues and defects</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造质量问题和缺陷</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#DimensionalChain">
+        <rdfs:label xml:lang="en">Dimensional Chain</rdfs:label>
+        <rdfs:label xml:lang="zh">尺寸链</rdfs:label>
+        <rdfs:comment xml:lang="en">Related dimensional specifications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">互相联系且按一定顺序排列的封闭尺寸组合</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Material">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Material</rdfs:label>
+        <rdfs:label xml:lang="zh">材料</rdfs:label>
+        <rdfs:comment xml:lang="en">Manufacturing materials</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造材料</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Equipment">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Equipment</rdfs:label>
+        <rdfs:label xml:lang="zh">设备</rdfs:label>
+        <rdfs:comment xml:lang="en">Manufacturing equipment and machines</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造设备和机器</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Tool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">Cutting tools and instruments</rdfs:comment>
+        <rdfs:comment xml:lang="zh">切削刀具和工具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Part">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Part</rdfs:label>
+        <rdfs:label xml:lang="zh">零件</rdfs:label>
+        <rdfs:comment xml:lang="en">Manufactured parts and components</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造零件和组件</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Operator">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Operator</rdfs:label>
+        <rdfs:label xml:lang="zh">操作人员</rdfs:label>
+        <rdfs:comment xml:lang="en">Equipment operators and personnel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">设备操作员和人员</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Location">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Entity"/>
+        <rdfs:label xml:lang="en">Location</rdfs:label>
+        <rdfs:label xml:lang="zh">位置</rdfs:label>
+        <rdfs:comment xml:lang="en">Physical locations and workshops</rdfs:comment>
+        <rdfs:comment xml:lang="zh">物理位置和车间</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#MechanicalMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Mechanical Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">机械加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining processes using mechanical force</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用机械力对各种工件进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PressureForming">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Pressure Forming</rdfs:label>
+        <rdfs:label xml:lang="zh">压力加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming processes using pressure without cutting</rdfs:comment>
+        <rdfs:comment xml:lang="zh">使毛坯材料产生塑性变形或分离而无切削的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CuttingMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#MechanicalMachining"/>
+        <rdfs:label xml:lang="en">Cutting Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">切削加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining by removing material with cutting tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用切削工具从工件上切除多余材料的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Turning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">车削</rdfs:label>
+        <rdfs:comment xml:lang="en">Workpiece rotates as main motion, tool feeds</rdfs:comment>
+        <rdfs:comment xml:lang="zh">工件旋转作主运动.车刀作进给运动的切削加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Milling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Milling</rdfs:label>
+        <rdfs:label xml:lang="zh">铣削</rdfs:label>
+        <rdfs:comment xml:lang="en">Cutter rotates as main motion, workpiece or cutter feeds</rdfs:comment>
+        <rdfs:comment xml:lang="zh">铣刀旋转作主运动.工件或铣刀作进给运动的切削加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Planing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Planing</rdfs:label>
+        <rdfs:label xml:lang="zh">刨削</rdfs:label>
+        <rdfs:comment xml:lang="en">Linear reciprocating cutting motion</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刨刀对工件作水平相对直线往复运动的切削加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Drilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Drilling</rdfs:label>
+        <rdfs:label xml:lang="zh">钻削</rdfs:label>
+        <rdfs:comment xml:lang="en">Making holes with drill bits</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用钻头或扩孔钻在工件上加工孔的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Reaming">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Reaming</rdfs:label>
+        <rdfs:label xml:lang="zh">铰削</rdfs:label>
+        <rdfs:comment xml:lang="en">Finishing holes with reamers</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用铰刀从工件孔壁上切除微量金属层.以提高其尺寸精度和降低表面粗糙度的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Countersinking">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Countersinking</rdfs:label>
+        <rdfs:label xml:lang="zh">锪削</rdfs:label>
+        <rdfs:comment xml:lang="en">Creating countersunk holes or flattening hole ends</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用锪钻或锪刀刮平孔的端面或切出沉孔的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Boring">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Boring</rdfs:label>
+        <rdfs:label xml:lang="zh">镗削</rdfs:label>
+        <rdfs:comment xml:lang="en">Boring tool rotates, workpiece or tool feeds</rdfs:comment>
+        <rdfs:comment xml:lang="zh">镗刀旋转作主运动.工件或镗刀作进给运动的切削加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Slotting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Slotting</rdfs:label>
+        <rdfs:label xml:lang="zh">插削</rdfs:label>
+        <rdfs:comment xml:lang="en">Vertical reciprocating cutting motion</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用插刀对工件作垂直相对直线往复运动的切削加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Broaching">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Broaching</rdfs:label>
+        <rdfs:label xml:lang="zh">拉削</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining internal and external surfaces with broach</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用拉刀加工工件内、外表面的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Pushing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Pushing</rdfs:label>
+        <rdfs:label xml:lang="zh">推削</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining internal surfaces with push cutter</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用推刀加工工件内表面的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ReliefCutting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Relief Cutting</rdfs:label>
+        <rdfs:label xml:lang="zh">铲削</rdfs:label>
+        <rdfs:comment xml:lang="en">Creating relief angles on toothed tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">切出有关带齿工具的切削齿背以获得后面和后角的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Scraping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Scraping</rdfs:label>
+        <rdfs:label xml:lang="zh">刮削</rdfs:label>
+        <rdfs:comment xml:lang="en">Removing thin surface layers with scraper</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刮刀刮除工件表面薄层的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Grinding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Grinding</rdfs:label>
+        <rdfs:label xml:lang="zh">磨削</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface machining with abrasive wheels</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用磨具以较高的线速度对工件表面进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Honing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Honing</rdfs:label>
+        <rdfs:label xml:lang="zh">珩磨</rdfs:label>
+        <rdfs:comment xml:lang="en">Precision finishing with honing tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用珩磨工具对工件表面施加一定压力.珩磨工具同时作相对旋转和直线往复运动.切除工件上极小余量的精加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SuperFinishing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Super Finishing</rdfs:label>
+        <rdfs:label xml:lang="zh">超精加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Ultra-precision finishing with fine abrasives</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用细粒度的磨具对工件施加很小的压力.并作往复振动和慢速纵向进给运动.以实现微量磨削的一种光整加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Polishing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Polishing</rdfs:label>
+        <rdfs:label xml:lang="zh">抛光</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface finishing for smooth, bright surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用机械、化学或电化学的作用、使工件获得光亮、平整表面的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Extruding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Extruding</rdfs:label>
+        <rdfs:label xml:lang="zh">挤压</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming by applying pressure with extrusion tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用挤压工具以一定的压力作用于金属坯料或工件、使其产生塑性变形、从而将坯料成形或挤光工件表面的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Rolling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Rolling</rdfs:label>
+        <rdfs:label xml:lang="zh">滚压</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming by applying pressure with rolling tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用滚压工具对金属坯料或工件施加压力、使其产生塑性变形、从而将坯料成形或滚光工件表面的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ShotPeening">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#SurfaceTreatment"/>
+        <rdfs:label xml:lang="en">Shot Peening</rdfs:label>
+        <rdfs:label xml:lang="zh">喷丸</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface strengthening with high-speed pellets</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用小直径的弹丸、在压缩空气或离心力的作用下、高速喷射工件、进行表面强化和清理的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SandBlasting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#SurfaceTreatment"/>
+        <rdfs:label xml:lang="en">Sand Blasting</rdfs:label>
+        <rdfs:label xml:lang="zh">喷砂</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface cleaning with high-speed sand particles</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用高速运行的砂粒喷射工件、进行表面清理、除锈或使其表面粗化的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ColdWorking">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Cold Working</rdfs:label>
+        <rdfs:label xml:lang="zh">冷作</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming sheet metal without changing cross-section</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在基本不改变材料断面特征的情况下、将金属板材、型材等加工成各种制品的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Stamping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Stamping</rdfs:label>
+        <rdfs:label xml:lang="zh">冲压</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming sheet metal by separation or forming</rdfs:comment>
+        <rdfs:comment xml:lang="zh">使板料经分离或成形而得到制件的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Riveting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Riveting</rdfs:label>
+        <rdfs:label xml:lang="zh">铆接</rdfs:label>
+        <rdfs:comment xml:lang="en">Non-detachable connection using rivets</rdfs:comment>
+        <rdfs:comment xml:lang="zh">借助铆钉形成的不可拆连接</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Casting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Casting</rdfs:label>
+        <rdfs:label xml:lang="zh">铸造</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming parts by pouring molten metal into molds</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将熔融金属浇注、压射或吸入铸型型腔中.待其凝固后而得到一定形状和性能铸件的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Forging">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Forging</rdfs:label>
+        <rdfs:label xml:lang="zh">锻造</rdfs:label>
+        <rdfs:comment xml:lang="en">Shaping metal through plastic deformation</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在加工设备及工(模)具的作用下.使金属坯料或铸锭产生局部或全部的塑性变形.以获得一定几何形状、尺寸和质量的锻件的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HeatTreatment">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Heat Treatment</rdfs:label>
+        <rdfs:label xml:lang="zh">热处理</rdfs:label>
+        <rdfs:comment xml:lang="en">Altering material properties through heating and cooling</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将固态金属或合金在一定介质中加热、保温和冷却.以改变其整体或表面组织.从而获得所需要性能的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceTreatment">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Surface Treatment</rdfs:label>
+        <rdfs:label xml:lang="zh">表面处理</rdfs:label>
+        <rdfs:comment xml:lang="en">Modifying surface properties</rdfs:comment>
+        <rdfs:comment xml:lang="zh">改变工件表面层的机械性能、物理性能或化学性能的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceCoating">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#SurfaceTreatment"/>
+        <rdfs:label xml:lang="en">Surface Coating</rdfs:label>
+        <rdfs:label xml:lang="zh">表面涂覆</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming coatings with specified materials</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用规定的异己材料.在工件表面上形成涂层的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PowderMetallurgy">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Powder Metallurgy</rdfs:label>
+        <rdfs:label xml:lang="zh">粉末冶金</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming products from metal powder</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将金属粉末(或与非金属粉末的混合物)压制成形和烧结等形成各种制品的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Bonding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Bonding</rdfs:label>
+        <rdfs:label xml:lang="zh">粘接</rdfs:label>
+        <rdfs:comment xml:lang="en">Connection using adhesives</rdfs:comment>
+        <rdfs:comment xml:lang="zh">借助粘结剂形成的连接</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#BenchWork">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Bench Work</rdfs:label>
+        <rdfs:label xml:lang="zh">钳加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Manual work on bench with hand tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">一般在钳台上以手工工具为主，对工件进行各种加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ElectricalMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Electrical Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">电加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining using electrical energy</rdfs:comment>
+        <rdfs:comment xml:lang="zh">直接利用电能对工件进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EDM">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">EDM (Electrical Discharge Machining)</rdfs:label>
+        <rdfs:label xml:lang="zh">电火花加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining by electrical discharge erosion</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在一定的介质中、通过工具电极之间的脉冲放电的电蚀作用、对工件进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ECM">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">ECM (Electrochemical Machining)</rdfs:label>
+        <rdfs:label xml:lang="zh">电解加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining by anodic dissolution</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用金属工件在电解液中所产生的阳极溶解作用、而进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ElectronBeamMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">Electron Beam Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">电子束加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining with high-energy electron beam</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在真空条件下、利用电子枪中产生的电子经加速、聚焦，形成高能量大密度的细电子束以轰击工件被加工部位，使该部位的材料熔化和蒸发</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#IonBeamMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">Ion Beam Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">离子束加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining with high-speed ion beam</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用离子源产生的离子、在真空中经加速聚焦而形成高速高能的束状离子流、从而对工件进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PlasmaMachining">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">Plasma Machining</rdfs:label>
+        <rdfs:label xml:lang="zh">等离子加工</rdfs:label>
+        <rdfs:comment xml:lang="en">Machining with high-temperature plasma</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用高温高速的等离子流使工件的局部金属熔化和蒸发、从而对工件进行加工的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Electroforming">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectricalMachining"/>
+        <rdfs:label xml:lang="en">Electroforming</rdfs:label>
+        <rdfs:label xml:lang="zh">电铸</rdfs:label>
+        <rdfs:comment xml:lang="en">Replicating parts by electrodeposition</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用金属电解沉积、复制金属制品的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#TurningGroove">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">Turning Groove</rdfs:label>
+        <rdfs:label xml:lang="zh">车槽</rdfs:label>
+        <rdfs:comment xml:lang="en">Making grooves by turning</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用车削方法加工工件的槽</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#MillingSlot">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Milling"/>
+        <rdfs:label xml:lang="en">Milling Slot</rdfs:label>
+        <rdfs:label xml:lang="zh">铣槽</rdfs:label>
+        <rdfs:comment xml:lang="en">Making slots or keyways by milling</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用铣削方法加工工件的槽或键槽</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PlaningGroove">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Planing"/>
+        <rdfs:label xml:lang="en">Planing Groove</rdfs:label>
+        <rdfs:label xml:lang="zh">刨槽</rdfs:label>
+        <rdfs:comment xml:lang="en">Making grooves by planing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刨削方法加工工件的槽</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SlottingKeyway">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Slotting"/>
+        <rdfs:label xml:lang="en">Slotting Keyway</rdfs:label>
+        <rdfs:label xml:lang="zh">插槽</rdfs:label>
+        <rdfs:comment xml:lang="en">Making slots or keyways by slotting</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用插削方法加工工件的槽或键槽</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ThreadCutting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Thread Cutting</rdfs:label>
+        <rdfs:label xml:lang="zh">套螺纹</rdfs:label>
+        <rdfs:comment xml:lang="en">Cutting threads with dies or thread cutting heads</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用板牙或螺纹切头加工工件的螺纹</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ThreadGrinding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Grinding"/>
+        <rdfs:label xml:lang="en">Thread Grinding</rdfs:label>
+        <rdfs:label xml:lang="zh">磨螺纹</rdfs:label>
+        <rdfs:comment xml:lang="en">Grinding threads with single or multi-thread wheels</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用单线或多线砂轮磨削工件的螺纹</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ThreadHoning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Honing"/>
+        <rdfs:label xml:lang="en">Thread Honing</rdfs:label>
+        <rdfs:label xml:lang="zh">珩螺纹</rdfs:label>
+        <rdfs:comment xml:lang="en">Honing threads with honing tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用珩磨工具珩磨工件的螺纹</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ThreadLapping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Thread Lapping</rdfs:label>
+        <rdfs:label xml:lang="zh">研螺纹</rdfs:label>
+        <rdfs:comment xml:lang="en">Lapping threads with thread lapping tools</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用螺纹研磨工具研磨工件的螺纹</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearMilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Milling"/>
+        <rdfs:label xml:lang="en">Gear Milling</rdfs:label>
+        <rdfs:label xml:lang="zh">铣齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Milling gear teeth using form or generation method</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用铣刀或铣刀盘按成形法或展成法加工齿轮或齿条等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearShaping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Gear Shaping</rdfs:label>
+        <rdfs:label xml:lang="zh">刨齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Shaping gear teeth with gear shaper</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刨齿刀加工直齿圆柱齿轮、锥齿轮或齿条等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearSlotting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Slotting"/>
+        <rdfs:label xml:lang="en">Gear Slotting</rdfs:label>
+        <rdfs:label xml:lang="zh">插齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Slotting gear teeth using generation or form method</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用插齿刀按展成法或成形法加工内、外齿轮或齿条等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearHobbing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Gear Hobbing</rdfs:label>
+        <rdfs:label xml:lang="zh">滚齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Hobbing gear teeth using generation method</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用齿轮滚刀按展成法加工齿轮、蜗轮等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearShaving">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#CuttingMachining"/>
+        <rdfs:label xml:lang="en">Gear Shaving</rdfs:label>
+        <rdfs:label xml:lang="zh">剃齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Finishing gear teeth with shaving cutter</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用剃齿刀对齿轮或蜗轮等的齿面进行精加工</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearHoning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Honing"/>
+        <rdfs:label xml:lang="en">Gear Honing</rdfs:label>
+        <rdfs:label xml:lang="zh">珩齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Finishing gear teeth with honing wheel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用珩磨轮对齿轮或蜗轮等的齿面进行精加工</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearGrinding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Grinding"/>
+        <rdfs:label xml:lang="en">Gear Grinding</rdfs:label>
+        <rdfs:label xml:lang="zh">磨齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Grinding gear teeth using generation or form method</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用砂轮按展成法或成形法磨削齿轮或齿条等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearBroaching">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Broaching"/>
+        <rdfs:label xml:lang="en">Gear Broaching</rdfs:label>
+        <rdfs:label xml:lang="zh">拉齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Broaching gear teeth with broach or broaching wheel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用拉刀或拉刀盘加工内、外齿轮等的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearLapping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Gear Lapping</rdfs:label>
+        <rdfs:label xml:lang="zh">研齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Lapping gear teeth with lapping wheels or paired gears</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用具有齿形的研轮与被研齿轮或一对被研齿轮对滚研磨，以进行齿面的加工</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearRolling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Rolling"/>
+        <rdfs:label xml:lang="en">Gear Rolling</rdfs:label>
+        <rdfs:label xml:lang="zh">轧齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Rolling gear teeth with toothed rolling wheel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用具有齿形的轧轮或齿条作为工具，轧制出齿轮的齿形</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearExtruding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Extruding"/>
+        <rdfs:label xml:lang="en">Gear Extruding</rdfs:label>
+        <rdfs:label xml:lang="zh">挤齿</rdfs:label>
+        <rdfs:comment xml:lang="en">Finishing gear teeth by rolling without backlash</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用挤轮与齿轮按无侧隙啮合的方式对滚，以精加工齿轮的齿面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GearStamping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Stamping"/>
+        <rdfs:label xml:lang="en">Gear Stamping</rdfs:label>
+        <rdfs:label xml:lang="zh">冲齿轮</rdfs:label>
+        <rdfs:comment xml:lang="en">Stamping gears with die</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用冲模冲制齿轮</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#LaserDrilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Laser Drilling</rdfs:label>
+        <rdfs:label xml:lang="zh">激光打孔</rdfs:label>
+        <rdfs:comment xml:lang="en">Making holes using laser machining</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用激光加工原理加工工件的孔</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EDMDrilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#EDM"/>
+        <rdfs:label xml:lang="en">EDM Drilling</rdfs:label>
+        <rdfs:label xml:lang="zh">电火花打孔</rdfs:label>
+        <rdfs:comment xml:lang="en">Making holes using EDM principle</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用电火花加工原理加工工件的孔</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#UltrasonicDrilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Ultrasonic Drilling</rdfs:label>
+        <rdfs:label xml:lang="zh">超声波打孔</rdfs:label>
+        <rdfs:comment xml:lang="en">Making holes using ultrasonic machining</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用超声波加工原理加工工件的孔</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ElectronBeamDrilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#ElectronBeamMachining"/>
+        <rdfs:label xml:lang="en">Electron Beam Drilling</rdfs:label>
+        <rdfs:label xml:lang="zh">电子束打孔</rdfs:label>
+        <rdfs:comment xml:lang="en">Making holes using electron beam</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用电子束加工原理加工工件的孔</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalTurning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">External Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">车外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Turning external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用车削方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalGrinding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Grinding"/>
+        <rdfs:label xml:lang="en">External Grinding</rdfs:label>
+        <rdfs:label xml:lang="zh">磨外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Grinding external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用磨削方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalHoning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Honing"/>
+        <rdfs:label xml:lang="en">External Honing</rdfs:label>
+        <rdfs:label xml:lang="zh">珩磨外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Honing external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用珩磨方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalLapping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">External Lapping</rdfs:label>
+        <rdfs:label xml:lang="zh">研磨外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Lapping external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用研磨方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalPolishing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Polishing"/>
+        <rdfs:label xml:lang="en">External Polishing</rdfs:label>
+        <rdfs:label xml:lang="zh">抛光外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Polishing external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用抛光方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ExternalRolling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Rolling"/>
+        <rdfs:label xml:lang="en">External Rolling</rdfs:label>
+        <rdfs:label xml:lang="zh">滚压外圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Rolling external cylindrical surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用滚压方法加工工件的外圆表面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#FaceTurning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">Face Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">车平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Turning flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用车削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#FaceMilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Milling"/>
+        <rdfs:label xml:lang="en">Face Milling</rdfs:label>
+        <rdfs:label xml:lang="zh">铣平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Milling flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用铣削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfacePlaning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Planing"/>
+        <rdfs:label xml:lang="en">Surface Planing</rdfs:label>
+        <rdfs:label xml:lang="zh">刨平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Planing flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刨削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceGrinding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Grinding"/>
+        <rdfs:label xml:lang="en">Surface Grinding</rdfs:label>
+        <rdfs:label xml:lang="zh">磨平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Grinding flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用磨削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceHoning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Honing"/>
+        <rdfs:label xml:lang="en">Surface Honing</rdfs:label>
+        <rdfs:label xml:lang="zh">珩平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Honing flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用珩磨方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceScraping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Scraping"/>
+        <rdfs:label xml:lang="en">Surface Scraping</rdfs:label>
+        <rdfs:label xml:lang="zh">刮平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Scraping flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用刮削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceBroaching">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Broaching"/>
+        <rdfs:label xml:lang="en">Surface Broaching</rdfs:label>
+        <rdfs:label xml:lang="zh">拉平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Broaching flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用拉削方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SpotFacing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Countersinking"/>
+        <rdfs:label xml:lang="en">Spot Facing</rdfs:label>
+        <rdfs:label xml:lang="zh">端平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Creating flat surface around hole</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用锪削方法将工件的孔口周围切削成垂直于孔的平面</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SurfaceLapping">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Surface Lapping</rdfs:label>
+        <rdfs:label xml:lang="zh">研平面</rdfs:label>
+        <rdfs:comment xml:lang="en">Lapping flat surfaces</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用研磨的方法加工工件的平面</rdfs:comment>
+    </owl:Class>
+    
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Carburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#HeatTreatment"/>
+        <rdfs:label xml:lang="en">Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Adding carbon to surface layer of steel</rdfs:comment>
+        <rdfs:comment xml:lang="zh">为了增加钢件表层的含碳量和一定的碳浓度梯度，将钢件在渗碳介质中加热并保温使碳原子渗入表层的化学热处理工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SolidCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Solid Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">固体渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing in sealed box with granular carburizer</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将工件放在填充粒状渗碳剂的密封箱中进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PasteCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Paste Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">膏剂渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing with paste carburizer coating</rdfs:comment>
+        <rdfs:comment xml:lang="zh">工件表面以膏状渗碳剂涂覆进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SaltBathCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Salt Bath Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">盐浴渗碳(液体渗碳)</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing in molten salt bath</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在熔融盐浴渗碳剂中进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GasCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Gas Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">气体渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing in gas carburizer atmosphere</rdfs:comment>
+        <rdfs:comment xml:lang="zh">工件在气体渗碳剂中进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#DripCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#GasCarburizing"/>
+        <rdfs:label xml:lang="en">Drip Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">滴注式渗碳(滴液式渗碳)</rdfs:label>
+        <rdfs:comment xml:lang="en">Gas carburizing by dripping liquid carburizer</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将苯、醇、煤油等液体渗碳剂直接滴入炉内裂解进行气体渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#IonCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Ion Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">离子渗碳(辉光放电渗碳)</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing using glow discharge</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在低于一个大气压的渗碳气氛中，利用工件(阴极)和阳极之间产生的辉光放电进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#FluidizedBedCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Fluidized Bed Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">流态床渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing in fluidized solid particles</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在悬浮于气流中形成流态化的固体颗粒渗碳介质中进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ElectrolyticCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Electrolytic Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">电解渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing by electrolysis</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在作为阴极的被处理件和在熔盐浴中的石墨阳极之间通以电流进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#VacuumCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Vacuum Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">真空渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing under vacuum conditions</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在低于一个大气压的条件下进行气体渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HighTemperatureCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">High Temperature Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">高温渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing above 950°C</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在950℃以上进行渗碳的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#LocalCarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Local Carburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">局部渗碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Carburizing only specific areas</rdfs:comment>
+        <rdfs:comment xml:lang="zh">仅对工件表面某一部分或某些区域进行的渗碳</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Recarburizing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Carburizing"/>
+        <rdfs:label xml:lang="en">Recarburizing</rdfs:label>
+        <rdfs:label xml:lang="zh">复碳</rdfs:label>
+        <rdfs:comment xml:lang="en">Restoring carbon content after decarburization</rdfs:comment>
+        <rdfs:comment xml:lang="zh">由于热处理或其他工序引起钢件表面脱碳后，为恢复初始碳含量而进行的渗碳处理</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Nitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#HeatTreatment"/>
+        <rdfs:label xml:lang="en">Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">渗氮(氮化)</rdfs:label>
+        <rdfs:comment xml:lang="en">Adding nitrogen to surface layer</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在一定温度下(一般在Ac1温度下)，使活性氮原子渗入工件表面的化学热处理工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#LiquidNitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Nitriding"/>
+        <rdfs:label xml:lang="en">Liquid Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">液体渗氮</rdfs:label>
+        <rdfs:comment xml:lang="en">Nitriding in molten salt</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在熔盐渗氮剂中进行渗氮的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GasNitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Nitriding"/>
+        <rdfs:label xml:lang="en">Gas Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">气体渗氮</rdfs:label>
+        <rdfs:comment xml:lang="en">Nitriding in gas atmosphere</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在气体介质中进行渗氮的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#IonNitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Nitriding"/>
+        <rdfs:label xml:lang="en">Ion Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">离子渗氮(离子氮化)</rdfs:label>
+        <rdfs:comment xml:lang="en">Nitriding using glow discharge</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在低于一个大气压的渗氮气氛中，利用工件(阴极)和阳极之间产生的辉光放电进行渗氮的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SingleStageNitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Nitriding"/>
+        <rdfs:label xml:lang="en">Single Stage Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">一段渗氮</rdfs:label>
+        <rdfs:comment xml:lang="en">Nitriding at single temperature</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在一个温度下进行渗氮的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#MultiStageNitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Nitriding"/>
+        <rdfs:label xml:lang="en">Multi-Stage Nitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">多段渗氮(多段氮化)</rdfs:label>
+        <rdfs:comment xml:lang="en">Nitriding at multiple temperature stages</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将渗氮过程分在两个或三个温度阶段保温渗氮的工艺</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Denitriding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#HeatTreatment"/>
+        <rdfs:label xml:lang="en">Denitriding</rdfs:label>
+        <rdfs:label xml:lang="zh">退氮(脱氮)</rdfs:label>
+        <rdfs:comment xml:lang="en">Removing excess nitrogen from surface</rdfs:comment>
+        <rdfs:comment xml:lang="zh">从渗氮件表层去除过剩的氮进行的化学热处理工艺</rdfs:comment>
+    </owl:Class>
+    
+
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Overheating">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Overheating</rdfs:label>
+        <rdfs:label xml:lang="zh">过热</rdfs:label>
+        <rdfs:comment xml:lang="en">Excessive grain growth due to high temperature</rdfs:comment>
+        <rdfs:comment xml:lang="zh">金属或合金在热处理加热时，由于温度过高，晶粒长得很大，以致性能显著降低的现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Segregation">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Segregation</rdfs:label>
+        <rdfs:label xml:lang="zh">偏析</rdfs:label>
+        <rdfs:comment xml:lang="en">Non-uniform distribution in alloy</rdfs:comment>
+        <rdfs:comment xml:lang="zh">合金中合金元素、夹杂物或气孔等分布不均匀的现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ColdBrittleness">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Cold Brittleness</rdfs:label>
+        <rdfs:label xml:lang="zh">冷脆</rdfs:label>
+        <rdfs:comment xml:lang="en">Reduced toughness at low temperature</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在低温(一般指100℃以下)，钢的冲击韧度随温度的降低而急剧下降的现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#BlueBrittleness">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Blue Brittleness</rdfs:label>
+        <rdfs:label xml:lang="zh">蓝脆</rdfs:label>
+        <rdfs:comment xml:lang="en">Brittleness at 200-300°C</rdfs:comment>
+        <rdfs:comment xml:lang="zh">钢在200-300℃(表面氧化膜呈蓝色)时抗拉强度及硬度比常温的高，塑性及韧度比常温的低的现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HotBrittleness">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Hot Brittleness</rdfs:label>
+        <rdfs:label xml:lang="zh">热脆</rdfs:label>
+        <rdfs:comment xml:lang="en">Grain boundary cracking near melting point</rdfs:comment>
+        <rdfs:comment xml:lang="zh">有些合金在接近熔点的温度受到应力或形变时沿晶界开裂的现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HydrogenEmbrittlement">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">Hydrogen Embrittlement</rdfs:label>
+        <rdfs:label xml:lang="zh">氢脆</rdfs:label>
+        <rdfs:comment xml:lang="en">Reduced toughness due to hydrogen absorption</rdfs:comment>
+        <rdfs:comment xml:lang="zh">金属或合金因吸收氢而引起的韧度降低现象</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#WhiteSpot">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#QualityDefect"/>
+        <rdfs:label xml:lang="en">White Spot</rdfs:label>
+        <rdfs:label xml:lang="zh">白点</rdfs:label>
+        <rdfs:comment xml:lang="en">Defect caused by hydrogen precipitation</rdfs:comment>
+        <rdfs:comment xml:lang="zh">白点是钢中因氢的析出而引起的一种缺陷。在纵向断口上，它呈现接近圆形或椭圆形的银白色斑点;在侵蚀后的宏观磨片上呈现发裂</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessHole">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Process Hole</rdfs:label>
+        <rdfs:label xml:lang="zh">工艺孔</rdfs:label>
+        <rdfs:comment xml:lang="en">Hole added for process requirements</rdfs:comment>
+        <rdfs:comment xml:lang="zh">为满足工艺(加工、测量、装配)的需要而在工件上增设的孔</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessBoss">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Process Boss</rdfs:label>
+        <rdfs:label xml:lang="zh">工艺凸台</rdfs:label>
+        <rdfs:comment xml:lang="en">Boss added for process requirements</rdfs:comment>
+        <rdfs:comment xml:lang="zh">为满足工艺的需要而在工件上增设的凸台</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessDimension">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#DimensionalChain"/>
+        <rdfs:label xml:lang="en">Process Dimension</rdfs:label>
+        <rdfs:label xml:lang="zh">工艺尺寸</rdfs:label>
+        <rdfs:comment xml:lang="en">Dimension specified for processing needs</rdfs:comment>
+        <rdfs:comment xml:lang="zh">根据加工的需要、在工艺附图或工艺规程中所给出的尺寸</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessSequenceDimension">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#DimensionalChain"/>
+        <rdfs:label xml:lang="en">Process Sequence Dimension</rdfs:label>
+        <rdfs:label xml:lang="zh">工序尺寸</rdfs:label>
+        <rdfs:comment xml:lang="en">Dimension to be achieved in specific process</rdfs:comment>
+        <rdfs:comment xml:lang="zh">某工序加工应达到的尺寸</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessDimensionalChain">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#DimensionalChain"/>
+        <rdfs:label xml:lang="en">Process Dimensional Chain</rdfs:label>
+        <rdfs:label xml:lang="zh">工艺尺寸链</rdfs:label>
+        <rdfs:comment xml:lang="en">Dimensional chain in processing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在加工过程中的各有关工艺尺寸所组成的尺寸链</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Derusting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#SurfaceTreatment"/>
+        <rdfs:label xml:lang="en">Derusting</rdfs:label>
+        <rdfs:label xml:lang="zh">除锈</rdfs:label>
+        <rdfs:comment xml:lang="en">Removing rust from surface</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将工件表面上的锈蚀除去的过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Cleaning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Cleaning</rdfs:label>
+        <rdfs:label xml:lang="zh">清洗</rdfs:label>
+        <rdfs:comment xml:lang="en">Removing contaminants with cleaning agents</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用清洗剂清除产品或工件上的油污、灰尘等杂物的过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Rounding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Rounding</rdfs:label>
+        <rdfs:label xml:lang="zh">滚圆</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming rounded edges</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将工件边缘形成圆弧的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Assembly">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Assembly</rdfs:label>
+        <rdfs:label xml:lang="zh">装配</rdfs:label>
+        <rdfs:comment xml:lang="en">Assembling parts into components</rdfs:comment>
+        <rdfs:comment xml:lang="zh">把零件装配成部件的过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Hemming">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Hemming</rdfs:label>
+        <rdfs:label xml:lang="zh">卷边</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming edges or hem sealing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将板件边缘成形(或空心制件)的口部进行卷边或咬边的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EdgeMilling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Milling"/>
+        <rdfs:label xml:lang="en">Edge Milling</rdfs:label>
+        <rdfs:label xml:lang="zh">铣边</rdfs:label>
+        <rdfs:comment xml:lang="en">Continuous cutting of sheet edges</rdfs:comment>
+        <rdfs:comment xml:lang="zh">对板件的边缘进行连续的切削加工</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Straightening">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Straightening</rdfs:label>
+        <rdfs:label xml:lang="zh">矫正</rdfs:label>
+        <rdfs:comment xml:lang="en">Removing bending and warping defects</rdfs:comment>
+        <rdfs:comment xml:lang="zh">清除材料或制件的弯曲、翘曲、凸凹不平等缺陷的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Leveling">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Leveling</rdfs:label>
+        <rdfs:label xml:lang="zh">校平</rdfs:label>
+        <rdfs:comment xml:lang="en">Flattening sheet material</rdfs:comment>
+        <rdfs:comment xml:lang="zh">消除板材或平板制件的弯曲、局部凸不平等的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Drawing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Drawing</rdfs:label>
+        <rdfs:label xml:lang="zh">拉伸</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming by axial tensile stress</rdfs:comment>
+        <rdfs:comment xml:lang="zh">板料或空心料在轴向拉应力作用下、使其产生塑性变形取得所需制件的成形方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Expanding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Expanding</rdfs:label>
+        <rdfs:label xml:lang="zh">扩口</rdfs:label>
+        <rdfs:comment xml:lang="en">Enlarging tube or hollow part ends</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将管件或空心制件的端部轴向尺寸扩大的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Necking">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Necking</rdfs:label>
+        <rdfs:label xml:lang="zh">缩口</rdfs:label>
+        <rdfs:comment xml:lang="en">Reducing tube end diameter</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将管件或空心制件的端部加压、使其径向尺寸缩小的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Swaging">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Swaging</rdfs:label>
+        <rdfs:label xml:lang="zh">缩径</rdfs:label>
+        <rdfs:comment xml:lang="en">Reducing local diameter</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将管件或空心制件局部加压、使其径向尺寸缩小的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#TubeExpanding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Tube Expanding</rdfs:label>
+        <rdfs:label xml:lang="zh">胀接</rdfs:label>
+        <rdfs:comment xml:lang="en">Joining by tube and sheet deformation</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用管子和管板变形来达到紧固和密封的连接方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Bending">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Bending</rdfs:label>
+        <rdfs:label xml:lang="zh">弯曲</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming by bending</rdfs:comment>
+        <rdfs:comment xml:lang="zh">使工件单边伸长收缩而弯曲成形的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Folding">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Folding</rdfs:label>
+        <rdfs:label xml:lang="zh">折弯</rdfs:label>
+        <rdfs:comment xml:lang="en">Bending sheet edges</rdfs:comment>
+        <rdfs:comment xml:lang="zh">利用放边和收边使板料边缘弯曲的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Flanging">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Flanging</rdfs:label>
+        <rdfs:label xml:lang="zh">翻边</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming flanges around edges</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将板料周围起弯收边、而中间打凸凹、使之成为半球形或其他所需形状的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Offsetting">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Offsetting</rdfs:label>
+        <rdfs:label xml:lang="zh">错位</rdfs:label>
+        <rdfs:comment xml:lang="en">Rotating parts of blank relative to each other</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将坯料的一部分与另一部分相对旋转一定角度的加工过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Shearing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Shearing</rdfs:label>
+        <rdfs:label xml:lang="zh">剪切</rdfs:label>
+        <rdfs:comment xml:lang="en">Cutting sheet material</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将板料切断的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EdgePressing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Edge Pressing</rdfs:label>
+        <rdfs:label xml:lang="zh">压边</rdfs:label>
+        <rdfs:comment xml:lang="en">Flattening edges</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将工件边缘压扁成叠边或压扁成一定几何形状的加工方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#RustPrevention">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#SurfaceTreatment"/>
+        <rdfs:label xml:lang="en">Rust Prevention</rdfs:label>
+        <rdfs:label xml:lang="zh">防锈</rdfs:label>
+        <rdfs:comment xml:lang="en">Protecting with rust preventives</rdfs:comment>
+        <rdfs:comment xml:lang="zh">在产品装配和清洗后、用防锈剂等将其指定部位(或全部)加以保护的过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Disassembly">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Process"/>
+        <rdfs:label xml:lang="en">Disassembly</rdfs:label>
+        <rdfs:label xml:lang="zh">拆卸</rdfs:label>
+        <rdfs:comment xml:lang="en">Taking apart assembled components</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将组装的零、部件或产品拆开的过程</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HotBending">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Hot Bending</rdfs:label>
+        <rdfs:label xml:lang="zh">热弯</rdfs:label>
+        <rdfs:comment xml:lang="en">Bending sheet in hot state</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将板料在热状态下弯曲成形的方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HotPressing">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#PressureForming"/>
+        <rdfs:label xml:lang="en">Hot Pressing</rdfs:label>
+        <rdfs:label xml:lang="zh">热压</rdfs:label>
+        <rdfs:comment xml:lang="en">Forming workpiece in hot state</rdfs:comment>
+        <rdfs:comment xml:lang="zh">将板料或工件在热状态下成形的方法</rdfs:comment>
+    </owl:Class>
+
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Lathe">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Lathe</rdfs:label>
+        <rdfs:label xml:lang="zh">车床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for turning operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于车削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#MillingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Milling Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">铣床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for milling operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于铣削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#GrindingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Grinding Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">磨床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for grinding operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于磨削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#DrillingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Drilling Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">钻床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for drilling operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于钻削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#BoringMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Boring Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">镗床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for boring operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于镗削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PlaningMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Planing Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">刨床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for planing operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于刨削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SlottingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Slotting Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">插床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for slotting operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于插削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#BroachingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Broaching Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">拉床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine tool for broaching operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于拉削加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HoningMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Honing Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">珩磨机</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine for honing operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于珩磨加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#PolishingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Polishing Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">抛光机</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine for polishing operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于抛光加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CNCMachiningCenter">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">CNC Machining Center</rdfs:label>
+        <rdfs:label xml:lang="zh">数控加工中心</rdfs:label>
+        <rdfs:comment xml:lang="en">Computer-controlled multi-axis machining center</rdfs:comment>
+        <rdfs:comment xml:lang="zh">计算机控制的多轴加工中心</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CNCLathe">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Lathe"/>
+        <rdfs:label xml:lang="en">CNC Lathe</rdfs:label>
+        <rdfs:label xml:lang="zh">数控车床</rdfs:label>
+        <rdfs:comment xml:lang="en">Computer-controlled lathe</rdfs:comment>
+        <rdfs:comment xml:lang="zh">计算机数控的车床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EDMMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">EDM Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">电火花机床</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine for electrical discharge machining</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于电火花加工的机床</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#LaserCuttingMachine">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Equipment"/>
+        <rdfs:label xml:lang="en">Laser Cutting Machine</rdfs:label>
+        <rdfs:label xml:lang="zh">激光切割机</rdfs:label>
+        <rdfs:comment xml:lang="en">Machine for laser cutting operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于激光切割加工的设备</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CarbideTool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+        <rdfs:label xml:lang="en">Carbide Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">硬质合金刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">Cutting tool made of cemented carbide</rdfs:comment>
+        <rdfs:comment xml:lang="zh">由硬质合金制成的切削刀具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CBNTool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+        <rdfs:label xml:lang="en">CBN Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">CBN刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">Cubic boron nitride cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">立方氮化硼切削刀具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#HSSSTool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+        <rdfs:label xml:lang="en">HSS Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">高速钢刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">High speed steel cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">高速钢切削刀具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#DiamondTool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+        <rdfs:label xml:lang="en">Diamond Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">金刚石刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">Diamond cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">金刚石切削刀具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CeramicTool">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Tool"/>
+        <rdfs:label xml:lang="en">Ceramic Tool</rdfs:label>
+        <rdfs:label xml:lang="zh">陶瓷刀具</rdfs:label>
+        <rdfs:comment xml:lang="en">Ceramic cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">陶瓷切削刀具</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#TitaniumAlloy">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+        <rdfs:label xml:lang="en">Titanium Alloy</rdfs:label>
+        <rdfs:label xml:lang="zh">钛合金</rdfs:label>
+        <rdfs:comment xml:lang="en">High-performance alloy materials with titanium as the primary element, exhibiting excellent strength-to-weight ratio, corrosion resistance, and high-temperature stability for aerospace and biomedical applications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">以钛为主要元素的高性能合金材料，具有优异的强度重量比、耐腐蚀性和高温稳定性，广泛应用于航空航天和生物医学领域</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Steel">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+        <rdfs:label xml:lang="en">Steel</rdfs:label>
+        <rdfs:label xml:lang="zh">钢</rdfs:label>
+        <rdfs:comment xml:lang="en">Fundamental metallic alloy consisting primarily of iron with carbon content ranging from 0.02% to 2.11%, providing versatile mechanical properties through heat treatment and alloying</rdfs:comment>
+        <rdfs:comment xml:lang="zh">以铁为主要成分含碳量在0.02%-2.11%之间的基础金属合金，通过热处理和合金化可获得多样化的机械性能</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#StainlessSteel">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Steel"/>
+        <rdfs:label xml:lang="en">Stainless Steel</rdfs:label>
+        <rdfs:label xml:lang="zh">不锈钢</rdfs:label>
+        <rdfs:comment xml:lang="en">Specialized steel alloy containing minimum 10.5% chromium that forms a passive oxide layer providing exceptional resistance to corrosion and oxidation in various environments</rdfs:comment>
+        <rdfs:comment xml:lang="zh">含铬量不低于10.5%的特种钢合金，能形成钝化氧化层，在各种环境中具有优异的耐腐蚀和抗氧化性能</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#AluminumAlloy">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+        <rdfs:label xml:lang="en">Aluminum Alloy</rdfs:label>
+        <rdfs:label xml:lang="zh">铝合金</rdfs:label>
+        <rdfs:comment xml:lang="en">Lightweight alloy materials with aluminum as the primary element, offering excellent strength-to-weight ratio, machinability, and corrosion resistance for automotive and aerospace applications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">以铝为主要元素的轻质合金材料，具有优良的强度重量比、可加工性和耐腐蚀性，广泛用于汽车和航空航天工业</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CastIron">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+        <rdfs:label xml:lang="en">Cast Iron</rdfs:label>
+        <rdfs:label xml:lang="zh">铸铁</rdfs:label>
+        <rdfs:comment xml:lang="en">Iron-carbon alloy with carbon content exceeding 2.11%, featuring excellent castability, damping capacity, and wear resistance, commonly used for machine bases and engine blocks</rdfs:comment>
+        <rdfs:comment xml:lang="zh">含碳量超过2.11%的铁碳合金，具有优良的铸造性能、减震性能和耐磨性，常用于机床基座和发动机缸体制造</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CopperAlloy">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Material"/>
+        <rdfs:label xml:lang="en">Copper Alloy</rdfs:label>
+        <rdfs:label xml:lang="zh">铜合金</rdfs:label>
+        <rdfs:comment xml:lang="en">Versatile alloy materials with copper as the primary element, providing excellent electrical and thermal conductivity, corrosion resistance, and antimicrobial properties</rdfs:comment>
+        <rdfs:comment xml:lang="zh">以铜为主要元素的多功能合金材料，具有优异的导电导热性、耐腐蚀性和抗菌性能</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#ProcessSequence">
+        <rdfs:label xml:lang="en">Process Sequence</rdfs:label>
+        <rdfs:label xml:lang="zh">工序序列</rdfs:label>
+        <rdfs:comment xml:lang="en">Ordered sequence of manufacturing processes</rdfs:comment>
+        <rdfs:comment xml:lang="zh">制造工序的有序序列</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#RoughTurning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">Rough Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">粗车</rdfs:label>
+        <rdfs:comment xml:lang="en">Initial turning with large material removal</rdfs:comment>
+        <rdfs:comment xml:lang="zh">大余量去除的初始车削</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SemiFinishTurning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">Semi-Finish Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">半精车</rdfs:label>
+        <rdfs:comment xml:lang="en">Intermediate turning operation</rdfs:comment>
+        <rdfs:comment xml:lang="zh">中间车削操作</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#FinishTurning">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Turning"/>
+        <rdfs:label xml:lang="en">Finish Turning</rdfs:label>
+        <rdfs:label xml:lang="zh">精车</rdfs:label>
+        <rdfs:comment xml:lang="en">Final turning for precision and surface quality</rdfs:comment>
+        <rdfs:comment xml:lang="zh">用于精度和表面质量的最终车削</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#SpindleSpeed">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Spindle Speed</rdfs:label>
+        <rdfs:label xml:lang="zh">主轴转速</rdfs:label>
+        <rdfs:comment xml:lang="en">Rotational speed of spindle in rpm</rdfs:comment>
+        <rdfs:comment xml:lang="zh">主轴旋转速度，单位为转/分钟</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CuttingSpeed">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Cutting Speed</rdfs:label>
+        <rdfs:label xml:lang="zh">切削速度</rdfs:label>
+        <rdfs:comment xml:lang="en">Linear speed of cutting tool</rdfs:comment>
+        <rdfs:comment xml:lang="zh">切削工具的线速度，单位为米/分钟</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#FeedRate">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Feed Rate</rdfs:label>
+        <rdfs:label xml:lang="zh">进给量</rdfs:label>
+        <rdfs:comment xml:lang="en">Tool advance per revolution</rdfs:comment>
+        <rdfs:comment xml:lang="zh">每转进给距离，单位为毫米/转</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CoolingMethod">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Cooling Method</rdfs:label>
+        <rdfs:label xml:lang="zh">冷却方式</rdfs:label>
+        <rdfs:comment xml:lang="en">Method of cooling during processing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">加工过程中的冷却方法</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CarbonPotential">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Carbon Potential</rdfs:label>
+        <rdfs:label xml:lang="zh">碳势(碳位)</rdfs:label>
+        <rdfs:comment xml:lang="en">Parameter for carbon atmosphere capability</rdfs:comment>
+        <rdfs:comment xml:lang="zh">表征含碳气氛在一定温度下改变钢件表面含碳量能力的参数</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CarburizingLayer">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Carburizing Layer</rdfs:label>
+        <rdfs:label xml:lang="zh">渗碳层</rdfs:label>
+        <rdfs:comment xml:lang="en">Surface layer with increased carbon content</rdfs:comment>
+        <rdfs:comment xml:lang="zh">渗碳件中含碳量高于原材料的表层</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#CarburizingDepth">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Carburizing Depth</rdfs:label>
+        <rdfs:label xml:lang="zh">渗碳层深度</rdfs:label>
+        <rdfs:comment xml:lang="en">Depth from surface to specified carbon content</rdfs:comment>
+        <rdfs:comment xml:lang="zh">由渗碳工件表面向内至规定碳浓度处的垂直距离</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#EffectiveCarburizingDepth">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Effective Carburizing Depth</rdfs:label>
+        <rdfs:label xml:lang="zh">有效渗碳硬化层深度</rdfs:label>
+        <rdfs:comment xml:lang="en">Depth to specified hardness after carburizing</rdfs:comment>
+        <rdfs:comment xml:lang="zh">渗碳淬火后的工件由其表面测定到规定硬度(通常为550HV1)处的垂直距离</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#Nitride">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Nitride</rdfs:label>
+        <rdfs:label xml:lang="zh">氮化物</rdfs:label>
+        <rdfs:comment xml:lang="en">Compound of nitrogen and metal</rdfs:comment>
+        <rdfs:comment xml:lang="zh">氮与金属元素形成的化合物</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#NitrogenPotential">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Nitrogen Potential</rdfs:label>
+        <rdfs:label xml:lang="zh">氮势</rdfs:label>
+        <rdfs:comment xml:lang="en">Parameter for nitriding capability</rdfs:comment>
+        <rdfs:comment xml:lang="zh">表征含氮介质在给定温度对工件渗氮或退氮到某一给定表面氮含量的能力的参数</rdfs:comment>
+    </owl:Class>
+    
+    <owl:Class rdf:about="http://www.mpkg.org/manufacturing#NitridingDepth">
+        <rdfs:subClassOf rdf:resource="http://www.mpkg.org/manufacturing#Parameter"/>
+        <rdfs:label xml:lang="en">Nitriding Depth</rdfs:label>
+        <rdfs:label xml:lang="zh">渗氮层深度</rdfs:label>
+        <rdfs:comment xml:lang="en">Depth of nitrided layer</rdfs:comment>
+        <rdfs:comment xml:lang="zh">从渗氮件表面沿垂直方向测至与基体组织有明显的分界处为止的距离</rdfs:comment>
+    </owl:Class>
+    
+    <owl:NamedIndividual rdf:about="http://www.mpkg.org/manufacturing#Ti6Al4V">
+        <rdf:type rdf:resource="http://www.mpkg.org/manufacturing#TitaniumAlloy"/>
+        <rdfs:label>Ti-6Al-4V</rdfs:label>
+        <rdfs:comment xml:lang="en">High-strength titanium alloy Ti-6Al-4V containing 6% aluminum and 4% vanadium, widely used in aerospace for its exceptional strength-to-weight ratio and corrosion resistance</rdfs:comment>
+        <rdfs:comment xml:lang="zh">含6%铝和4%钒的高强度钛合金Ti-6Al-4V，因其卓越的强度重量比和耐腐蚀性能而广泛应用于航空航天领域</rdfs:comment>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="http://www.mpkg.org/manufacturing#KBSZ840Lathe">
+        <rdf:type rdf:resource="http://www.mpkg.org/manufacturing#CNCLathe"/>
+        <rdfs:label>KBSZ-840</rdfs:label>
+        <rdfs:comment xml:lang="en">Heavy-duty CNC lathe model KBSZ-840 designed for high-precision turning of large workpieces, featuring robust construction and advanced control systems</rdfs:comment>
+        <rdfs:comment xml:lang="zh">KBSZ-840型重型数控车床，专为大型工件的高精度车削加工设计，具有坚固的结构和先进的控制系统</rdfs:comment>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="http://www.mpkg.org/manufacturing#XH714Center">
+        <rdf:type rdf:resource="http://www.mpkg.org/manufacturing#CNCMachiningCenter"/>
+        <rdfs:label>XH714</rdfs:label>
+        <manufacturing:hasToolPositions rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">16</manufacturing:hasToolPositions>
+        <manufacturing:hasMaxPrecision>IT4</manufacturing:hasMaxPrecision>
+        <manufacturing:suitableFor>Cavity and surface machining</manufacturing:suitableFor>
+        <rdfs:comment xml:lang="en">Advanced multi-axis CNC machining center model XH714 equipped with 16 tool positions, capable of IT4 precision machining for complex cavity and surface operations</rdfs:comment>
+        <rdfs:comment xml:lang="zh">XH714型先进多轴数控加工中心，配备16个刀位，可达到IT4精度等级，专门用于复杂型腔和曲面加工作业</rdfs:comment>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="http://www.mpkg.org/manufacturing#SS304">
+        <rdf:type rdf:resource="http://www.mpkg.org/manufacturing#StainlessSteel"/>
+        <rdfs:label>304 Stainless Steel</rdfs:label>
+        <rdfs:comment xml:lang="en">Grade 304 austenitic stainless steel containing 18% chromium and 8% nickel, offering excellent corrosion resistance and formability for general applications</rdfs:comment>
+        <rdfs:comment xml:lang="zh">304级奥氏体不锈钢，含18%铬和8%镍，具有优异的耐腐蚀性和成形性，适用于通用领域</rdfs:comment>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="http://www.mpkg.org/manufacturing#Steel45">
+        <rdf:type rdf:resource="http://www.mpkg.org/manufacturing#Steel"/>
+        <rdfs:label>45# Steel</rdfs:label>
+        <rdfs:comment xml:lang="en">Grade 45 medium carbon structural steel with 0.45% carbon content, providing balanced strength and toughness for mechanical components after heat treatment</rdfs:comment>
+        <rdfs:comment xml:lang="zh">45号中碳结构钢，含碳量0.45%，经热处理后可为机械零件提供良好的强度和韧性平衡</rdfs:comment>
+    </owl:NamedIndividual>
+    
+</rdf:RDF>

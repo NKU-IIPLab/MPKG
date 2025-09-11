@@ -1,0 +1,353 @@
+{
+    "Relation": "class Relation:\n\t\"\"\"Base class for all manufacturing relations.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, chinese_name: str = None, description: str = None):\n\t\tself.head_entity = head_entity\n\t\tself.tail_entity = tail_entity\n\t\tself.chinese_name = chinese_name\n\t\tself.description = description",
+    
+    "MaterialRelation": "class MaterialRelation(Relation):\n\t\"\"\"Material composition relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Material, description: str = \"材料构成关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"材料\", description=description)",
+    
+    "ProcessingMethod": "class ProcessingMethod(Relation):\n\t\"\"\"Processing method relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: MachiningProcess, description: str = \"加工方法关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工方法\", description=description)",
+    
+    "ProcessSequence": "class ProcessSequence(Relation):\n\t\"\"\"Process sequence relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: MachiningProcess, description: str = \"工序顺序关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工工序\", description=description)",
+    
+    "SurfaceRoughnessRequirement": "class SurfaceRoughnessRequirement(Relation):\n\t\"\"\"Surface roughness requirement relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: SurfaceRoughness, description: str = \"表面粗糙度要求关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"表面粗糙度要求\", description=description)",
+    
+    "UseEquipment": "class UseEquipment(Relation):\n\t\"\"\"Use equipment relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: Equipment, description: str = \"使用设备关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用设备\", description=description)",
+    
+    "UseTool": "class UseTool(Relation):\n\t\"\"\"Use tool relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingTool, description: str = \"使用刀具关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"使用刀具\", description=description)",
+    
+    "SpindleSpeedSetting": "class SpindleSpeedSetting(Relation):\n\t\"\"\"Spindle speed setting relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: SpindleSpeed, description: str = \"主轴转速设置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"主轴转速\", description=description)",
+    
+    "CuttingSpeedSetting": "class CuttingSpeedSetting(Relation):\n\t\"\"\"Cutting speed setting relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingSpeed, description: str = \"切削速度设置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"切削速度\", description=description)",
+    
+    "FeedRateSetting": "class FeedRateSetting(Relation):\n\t\"\"\"Feed rate setting relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: FeedRate, description: str = \"进给量设置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"进给量\", description=description)",
+    
+    "CoolingMethodSetting": "class CoolingMethodSetting(Relation):\n\t\"\"\"Cooling method setting relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CoolingMethod, description: str = \"冷却方式设置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冷却方式\", description=description)",
+    
+    "CuttingDepthSetting": "class CuttingDepthSetting(Relation):\n\t\"\"\"Cutting depth setting relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: CuttingDepth, description: str = \"切削深度设置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"切削深度\", description=description)",
+    
+    "MachiningAllowanceRelation": "class MachiningAllowanceRelation(Relation):\n\t\"\"\"Machining allowance relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: MachiningAllowance, description: str = \"加工余量关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工余量\", description=description)",
+    
+    "HeatTreatmentMethod": "class HeatTreatmentMethod(Relation):\n\t\"\"\"Heat treatment method relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: HeatTreatment, description: str = \"热处理方式关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"热处理方式\", description=description)",
+    
+    "HardnessRequirement": "class HardnessRequirement(Relation):\n\t\"\"\"Hardness requirement relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"硬度要求关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"硬度要求\", description=description)",
+    
+    "ToleranceRequirement": "class ToleranceRequirement(Relation):\n\t\"\"\"Tolerance requirement relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ToleranceGrade, description: str = \"公差要求关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"目标公差\", description=description)",
+    
+    "OperatedBy": "class OperatedBy(Relation):\n\t\"\"\"Operated by relation.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Operator, description: str = \"操作人员关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"操作人员\", description=description)",
+    
+    "ToolPositionCount": "class ToolPositionCount(Relation):\n\t\"\"\"Tool position count relation.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Entity, description: str = \"刀位数量关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刀位数量\", description=description)",
+    
+    "SuitableFor": "class SuitableFor(Relation):\n\t\"\"\"Suitable for relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"适用于关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"适用于\", description=description)",
+    
+    "HighestPrecision": "class HighestPrecision(Relation):\n\t\"\"\"Highest precision relation.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Entity, description: str = \"最高精度关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"最高精度\", description=description)",
+    
+    "Location": "class Location(Relation):\n\t\"\"\"Location relation.\"\"\"\n\tdef __init__(self, head_entity: Equipment, tail_entity: Entity, description: str = \"所在位置关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"所在位置\", description=description)",
+    
+    "BelongsToProcess": "class BelongsToProcess(Relation):\n\t\"\"\"Belongs to process category relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: MachiningProcess, description: str = \"属于工艺类别关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"属于（工艺）\", description=description)",
+
+    "MechanicalMachiningRelation": "class MechanicalMachiningRelation(Relation):\n\t\"\"\"Mechanical machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"机械加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"机械加工\", description=description)",
+
+    "PressureProcessingRelation": "class PressureProcessingRelation(Relation):\n\t\"\"\"Pressure processing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"压力加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"压力加工\", description=description)",
+
+    "CuttingProcessingRelation": "class CuttingProcessingRelation(Relation):\n\t\"\"\"Cutting processing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"切削加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"切削加工\", description=description)",
+
+    "TurningRelation": "class TurningRelation(Relation):\n\t\"\"\"Turning relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"车削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"车削\", description=description)",
+
+    "MillingRelation": "class MillingRelation(Relation):\n\t\"\"\"Milling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铣削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铣削\", description=description)",
+
+    "PlaningRelation": "class PlaningRelation(Relation):\n\t\"\"\"Planing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"刨削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刨削\", description=description)",
+
+    "DrillingRelation": "class DrillingRelation(Relation):\n\t\"\"\"Drilling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"钻削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"钻削\", description=description)",
+
+    "ReamingRelation": "class ReamingRelation(Relation):\n\t\"\"\"Reaming relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铰削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铰削\", description=description)",
+
+    "CounterboringRelation": "class CounterboringRelation(Relation):\n\t\"\"\"Counterboring relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"锪削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"锪削\", description=description)",
+
+    "BoringRelation": "class BoringRelation(Relation):\n\t\"\"\"Boring relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"镗削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"镗削\", description=description)",
+
+    "SlottingRelation": "class SlottingRelation(Relation):\n\t\"\"\"Slotting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"插削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"插削\", description=description)",
+
+    "BroachingRelation": "class BroachingRelation(Relation):\n\t\"\"\"Broaching relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"拉削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"拉削\", description=description)",
+
+    "PushingRelation": "class PushingRelation(Relation):\n\t\"\"\"Pushing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"推削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"推削\", description=description)",
+
+    "RelievingRelation": "class RelievingRelation(Relation):\n\t\"\"\"Relieving relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铲削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铲削\", description=description)",
+
+    "ScrapingRelation": "class ScrapingRelation(Relation):\n\t\"\"\"Scraping relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"刮削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刮削\", description=description)",
+
+    "GrindingRelation": "class GrindingRelation(Relation):\n\t\"\"\"Grinding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"磨削关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"磨削\", description=description)",
+
+    "HoningRelation": "class HoningRelation(Relation):\n\t\"\"\"Honing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"珩磨关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"珩磨\", description=description)",
+
+    "SuperFinishingRelation": "class SuperFinishingRelation(Relation):\n\t\"\"\"Super finishing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"超精加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"超精加工\", description=description)",
+
+    "PolishingRelation": "class PolishingRelation(Relation):\n\t\"\"\"Polishing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"抛光关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"抛光\", description=description)",
+
+    "ExtrusionRelation": "class ExtrusionRelation(Relation):\n\t\"\"\"Extrusion relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"挤压关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"挤压\", description=description)",
+
+    "RollingRelation": "class RollingRelation(Relation):\n\t\"\"\"Rolling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"滚压关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"滚压\", description=description)",
+
+    "ShotPeeningRelation": "class ShotPeeningRelation(Relation):\n\t\"\"\"Shot peening relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"喷丸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"喷丸\", description=description)",
+
+    "SandBlastingRelation": "class SandBlastingRelation(Relation):\n\t\"\"\"Sand blasting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"喷砂关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"喷砂\", description=description)",
+
+    "ColdWorkingRelation": "class ColdWorkingRelation(Relation):\n\t\"\"\"Cold working relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"冷作关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冷作\", description=description)",
+
+    "StampingRelation": "class StampingRelation(Relation):\n\t\"\"\"Stamping relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"冲压关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冲压\", description=description)",
+
+    "RivetingRelation": "class RivetingRelation(Relation):\n\t\"\"\"Riveting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铆接关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铆接\", description=description)",
+
+    "CastingRelation": "class CastingRelation(Relation):\n\t\"\"\"Casting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铸造关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铸造\", description=description)",
+
+    "ForgingRelation": "class ForgingRelation(Relation):\n\t\"\"\"Forging relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"锻造关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"锻造\", description=description)",
+
+    "HeatTreatmentRelation": "class HeatTreatmentRelation(Relation):\n\t\"\"\"Heat treatment relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"热处理关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"热处理\", description=description)",
+
+    "SurfaceTreatmentRelation": "class SurfaceTreatmentRelation(Relation):\n\t\"\"\"Surface treatment relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"表面处理关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"表面处理\", description=description)",
+
+    "SurfaceCoatingRelation": "class SurfaceCoatingRelation(Relation):\n\t\"\"\"Surface coating relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"表面涂覆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"表面涂覆\", description=description)",
+
+    "PowderMetallurgyRelation": "class PowderMetallurgyRelation(Relation):\n\t\"\"\"Powder metallurgy relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"粉末冶金关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"粉末冶金\", description=description)",
+
+    "BondingRelation": "class BondingRelation(Relation):\n\t\"\"\"Bonding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"粘接关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"粘接\", description=description)",
+
+    "BenchWorkRelation": "class BenchWorkRelation(Relation):\n\t\"\"\"Bench work relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"钳加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"钳加工\", description=description)",
+
+    "ElectricalMachiningRelation": "class ElectricalMachiningRelation(Relation):\n\t\"\"\"Electrical machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电加工\", description=description)",
+
+    "EDMRelation": "class EDMRelation(Relation):\n\t\"\"\"EDM relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电火花加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电火花加工\", description=description)",
+
+    "ElectrochemicalMachiningRelation": "class ElectrochemicalMachiningRelation(Relation):\n\t\"\"\"Electrochemical machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电解加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电解加工\", description=description)",
+
+    "ElectronBeamMachiningRelation": "class ElectronBeamMachiningRelation(Relation):\n\t\"\"\"Electron beam machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电子束加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电子束加工\", description=description)",
+
+    "IonBeamMachiningRelation": "class IonBeamMachiningRelation(Relation):\n\t\"\"\"Ion beam machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"离子束加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"离子束加工\", description=description)",
+
+    "PlasmaMachiningRelation": "class PlasmaMachiningRelation(Relation):\n\t\"\"\"Plasma machining relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"等离子加工关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"等离子加工\", description=description)",
+
+    "ElectroformingRelation": "class ElectroformingRelation(Relation):\n\t\"\"\"Electroforming relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电铸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电铸\", description=description)",
+
+    "ProcessHoleRelation": "class ProcessHoleRelation(Relation):\n\t\"\"\"Process hole relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ProcessHole, description: str = \"工艺孔关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工艺孔\", description=description)",
+
+    "ProcessBossRelation": "class ProcessBossRelation(Relation):\n\t\"\"\"Process boss relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ProcessBoss, description: str = \"工艺凸台关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工艺凸台\", description=description)",
+
+    "ProcessDimensionRelation": "class ProcessDimensionRelation(Relation):\n\t\"\"\"Process dimension relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ProcessDimension, description: str = \"工艺尺寸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工艺尺寸\", description=description)",
+
+    "OperationDimensionRelation": "class OperationDimensionRelation(Relation):\n\t\"\"\"Operation dimension relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: OperationDimension, description: str = \"工序尺寸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工序尺寸\", description=description)",
+
+    "DimensionChainRelation": "class DimensionChainRelation(Relation):\n\t\"\"\"Dimension chain relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: DimensionChain, description: str = \"尺寸链关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"尺寸链\", description=description)",
+
+    "ProcessDimensionChainRelation": "class ProcessDimensionChainRelation(Relation):\n\t\"\"\"Process dimension chain relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ProcessDimensionChain, description: str = \"工艺尺寸链关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工艺尺寸链\", description=description)",
+
+    "TotalAllowanceRelation": "class TotalAllowanceRelation(Relation):\n\t\"\"\"Total allowance relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"加工总余量关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"加工总余量\", description=description)",
+
+    "OperationAllowanceRelation": "class OperationAllowanceRelation(Relation):\n\t\"\"\"Operation allowance relation.\"\"\"\n\tdef __init__(self, head_entity: MachiningProcess, tail_entity: OperationAllowance, description: str = \"工序余量关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"工序余量\", description=description)",
+
+    "DerustingRelation": "class DerustingRelation(Relation):\n\t\"\"\"Derusting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"除锈关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"除锈\", description=description)",
+
+    "CleaningRelation": "class CleaningRelation(Relation):\n\t\"\"\"Cleaning relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"清洗关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"清洗\", description=description)",
+
+    "RoundingRelation": "class RoundingRelation(Relation):\n\t\"\"\"Rounding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"滚圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"滚圆\", description=description)",
+
+    "ProvisioningRelation": "class ProvisioningRelation(Relation):\n\t\"\"\"Provisioning relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"配备关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"配备\", description=description)",
+
+    "AssemblyRelation": "class AssemblyRelation(Relation):\n\t\"\"\"Assembly relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"装配关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"装配\", description=description)",
+
+    "CurlingRelation": "class CurlingRelation(Relation):\n\t\"\"\"Curling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"卷边关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"卷边\", description=description)",
+
+    "EdgeMillingRelation": "class EdgeMillingRelation(Relation):\n\t\"\"\"Edge milling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铣边关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铣边\", description=description)",
+
+    "StraighteningRelation": "class StraighteningRelation(Relation):\n\t\"\"\"Straightening relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"矫正关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"矫正\", description=description)",
+
+    "LevelingRelation": "class LevelingRelation(Relation):\n\t\"\"\"Leveling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"校平关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"校平\", description=description)",
+
+    "StretchingRelation": "class StretchingRelation(Relation):\n\t\"\"\"Stretching relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"拉伸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"拉伸\", description=description)",
+
+    "FlaringRelation": "class FlaringRelation(Relation):\n\t\"\"\"Flaring relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"扩口关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"扩口\", description=description)",
+
+    "NeckingRelation": "class NeckingRelation(Relation):\n\t\"\"\"Necking relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"缩口关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"缩口\", description=description)",
+
+    "SwagingDiameterRelation": "class SwagingDiameterRelation(Relation):\n\t\"\"\"Swaging diameter relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"缩径关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"缩径\", description=description)",
+
+    "ExpandingRelation": "class ExpandingRelation(Relation):\n\t\"\"\"Expanding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"胀接关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"胀接\", description=description)",
+
+    "BendingRelation": "class BendingRelation(Relation):\n\t\"\"\"Bending relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"弯曲关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"弯曲\", description=description)",
+
+    "FoldingRelation": "class FoldingRelation(Relation):\n\t\"\"\"Folding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"折弯关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"折弯\", description=description)",
+
+    "FlangingRelation": "class FlangingRelation(Relation):\n\t\"\"\"Flanging relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"翻边关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"翻边\", description=description)",
+
+    "OffsettingRelation": "class OffsettingRelation(Relation):\n\t\"\"\"Offsetting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"错位关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"错位\", description=description)",
+
+    "ShearingRelation": "class ShearingRelation(Relation):\n\t\"\"\"Shearing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"剪切关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"剪切\", description=description)",
+
+    "HemmingRelation": "class HemmingRelation(Relation):\n\t\"\"\"Hemming relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"压边关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"压边\", description=description)",
+
+    "RustPreventionRelation": "class RustPreventionRelation(Relation):\n\t\"\"\"Rust prevention relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"防锈关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"防锈\", description=description)",
+
+    "DisassemblyRelation": "class DisassemblyRelation(Relation):\n\t\"\"\"Disassembly relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"拆卸关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"拆卸\", description=description)",
+
+    "HotBendingRelation": "class HotBendingRelation(Relation):\n\t\"\"\"Hot bending relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"热弯关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"热弯\", description=description)",
+
+    "HotPressingRelation": "class HotPressingRelation(Relation):\n\t\"\"\"Hot pressing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"热压关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"热压\", description=description)",
+
+    "OverheatingRelation": "class OverheatingRelation(Relation):\n\t\"\"\"Overheating relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Overheating, description: str = \"过热关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"过热\", description=description)",
+
+    "SegregationRelation": "class SegregationRelation(Relation):\n\t\"\"\"Segregation relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Segregation, description: str = \"偏析关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"偏析\", description=description)",
+
+    "ColdBrittlenessRelation": "class ColdBrittlenessRelation(Relation):\n\t\"\"\"Cold brittleness relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ColdBrittleness, description: str = \"冷脆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冷脆\", description=description)",
+
+    "BlueBrittlenessRelation": "class BlueBrittlenessRelation(Relation):\n\t\"\"\"Blue brittleness relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: BlueBrittleness, description: str = \"蓝脆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"蓝脆\", description=description)",
+
+    "HotBrittlenessRelation": "class HotBrittlenessRelation(Relation):\n\t\"\"\"Hot brittleness relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: HotBrittleness, description: str = \"热脆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"热脆\", description=description)",
+
+    "HydrogenEmbrittlementRelation": "class HydrogenEmbrittlementRelation(Relation):\n\t\"\"\"Hydrogen embrittlement relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: HydrogenEmbrittlement, description: str = \"氢脆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"氢脆\", description=description)",
+
+    "WhiteSpotRelation": "class WhiteSpotRelation(Relation):\n\t\"\"\"White spot relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: WhiteSpot, description: str = \"白点关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"白点\", description=description)",
+
+    "CarburizingRelation": "class CarburizingRelation(Relation):\n\t\"\"\"Carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Carburizing, description: str = \"渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"渗碳\", description=description)",
+
+    "SolidCarburizingRelation": "class SolidCarburizingRelation(Relation):\n\t\"\"\"Solid carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: SolidCarburizing, description: str = \"固体渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"固体渗碳\", description=description)",
+
+    "PasteCarburizingRelation": "class PasteCarburizingRelation(Relation):\n\t\"\"\"Paste carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: PasteCarburizing, description: str = \"膏剂渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"膏剂渗碳\", description=description)",
+
+    "SaltBathCarburizingRelation": "class SaltBathCarburizingRelation(Relation):\n\t\"\"\"Salt bath carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: SaltBathCarburizing, description: str = \"盐浴渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"盐浴渗碳\", description=description)",
+
+    "GasCarburizingRelation": "class GasCarburizingRelation(Relation):\n\t\"\"\"Gas carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GasCarburizing, description: str = \"气体渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"气体渗碳\", description=description)",
+
+    "DripCarburizingRelation": "class DripCarburizingRelation(Relation):\n\t\"\"\"Drip carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: DripCarburizing, description: str = \"滴注式渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"滴注式渗碳\", description=description)",
+
+    "IonCarburizingRelation": "class IonCarburizingRelation(Relation):\n\t\"\"\"Ion carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: IonCarburizing, description: str = \"离子渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"离子渗碳\", description=description)",
+
+    "FluidizedBedCarburizingRelation": "class FluidizedBedCarburizingRelation(Relation):\n\t\"\"\"Fluidized bed carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: FluidizedBedCarburizing, description: str = \"流态床渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"流态床渗碳\", description=description)",
+
+    "ElectrolyticCarburizingRelation": "class ElectrolyticCarburizingRelation(Relation):\n\t\"\"\"Electrolytic carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ElectrolyticCarburizing, description: str = \"电解渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电解渗碳\", description=description)",
+
+    "VacuumCarburizingRelation": "class VacuumCarburizingRelation(Relation):\n\t\"\"\"Vacuum carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: VacuumCarburizing, description: str = \"真空渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"真空渗碳\", description=description)",
+
+    "HighTemperatureCarburizingRelation": "class HighTemperatureCarburizingRelation(Relation):\n\t\"\"\"High temperature carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: HighTemperatureCarburizing, description: str = \"高温渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"高温渗碳\", description=description)",
+
+    "LocalCarburizingRelation": "class LocalCarburizingRelation(Relation):\n\t\"\"\"Local carburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: LocalCarburizing, description: str = \"局部渗碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"局部渗碳\", description=description)",
+
+    "RecarburizingRelation": "class RecarburizingRelation(Relation):\n\t\"\"\"Recarburizing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Recarburizing, description: str = \"复碳关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"复碳\", description=description)",
+
+    "CarbonPotentialRelation": "class CarbonPotentialRelation(Relation):\n\t\"\"\"Carbon potential relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: CarbonPotential, description: str = \"碳势关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"碳势\", description=description)",
+
+    "CarburizingLayerRelation": "class CarburizingLayerRelation(Relation):\n\t\"\"\"Carburizing layer relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"渗碳层关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"渗碳层\", description=description)",
+
+    "CarburizingDepthRelation": "class CarburizingDepthRelation(Relation):\n\t\"\"\"Carburizing depth relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: CarburizingDepth, description: str = \"渗碳层深度关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"渗碳层深度\", description=description)",
+
+    "EffectiveCarburizingDepthRelation": "class EffectiveCarburizingDepthRelation(Relation):\n\t\"\"\"Effective carburizing depth relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"有效渗碳硬化层深度关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"有效渗碳硬化层深度\", description=description)",
+
+    "NitridingRelation": "class NitridingRelation(Relation):\n\t\"\"\"Nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Nitriding, description: str = \"渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"渗氮\", description=description)",
+
+    "LiquidNitridingRelation": "class LiquidNitridingRelation(Relation):\n\t\"\"\"Liquid nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: LiquidNitriding, description: str = \"液体渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"液体渗氮\", description=description)",
+
+    "GasNitridingRelation": "class GasNitridingRelation(Relation):\n\t\"\"\"Gas nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GasNitriding, description: str = \"气体渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"气体渗氮\", description=description)",
+
+    "IonNitridingRelation": "class IonNitridingRelation(Relation):\n\t\"\"\"Ion nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: IonNitriding, description: str = \"离子渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"离子渗氮\", description=description)",
+
+    "SingleStageNitridingRelation": "class SingleStageNitridingRelation(Relation):\n\t\"\"\"Single stage nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: SingleStageNitriding, description: str = \"一段渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"一段渗氮\", description=description)",
+
+    "MultiStageNitridingRelation": "class MultiStageNitridingRelation(Relation):\n\t\"\"\"Multi stage nitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: MultiStageNitriding, description: str = \"多段渗氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"多段渗氮\", description=description)",
+
+    "DenitridingRelation": "class DenitridingRelation(Relation):\n\t\"\"\"Denitriding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Denitriding, description: str = \"退氮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"退氮\", description=description)",
+
+    "NitrideRelation": "class NitrideRelation(Relation):\n\t\"\"\"Nitride relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"氮化物关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"氮化物\", description=description)",
+
+    "NitrogenPotentialRelation": "class NitrogenPotentialRelation(Relation):\n\t\"\"\"Nitrogen potential relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: NitrogenPotential, description: str = \"氮势关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"氮势\", description=description)",
+
+    "NitridingDepthRelation": "class NitridingDepthRelation(Relation):\n\t\"\"\"Nitriding depth relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: NitridingDepth, description: str = \"渗氮层深度关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"渗氮层深度\", description=description)",
+
+    "TurningGrooveRelation": "class TurningGrooveRelation(Relation):\n\t\"\"\"Turning groove relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"车槽关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"车槽\", description=description)",
+
+    "MillingGrooveRelation": "class MillingGrooveRelation(Relation):\n\t\"\"\"Milling groove relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铣槽关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铣槽\", description=description)",
+
+    "PlaningGrooveRelation": "class PlaningGrooveRelation(Relation):\n\t\"\"\"Planing groove relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"刨槽关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刨槽\", description=description)",
+
+    "SlottingGrooveRelation": "class SlottingGrooveRelation(Relation):\n\t\"\"\"Slotting groove relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"插槽关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"插槽\", description=description)",
+
+    "ThreadCuttingRelation": "class ThreadCuttingRelation(Relation):\n\t\"\"\"Thread cutting relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ThreadCutting, description: str = \"套螺纹关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"套螺纹\", description=description)",
+
+    "ThreadGrindingRelation": "class ThreadGrindingRelation(Relation):\n\t\"\"\"Thread grinding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ThreadGrinding, description: str = \"磨螺纹关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"磨螺纹\", description=description)",
+
+    "ThreadHoningRelation": "class ThreadHoningRelation(Relation):\n\t\"\"\"Thread honing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ThreadHoning, description: str = \"珩螺纹关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"珩螺纹\", description=description)",
+
+    "ThreadLappingRelation": "class ThreadLappingRelation(Relation):\n\t\"\"\"Thread lapping relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: ThreadLapping, description: str = \"研螺纹关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"研螺纹\", description=description)",
+
+    "GearMillingRelation": "class GearMillingRelation(Relation):\n\t\"\"\"Gear milling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearMilling, description: str = \"铣齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铣齿\", description=description)",
+
+    "GearPlaningRelation": "class GearPlaningRelation(Relation):\n\t\"\"\"Gear planing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearPlaning, description: str = \"刨齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刨齿\", description=description)",
+
+    "GearShapingRelation": "class GearShapingRelation(Relation):\n\t\"\"\"Gear shaping relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearShaping, description: str = \"插齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"插齿\", description=description)",
+
+    "GearHobbingRelation": "class GearHobbingRelation(Relation):\n\t\"\"\"Gear hobbing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearHobbing, description: str = \"滚齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"滚齿\", description=description)",
+
+    "GearShavingRelation": "class GearShavingRelation(Relation):\n\t\"\"\"Gear shaving relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearShaving, description: str = \"剃齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"剃齿\", description=description)",
+
+    "GearHoningRelation": "class GearHoningRelation(Relation):\n\t\"\"\"Gear honing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearHoning, description: str = \"珩齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"珩齿\", description=description)",
+
+    "GearGrindingRelation": "class GearGrindingRelation(Relation):\n\t\"\"\"Gear grinding relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearGrinding, description: str = \"磨齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"磨齿\", description=description)",
+
+    "GearBroachingRelation": "class GearBroachingRelation(Relation):\n\t\"\"\"Gear broaching relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"拉齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"拉齿\", description=description)",
+
+    "GearLappingRelation": "class GearLappingRelation(Relation):\n\t\"\"\"Gear lapping relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearLapping, description: str = \"研齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"研齿\", description=description)",
+
+    "GearRollingRelation": "class GearRollingRelation(Relation):\n\t\"\"\"Gear rolling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearRolling, description: str = \"轧齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"轧齿\", description=description)",
+
+    "GearBurnishingRelation": "class GearBurnishingRelation(Relation):\n\t\"\"\"Gear burnishing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearBurnishing, description: str = \"挤齿关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"挤齿\", description=description)",
+
+    "GearPunchingRelation": "class GearPunchingRelation(Relation):\n\t\"\"\"Gear punching relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: GearPunching, description: str = \"冲齿轮关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"冲齿轮\", description=description)",
+
+    "LaserDrillingRelation": "class LaserDrillingRelation(Relation):\n\t\"\"\"Laser drilling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"激光打孔关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"激光打孔\", description=description)",
+
+    "EDMDrillingRelation": "class EDMDrillingRelation(Relation):\n\t\"\"\"EDM drilling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电火花打孔关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电火花打孔\", description=description)",
+
+    "UltrasonicDrillingRelation": "class UltrasonicDrillingRelation(Relation):\n\t\"\"\"Ultrasonic drilling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"超声波打孔关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"超声波打孔\", description=description)",
+
+    "ElectronBeamDrillingRelation": "class ElectronBeamDrillingRelation(Relation):\n\t\"\"\"Electron beam drilling relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"电子束打孔关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"电子束打孔\", description=description)",
+
+    "TurningOuterCircleRelation": "class TurningOuterCircleRelation(Relation):\n\t\"\"\"Turning outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"车外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"车外圆\", description=description)",
+
+    "GrindingOuterCircleRelation": "class GrindingOuterCircleRelation(Relation):\n\t\"\"\"Grinding outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"磨外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"磨外圆\", description=description)",
+
+    "HoningOuterCircleRelation": "class HoningOuterCircleRelation(Relation):\n\t\"\"\"Honing outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"珩磨外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"珩磨外圆\", description=description)",
+
+    "LappingOuterCircleRelation": "class LappingOuterCircleRelation(Relation):\n\t\"\"\"Lapping outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"研磨外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"研磨外圆\", description=description)",
+
+    "PolishingOuterCircleRelation": "class PolishingOuterCircleRelation(Relation):\n\t\"\"\"Polishing outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"抛光外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"抛光外圆\", description=description)",
+
+    "RollingOuterCircleRelation": "class RollingOuterCircleRelation(Relation):\n\t\"\"\"Rolling outer circle relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"滚压外圆关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"滚压外圆\", description=description)",
+
+    "TurningPlaneRelation": "class TurningPlaneRelation(Relation):\n\t\"\"\"Turning plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"车平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"车平面\", description=description)",
+
+    "MillingPlaneRelation": "class MillingPlaneRelation(Relation):\n\t\"\"\"Milling plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"铣平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"铣平面\", description=description)",
+
+    "PlaningPlaneRelation": "class PlaningPlaneRelation(Relation):\n\t\"\"\"Planing plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"刨平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刨平面\", description=description)",
+
+    "GrindingPlaneRelation": "class GrindingPlaneRelation(Relation):\n\t\"\"\"Grinding plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"磨平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"磨平面\", description=description)",
+
+    "HoningPlaneRelation": "class HoningPlaneRelation(Relation):\n\t\"\"\"Honing plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"珩平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"珩平面\", description=description)",
+
+    "ScrapingPlaneRelation": "class ScrapingPlaneRelation(Relation):\n\t\"\"\"Scraping plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"刮平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"刮平面\", description=description)",
+
+    "BroachingPlaneRelation": "class BroachingPlaneRelation(Relation):\n\t\"\"\"Broaching plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"拉平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"拉平面\", description=description)",
+
+    "FacingRelation": "class FacingRelation(Relation):\n\t\"\"\"Facing relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"端平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"端平面\", description=description)",
+
+    "LappingPlaneRelation": "class LappingPlaneRelation(Relation):\n\t\"\"\"Lapping plane relation.\"\"\"\n\tdef __init__(self, head_entity: Entity, tail_entity: Entity, description: str = \"研平面关系\"):\n\t\tsuper().__init__(head_entity, tail_entity, chinese_name=\"研平面\", description=description)"
+,
+    "Event": "class Event:\n\t\"\"\"Base class for manufacturing events.\"\"\"\n\tdef __init__(self, name: str, chinese_name: str = None, description: str = None, **kwargs):\n\t\tself.name = name\n\t\tself.chinese_name = chinese_name\n\t\tself.description = description\n\t\t# Dynamic event arguments\n\t\tself.event_args = kwargs\n\t\tfor key, value in kwargs.items():\n\t\t\tsetattr(self, key, value)",
+    
+    "MachiningEvent": "class MachiningEvent(Event):\n\t\"\"\"Base class for machining events.\"\"\"\n\tdef __init__(self, name: str, process: MachiningProcess, chinese_name: str = None, description: str = None, **kwargs):\n\t\tsuper().__init__(name, chinese_name, description, **kwargs)\n\t\tself.process = process",
+    
+    "ProcessStartEvent": "class ProcessStartEvent(MachiningEvent):\n\t\"\"\"Process start event.\"\"\"\n\tdef __init__(self, process: MachiningProcess, **kwargs):\n\t\tsuper().__init__(f\"{process.name}_start\", process, chinese_name=\"工序开始\", **kwargs)",
+    
+    "ProcessEndEvent": "class ProcessEndEvent(MachiningEvent):\n\t\"\"\"Process end event.\"\"\"\n\tdef __init__(self, process: MachiningProcess, **kwargs):\n\t\tsuper().__init__(f\"{process.name}_end\", process, chinese_name=\"工序结束\", **kwargs)",
+    
+    "ToolChangeEvent": "class ToolChangeEvent(Event):\n\t\"\"\"Tool change event.\"\"\"\n\tdef __init__(self, old_tool: CuttingTool, new_tool: CuttingTool, **kwargs):\n\t\tsuper().__init__(\"tool_change\", chinese_name=\"换刀\", **kwargs)\n\t\tself.old_tool = old_tool\n\t\tself.new_tool = new_tool",
+    
+    "QualityInspectionEvent": "class QualityInspectionEvent(Event):\n\t\"\"\"Quality inspection event.\"\"\"\n\tdef __init__(self, inspection: QualityInspection, result: str, **kwargs):\n\t\tsuper().__init__(\"quality_inspection\", chinese_name=\"质量检验事件\", **kwargs)\n\t\tself.inspection = inspection\n\t\tself.result = result",
+    
+    "ParameterAdjustmentEvent": "class ParameterAdjustmentEvent(Event):\n\t\"\"\"Parameter adjustment event.\"\"\"\n\tdef __init__(self, parameter: ProcessParameter, old_value: Union[str, float], new_value: Union[str, float], **kwargs):\n\t\tsuper().__init__(\"parameter_adjustment\", chinese_name=\"参数调整\", **kwargs)\n\t\tself.parameter = parameter\n\t\tself.old_value = old_value\n\t\tself.new_value = new_value",
+    
+    "MaintenanceEvent": "class MaintenanceEvent(Event):\n\t\"\"\"Equipment maintenance event.\"\"\"\n\tdef __init__(self, equipment: Equipment, maintenance_type: str, **kwargs):\n\t\tsuper().__init__(\"maintenance\", chinese_name=\"设备维护\", **kwargs)\n\t\tself.equipment = equipment\n\t\tself.maintenance_type = maintenance_type"
+}

@@ -1,0 +1,1473 @@
+@prefix : <http://www.mpkg.org/manufacturing#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.mpkg.org/manufacturing> .
+
+<http://www.mpkg.org/manufacturing> rdf:type owl:Ontology ;
+    owl:versionIRI <http://www.mpkg.org/manufacturing/2.0.0> ;
+    rdfs:label "Manufacturing Domain Ontology"@en ,
+               "制造领域本体"@zh ;
+    rdfs:comment "A comprehensive OWL ontology for manufacturing domain knowledge representation, covering 167 machining processes, equipment, materials, parameters, and quality aspects."@en ,
+                 "制造领域知识表示的综合OWL本体，涵盖167种机械加工工艺、设备、材料、参数和质量方面。"@zh ;
+    owl:versionInfo "2.0.0" ;
+    rdfs:seeAlso "schemas/example_schema.csv" .
+
+
+###  http://www.mpkg.org/manufacturing#hasMaterial
+:hasMaterial rdf:type owl:ObjectProperty ;
+    rdfs:domain :Part ;
+    rdfs:range :Material ;
+    rdfs:label "has material"@en ,
+               "材料"@zh ;
+    rdfs:comment "Specifies the material composition relationship between a manufactured part and its constituent material. This property establishes the fundamental material characteristics that determine the part's mechanical properties, processing requirements, and performance capabilities"@en ,
+                 "主体零件由指定的材料构成，定义了零件与其组成材料之间的基本关系，决定了零件的机械性能、加工要求和性能特征-如'钛合金零件-材料-T-6A1-4V'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasProcessingMethod
+:hasProcessingMethod rdf:type owl:ObjectProperty ;
+    rdfs:domain :Part ;
+    rdfs:range :Process ;
+    rdfs:label "has processing method"@en ,
+               "加工方法"@zh ;
+    rdfs:comment "Defines the manufacturing process method applied to a part, specifying the primary machining or forming technique used to achieve the desired geometry, dimensions, and surface characteristics"@en ,
+                 "主体零件通过指定的加工方法进行处理，定义了用于获得所需几何形状、尺寸和表面特性的主要加工或成形技术-如'精密轴套-加工方法-车削'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasProcessSequence
+:hasProcessSequence rdf:type owl:ObjectProperty ;
+    rdfs:domain :Part ;
+    rdfs:range :ProcessSequence ;
+    rdfs:label "has process sequence"@en ,
+               "加工工序"@zh ;
+    rdfs:comment "Defines the sequential order of manufacturing operations required to transform raw material into finished part, ensuring optimal material removal, dimensional accuracy, and surface quality through progressive refinement"@en ,
+                 "主体零件按照指定的工序顺序进行加工，通过渐进式精加工确保最佳的材料去除、尺寸精度和表面质量-如'粗车-半精车-精车-磨削'"@zh .
+
+###  http://www.mpkg.org/manufacturing#usesEquipment
+:usesEquipment rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :Equipment ;
+    rdfs:label "uses equipment"@en ,
+               "使用设备"@zh ;
+    rdfs:comment "Specifies the manufacturing equipment or machine tool utilized for a particular process, defining the technological capability and precision level available for the operation"@en ,
+                 "主体工艺使用指定的设备进行操作，定义了用于特定操作的技术能力和精度水平-如'粗车加工-使用设备-KBSZ车床840'"@zh .
+
+###  http://www.mpkg.org/manufacturing#usesTool
+:usesTool rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :Tool ;
+    rdfs:label "uses tool"@en ,
+               "使用刀具"@zh ;
+    rdfs:comment "Specifies the cutting tool or tooling system required for a machining process, including tool material, geometry, and coating that directly influence cutting performance, tool life, and surface finish quality"@en ,
+                 "主体实体（通常是一种加工工艺或加工方法）在执行过程中需要或推荐采用客体实体（特定类型的刀具或切削工具）作为其实施的必要工具。这种关系描述了加工工艺与其配套工具之间的功能性依赖关系，指明了特定工艺应当或可以搭配的专用工具"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasSpindleSpeed
+:hasSpindleSpeed rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :SpindleSpeed ;
+    rdfs:label "has spindle speed"@en ,
+               "主轴转速"@zh ;
+    rdfs:comment "Defines the rotational velocity of the machine spindle during machining operations, a critical parameter that directly affects cutting speed, surface finish quality, heat generation, and tool wear rate"@en ,
+                 "加工过程中主轴的旋转速度，是直接影响切削速度、表面粗糙度、热量产生和刀具磨损率的关键参数-如'粗车加工-主轴转速-800r/min'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasCuttingSpeed
+:hasCuttingSpeed rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :CuttingSpeed ;
+    rdfs:label "has cutting speed"@en ,
+               "切削速度"@zh ;
+    rdfs:comment "Represents the relative linear velocity between the cutting tool and workpiece surface, determining material removal rate, cutting temperature, and achievable surface finish quality in machining operations"@en ,
+                 "加工过程中工具相对于工件的线速度，决定了材料去除率、切削温度和可达到的表面粗糙度质量-如'车削-切削速度-120m/min'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasFeedRate
+:hasFeedRate rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :FeedRate ;
+    rdfs:label "has feed rate"@en ,
+               "进给量"@zh ;
+    rdfs:comment "Specifies the tool advancement distance per spindle revolution or per unit time, controlling chip thickness, surface texture, and machining productivity"@en ,
+                 "加工过程中工具每转进给的距离，控制切屑厚度、表面纹理和加工生产率-如'车削加工-进给量-0.1mm/r'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasCoolingMethod
+:hasCoolingMethod rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :CoolingMethod ;
+    rdfs:label "has cooling method"@en ,
+               "冷却方式"@zh ;
+    rdfs:comment "Defines the cooling and lubrication method applied during machining to control heat generation, reduce tool wear, improve surface finish, and facilitate chip evacuation"@en ,
+                 "主体工艺采用指定的冷却方式进行操作，用于控制热量产生、减少刀具磨损、改善表面粗糙度并促进切屑排出-如'车削加工-冷却方式-切削液'"@zh .
+
+###  http://www.mpkg.org/manufacturing#operatedBy
+:operatedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Equipment ;
+    rdfs:range :Operator ;
+    rdfs:label "operated by"@en ,
+               "操作人员"@zh ;
+    rdfs:comment "Identifies the personnel responsible for operating specific equipment or executing manufacturing processes, ensuring proper skill level, safety compliance, and quality accountability"@en ,
+                 "指定人员负责操作特定设备或执行特定工艺，确保适当的技能水平、安全合规性和质量责任-如'数控加工中心XH714-操作人员-刘思嫄'"@zh .
+
+###  http://www.mpkg.org/manufacturing#locatedIn
+:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Equipment ;
+    rdfs:range :Location ;
+    rdfs:label "located in"@en ,
+               "所在位置"@zh ;
+    rdfs:comment "Specifies the physical location or workshop area where equipment is installed or manufacturing processes are conducted"@en ,
+                 "设备的物理位置或所属区域，指明设备安装或制造过程进行的位置-如'数控加工中心XH714-所在位置-C车间'"@zh .
+
+###  http://www.mpkg.org/manufacturing#belongsToProcess
+:belongsToProcess rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf rdfs:subClassOf ;
+    rdfs:label "belongs to process"@en ,
+               "属于（工艺）"@zh ;
+    rdfs:comment "Establishes a hierarchical relationship indicating that the subject entity is a specific instance, subtype, or specialized method of the broader process category represented by the object entity"@en ,
+                 "主体实体是客体实体所代表的工艺类别或加工方式的一个具体实例、子类型或特定技术方法。这种关系特指在制造、加工领域中的分类关系，其中主体实体是客体实体这一更广泛工艺类别的一种具体实现形式"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasSurfaceRoughness
+:hasSurfaceRoughness rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:string ;
+    rdfs:label "has surface roughness"@en ,
+               "表面粗糙度要求"@zh ;
+    rdfs:comment "Defines the surface finish quality requirement specified for a part, measured by the average roughness parameter Ra, directly affecting part functionality, wear resistance, and appearance"@en ,
+                 "主体零件需要达到指定的表面质量要求，通过平均粗糙度参数Ra测量，直接影响零件功能、耐磨性和外观-如'钛合金零件-表面粗糙度要求-Ra1.6'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasCuttingDepth
+:hasCuttingDepth rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Process ;
+    rdfs:range xsd:float ;
+    rdfs:label "has cutting depth"@en ,
+               "切削深度"@zh ;
+    rdfs:comment "Specifies the radial depth of material removed in a single cutting pass, a critical parameter balancing material removal rate, cutting forces, tool life, and dimensional accuracy"@en ,
+                 "主体工艺的切削深度为指定的数值范围，是平衡材料去除率、切削力、刀具寿命和尺寸精度的关键参数-如'粗车加工-切削深度-1mm'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasAllowance
+:hasAllowance rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Process ;
+    rdfs:range xsd:float ;
+    rdfs:label "has machining allowance"@en ,
+               "加工余量"@zh ;
+    rdfs:comment "Defines the excess material intentionally left on a workpiece after current operation to be removed in subsequent finishing operations, ensuring dimensional accuracy and surface quality"@en ,
+                 "加工过程中为下道工序预留的材料量，确保后续精加工中的尺寸精度和表面质量-如'粗车加工-加工余量-1.6mm'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasHeatTreatmentMethod
+:hasHeatTreatmentMethod rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:string ;
+    rdfs:label "has heat treatment method"@en ,
+               "热处理方式"@zh ;
+    rdfs:comment "Specifies the heat treatment process applied to alter the microstructure and mechanical properties of a part, including quenching, tempering, annealing, or normalizing operations"@en ,
+                 "主体零件经过指定的热处理方式进行处理，包括淬火、回火、退火或正火操作，以改变微观组织和机械性能-如'主轴-热处理方式-调质处理'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasHardnessRequirement
+:hasHardnessRequirement rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:string ;
+    rdfs:label "has hardness requirement"@en ,
+               "硬度要求"@zh ;
+    rdfs:comment "Defines the material hardness specification required after heat treatment or surface treatment, measured using Rockwell (HRC), Brinell (HB), or Vickers (HV) scales"@en ,
+                 "主体零件需要达到指定的硬度标准，使用洛氏(HRC)、布氏(HB)或维氏(HV)硬度计测量-如'调质处理-硬度要求-HRC30-35'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasTolerance
+:hasTolerance rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:string ;
+    rdfs:label "has tolerance"@en ,
+               "目标公差"@zh ;
+    rdfs:comment "Specifies the dimensional tolerance requirements for a part feature, defining acceptable deviation limits from nominal dimensions according to ISO tolerance grades"@en ,
+                 "主体零件需要达到的尺寸精度要求，根据ISO公差等级定义从名义尺寸的可接受偏差限制-如'主轴-目标公差-φ50h7'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasToolPositions
+:hasToolPositions rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Equipment ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has tool positions"@en ,
+               "刀位数量"@zh ;
+    rdfs:comment "Indicates the tool magazine capacity of a machine tool, specifying the maximum number of cutting tools that can be stored for automatic tool changing operations"@en ,
+                 "设备可容纳的刀具数量，指明用于自动换刀操作的最大切削工具存储容量-如'数控加工中心XH714-刀位数量-16'"@zh .
+
+###  http://www.mpkg.org/manufacturing#suitableFor
+:suitableFor rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Equipment ;
+    rdfs:range xsd:string ;
+    rdfs:label "suitable for"@en ,
+               "适用于"@zh ;
+    rdfs:comment "Defines the specific applications, workpiece types, or machining operations for which equipment or processes are optimally designed and configured"@en ,
+                 "设备或工艺适合的加工对象或应用场景，指明优化设计和配置的特定应用-如'数控加工中心XH714-适用于-型腔和表面加工'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasMaxPrecision
+:hasMaxPrecision rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Equipment ;
+    rdfs:range xsd:string ;
+    rdfs:label "has maximum precision"@en ,
+               "最高精度"@zh ;
+    rdfs:comment "Indicates the highest machining precision grade achievable by equipment, specified according to ISO IT grades (IT01-IT18), with lower numbers indicating higher precision"@en ,
+                 "设备能够达到的最高加工精度等级，根据ISO IT等级(IT01-IT18)指定，数字越小精度越高-如'数控加工中心XH714-最高精度-IT4等级'"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasProcessDimension
+:hasProcessDimension rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Process ;
+    rdfs:range xsd:string ;
+    rdfs:label "has process dimension"@en ,
+               "工序尺寸"@zh ;
+    rdfs:comment "Specifies the target dimension to be achieved in a particular manufacturing operation, including nominal size and tolerance requirements"@en ,
+                 "某工序加工应达到的尺寸，包括名义尺寸和公差要求"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasTotalAllowance
+:hasTotalAllowance rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:float ;
+    rdfs:label "has total allowance"@en ,
+               "加工总余量"@zh ;
+    rdfs:comment "Represents the total material to be removed from blank to finished part, calculated as the difference between blank dimensions and final design dimensions"@en ,
+                 "毛坯尺寸与零件图的设计尺寸之差，代表从毛坯到成品零件需要去除的总材料量"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasSequenceAllowance
+:hasSequenceAllowance rdf:type owl:DatatypeProperty ;
+    rdfs:domain :ProcessSequence ;
+    rdfs:range xsd:float ;
+    rdfs:label "has sequence allowance"@en ,
+               "工序余量"@zh ;
+    rdfs:comment "Defines the material allowance between adjacent processes in a manufacturing sequence, ensuring adequate material for each operation"@en ,
+                 "相邻两工序的工艺尺寸之差，确保每个操作有足够的材料量"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasCarbonPotential
+:hasCarbonPotential rdf:type owl:DatatypeProperty ;
+    rdfs:domain :HeatTreatment ;
+    rdfs:range xsd:float ;
+    rdfs:label "has carbon potential"@en ,
+               "碳势"@zh ;
+    rdfs:comment "Parameter characterizing the carbon transfer capability of a carburizing atmosphere at a specific temperature, determining the equilibrium carbon content in steel"@en ,
+                 "表征含碳气氛在一定温度下改变钢件表面含碳量能力的参数，决定钢中的平衡碳含量"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasCarburizingDepth
+:hasCarburizingDepth rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:float ;
+    rdfs:label "has carburizing depth"@en ,
+               "渗碳层深度"@zh ;
+    rdfs:comment "Specifies the case depth achieved through carburizing treatment, measured as the perpendicular distance from the surface to a specified carbon concentration level"@en ,
+                 "由渗碳工件表面向内至规定碳浓度处的垂直距离，表示渗碳处理达到的渗层深度"@zh .
+
+###  http://www.mpkg.org/manufacturing#hasNitridingDepth
+:hasNitridingDepth rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Part ;
+    rdfs:range xsd:float ;
+    rdfs:label "has nitriding depth"@en ,
+               "渗氮层深度"@zh ;
+    rdfs:comment "Defines the depth of the nitrided case layer, measured perpendicular from the surface to the point where a distinct boundary with the base structure exists"@en ,
+                 "从渗氮件表面沿垂直方向测至与基体组织有明显的分界处为止的距离，表示渗氮处理的渗层深度"@zh .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.mpkg.org/manufacturing#Entity
+:Entity rdf:type owl:Class ;
+    rdfs:label "Entity"@en ,
+               "实体"@zh ;
+    rdfs:comment "The fundamental abstract class representing all physical and conceptual objects in the manufacturing domain ontology"@en ,
+                 "制造领域本体中所有物理和概念对象的基础抽象类"@zh .
+
+###  http://www.mpkg.org/manufacturing#Process
+:Process rdf:type owl:Class ;
+    rdfs:label "Process"@en ,
+               "工艺"@zh ;
+    rdfs:comment "Represents all manufacturing processes and operations that transform raw materials into finished products through various physical, chemical, or mechanical means"@en ,
+                 "代表通过各种物理、化学或机械手段将原材料转化为成品的所有制造工艺和操作"@zh .
+
+###  http://www.mpkg.org/manufacturing#Parameter
+:Parameter rdf:type owl:Class ;
+    rdfs:label "Parameter"@en ,
+               "参数"@zh ;
+    rdfs:comment "Encompasses all quantitative and qualitative specifications that control and define manufacturing processes, including speeds, feeds, temperatures, and tolerances"@en ,
+                 "涵盖控制和定义制造过程的所有定量和定性规格，包括速度、进给、温度和公差"@zh .
+
+###  http://www.mpkg.org/manufacturing#Material
+:Material rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Material"@en ,
+               "材料"@zh ;
+    rdfs:comment "Represents all engineering materials used in manufacturing, including metals, alloys, polymers, ceramics, and composites, each with specific mechanical, physical, and chemical properties"@en ,
+                 "代表制造中使用的所有工程材料，包括金属、合金、聚合物、陶瓷和复合材料，每种都具有特定的机械、物理和化学性能"@zh .
+
+###  http://www.mpkg.org/manufacturing#Equipment
+:Equipment rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Equipment"@en ,
+               "设备"@zh ;
+    rdfs:comment "Encompasses all manufacturing equipment and machine tools used for material processing, including lathes, mills, grinders, and machining centers"@en ,
+                 "涵盖用于材料加工的所有制造设备和机床，包括车床、铣床、磨床和加工中心"@zh .
+
+###  http://www.mpkg.org/manufacturing#Tool
+:Tool rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Tool"@en ,
+               "刀具"@zh ;
+    rdfs:comment "Represents cutting tools and instruments used for material removal operations, including their geometry, material composition, coatings, and wear characteristics"@en ,
+                 "代表用于材料去除操作的切削刀具和工具，包括其几何形状、材料成分、涂层和磨损特性"@zh .
+
+###  http://www.mpkg.org/manufacturing#Part
+:Part rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Part"@en ,
+               "零件"@zh ;
+    rdfs:comment "Represents manufactured parts and components at various stages of production, from raw blanks to finished assemblies"@en ,
+                 "代表处于生产各个阶段的制造零件和组件，从原始毛坯到成品装配"@zh .
+
+###  http://www.mpkg.org/manufacturing#Operator
+:Operator rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Operator"@en ,
+               "操作人员"@zh ;
+    rdfs:comment "Represents personnel responsible for operating equipment and executing manufacturing processes, including their skills, certifications, and responsibilities"@en ,
+                 "代表负责操作设备和执行制造过程的人员，包括其技能、认证和职责"@zh .
+
+###  http://www.mpkg.org/manufacturing#Location
+:Location rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Location"@en ,
+               "位置"@zh ;
+    rdfs:comment "Represents physical locations within manufacturing facilities, including workshops, production lines, storage areas, and quality control zones"@en ,
+                 "代表制造设施内的物理位置，包括车间、生产线、存储区和质量控制区"@zh .
+
+###  http://www.mpkg.org/manufacturing#MechanicalMachining
+:MechanicalMachining rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Mechanical Machining"@en ,
+               "机械加工"@zh ;
+    rdfs:comment "Encompasses all machining processes that use mechanical force to shape workpieces through material removal or deformation"@en ,
+                 "利用机械力对各种工件进行加工的方法，通过材料去除或变形来塑造工件形状"@zh .
+
+###  http://www.mpkg.org/manufacturing#PressureForming
+:PressureForming rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Pressure Forming"@en ,
+               "压力加工"@zh ;
+    rdfs:comment "Forming processes that use pressure to induce plastic deformation or separation in blank materials without removing material as chips"@en ,
+                 "使毛坯材料产生塑性变形或分离而无切削的加工方法，通过压力引起材料变形而不产生切屑"@zh .
+
+###  http://www.mpkg.org/manufacturing#CuttingMachining
+:CuttingMachining rdf:type owl:Class ;
+    rdfs:subClassOf :MechanicalMachining ;
+    rdfs:label "Cutting Machining"@en ,
+               "切削加工"@zh ;
+    rdfs:comment "Material removal processes that use cutting tools to remove excess material from workpieces in the form of chips to achieve desired shape and dimensions"@en ,
+                 "利用切削工具从工件上切除多余材料的加工方法，以切屑形式去除材料以获得所需形状和尺寸"@zh .
+
+###  http://www.mpkg.org/manufacturing#Turning
+:Turning rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Turning"@en ,
+               "车削"@zh ;
+    rdfs:comment "A fundamental cutting process where the workpiece rotates as the primary motion while the cutting tool performs linear feed motion to remove material"@en ,
+                 "工件旋转作主运动，车刀作进给运动的切削加工方法，是基本的圆柱面加工工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#Milling
+:Milling rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Milling"@en ,
+               "铣削"@zh ;
+    rdfs:comment "A versatile cutting process where a rotating multi-tooth cutter removes material while either the workpiece or cutter performs feed motion"@en ,
+                 "铣刀旋转作主运动，工件或铣刀作进给运动的切削加工方法，适用于平面、沟槽和复杂曲面加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#Planing
+:Planing rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Planing"@en ,
+               "刨削"@zh ;
+    rdfs:comment "A linear cutting process using a single-point planing tool performing horizontal reciprocating motion relative to the workpiece"@en ,
+                 "用刨刀对工件作水平相对直线往复运动的切削加工方法，适用于大型平面加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#Drilling
+:Drilling rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Drilling"@en ,
+               "钻削"@zh ;
+    rdfs:comment "Hole-making process using rotating drill bits or reamers with axial feed to create or enlarge cylindrical holes in workpieces"@en ,
+                 "用钻头或扩孔钻在工件上加工孔的方法，通过旋转和轴向进给创建或扩大圆柱孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#Reaming
+:Reaming rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Reaming"@en ,
+               "铰削"@zh ;
+    rdfs:comment "Precision hole finishing process using multi-fluted reamers to remove minimal material from pre-drilled holes, achieving high dimensional accuracy and surface finish"@en ,
+                 "用铰刀从工件孔壁上切除微量金属层，以提高其尺寸精度和降低表面粗糙度的精密孔加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Boring
+:Boring rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Boring"@en ,
+               "镗削"@zh ;
+    rdfs:comment "Internal machining process where a rotating boring tool or the workpiece rotates while feed motion enlarges or finishes existing holes"@en ,
+                 "镗刀旋转作主运动，工件或镗刀作进给运动的切削加工方法，用于扩大或精加工现有孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#Grinding
+:Grinding rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Grinding"@en ,
+               "磨削"@zh ;
+    rdfs:comment "Abrasive machining process using grinding wheels rotating at high speeds to achieve precise dimensions and superior surface finish through controlled material removal"@en ,
+                 "用磨具以较高的线速度对工件表面进行加工的方法，通过控制材料去除获得精确尺寸和优越表面粗糙度"@zh .
+
+###  http://www.mpkg.org/manufacturing#Honing
+:Honing rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Honing"@en ,
+               "珩磨"@zh ;
+    rdfs:comment "Precision internal surface finishing process using honing stones with combined rotary and reciprocating motion under controlled pressure to achieve excellent geometry and surface texture"@en ,
+                 "利用珩磨工具对工件表面施加一定压力，珩磨工具同时作相对旋转和直线往复运动，切除工件上极小余量的精加工方法，获得优异几何形状和表面纹理"@zh .
+
+###  http://www.mpkg.org/manufacturing#Counterboring
+:Counterboring rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Counterboring"@en ,
+               "饱削"@zh ;
+    rdfs:comment "Flattening hole end face or cutting counterbore"@en ,
+                 "用饱钻或饱刀刮平孔的端面或切出沉孔的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Shaping
+:Shaping rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Shaping"@en ,
+               "插削"@zh ;
+    rdfs:comment "Vertical reciprocating cutting motion"@en ,
+                 "用插刀对工件作垂直相对直线往复运动的切削加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Broaching
+:Broaching rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Broaching"@en ,
+               "拉削"@zh ;
+    rdfs:comment "Machining internal and external surfaces with broach"@en ,
+                 "用拉刀加工工件内、外表面的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Pushing
+:Pushing rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Pushing"@en ,
+               "推削"@zh ;
+    rdfs:comment "Machining internal surfaces with push broach"@en ,
+                 "用推刀加工工件内表面的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Shoveling
+:Shoveling rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Shoveling"@en ,
+               "铲削"@zh ;
+    rdfs:comment "Cutting tooth backs to obtain relief angle"@en ,
+                 "切出有关带齿工具的切削齿背以获得后面和后角的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Scraping
+:Scraping rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Scraping"@en ,
+               "刮削"@zh ;
+    rdfs:comment "Removing thin layer with scraper"@en ,
+                 "用刮刀刮除工件表面薄层的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#SuperFinishing
+:SuperFinishing rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Super Finishing"@en ,
+               "超精加工"@zh ;
+    rdfs:comment "Ultra-precision finishing with fine abrasives"@en ,
+                 "用细粒度的磨具对工件施加很小的压力.并作往复振动和慢速纵向进给运动.以实现微量磨削的一种光整加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Polishing
+:Polishing rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Polishing"@en ,
+               "抛光"@zh ;
+    rdfs:comment "Surface finishing for smooth, bright surfaces"@en ,
+                 "利用机械、化学或电化学的作用、使工件获得光亮、平整表面的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Casting
+:Casting rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Casting"@en ,
+               "铸造"@zh ;
+    rdfs:comment "Metal forming process where molten metal is poured, injected, or drawn into mold cavities and solidified to produce parts with complex geometries"@en ,
+                 "将熔融金属浇注、压射或吸入铸型型腔中，待其凝固后而得到一定形状和性能铸件的方法，用于生产复杂几何形状零件"@zh .
+
+###  http://www.mpkg.org/manufacturing#Forging
+:Forging rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Forging"@en ,
+               "锻造"@zh ;
+    rdfs:comment "Shaping metal through plastic deformation"@en ,
+                 "在加工设备及工(模)具的作用下.使金属坯料或铸锭产生局部或全部的塑性变形.以获得一定几何形状、尺寸和质量的锻件的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#HeatTreatment
+:HeatTreatment rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Heat Treatment"@en ,
+               "热处理"@zh ;
+    rdfs:comment "Controlled heating, holding, and cooling process applied to solid metals or alloys to modify microstructure and achieve desired mechanical, physical, or chemical properties"@en ,
+                 "将固态金属或合金在一定介质中加热、保温和冷却，以改变其整体或表面组织，从而获得所需要性能的加工方法，通过控制微观组织获得期望的机械、物理或化学性能"@zh .
+
+###  http://www.mpkg.org/manufacturing#SurfaceTreatment
+:SurfaceTreatment rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Surface Treatment"@en ,
+               "表面处理"@zh ;
+    rdfs:comment "Modifying surface properties"@en ,
+                 "改变工件表面层的机械性能、物理性能或化学性能的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#SurfaceCoating
+:SurfaceCoating rdf:type owl:Class ;
+    rdfs:subClassOf :SurfaceTreatment ;
+    rdfs:label "Surface Coating"@en ,
+               "表面涂覆"@zh ;
+    rdfs:comment "Forming coating on workpiece surface"@en ,
+                 "用规定的异己材料.在工件表面上形成涂层的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Extruding
+:Extruding rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Extruding"@en ,
+               "挤压"@zh ;
+    rdfs:comment "Forming by applying pressure with extrusion tools"@en ,
+                 "用挤压工具以一定的压力作用于金属坯料或工件、使其产生塑性变形、从而将坯料成形或挤光工件表面的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Rolling
+:Rolling rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Rolling"@en ,
+               "滚压"@zh ;
+    rdfs:comment "Forming by applying pressure with rolling tools"@en ,
+                 "用滚压工具对金属坯料或工件施加压力、使其产生塑性变形、从而将坯料成形或滚光工件表面的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ShotPeening
+:ShotPeening rdf:type owl:Class ;
+    rdfs:subClassOf :SurfaceTreatment ;
+    rdfs:label "Shot Peening"@en ,
+               "喷丸"@zh ;
+    rdfs:comment "Surface strengthening with high-speed pellets"@en ,
+                 "用小直径的弹丸、在压缩空气或离心力的作用下、高速喷射工件、进行表面强化和清理的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#SandBlasting
+:SandBlasting rdf:type owl:Class ;
+    rdfs:subClassOf :SurfaceTreatment ;
+    rdfs:label "Sand Blasting"@en ,
+               "喷砂"@zh ;
+    rdfs:comment "Surface cleaning with high-speed sand particles"@en ,
+                 "用高速运行的砂粒喷射工件、进行表面清理、除锈或使其表面粗化的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ElectricalMachining
+:ElectricalMachining rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Electrical Machining"@en ,
+               "电加工"@zh ;
+    rdfs:comment "Non-traditional machining processes using electrical energy for material removal, suitable for hard materials and complex geometries"@en ,
+                 "直接利用电能对工件进行加工的方法，适用于硬质材料和复杂几何形状加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#EDM
+:EDM rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Electrical Discharge Machining"@en ,
+               "电火花加工"@zh ;
+    rdfs:comment "Machining by electrical discharge erosion"@en ,
+                 "在一定的介质中、通过工具电极之间的脉冲放电的电蚀作用、对工件进行加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ECM
+:ECM rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Electrochemical Machining"@en ,
+               "电解加工"@zh ;
+    rdfs:comment "Machining by anodic dissolution"@en ,
+                 "利用金属工件在电解液中所产生的阳极溶解作用、而进行加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#EBM
+:EBM rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Electron Beam Machining"@en ,
+               "电子束加工"@zh ;
+    rdfs:comment "Machining with high-energy electron beam"@en ,
+                 "在真空条件下、利用电子枪中产生的电子经加速、聚焦，形成高能量大密度的细电子束以轰击工件被加工部位，使该部位的材料熔化和蒸发，从而进行加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#IBM
+:IBM rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Ion Beam Machining"@en ,
+               "离子束加工"@zh ;
+    rdfs:comment "Machining with high-energy ion beam"@en ,
+                 "利用离子源产生的离子、在真空中经加速聚焦而形成高速高能的束状离子流、从而对工件进行加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#PlasmaMachining
+:PlasmaMachining rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Plasma Machining"@en ,
+               "等离子加工"@zh ;
+    rdfs:comment "Machining with high-temperature plasma"@en ,
+                 "利用高温高速的等离子流使工件的局部金属熔化和蒸发、从而对工件进行加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Electroforming
+:Electroforming rdf:type owl:Class ;
+    rdfs:subClassOf :ElectricalMachining ;
+    rdfs:label "Electroforming"@en ,
+               "电铸"@zh ;
+    rdfs:comment "Replicating metal parts by electrodeposition"@en ,
+                 "利用金属电解沉积、复制金属制品的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Carburizing
+:Carburizing rdf:type owl:Class ;
+    rdfs:subClassOf :HeatTreatment ;
+    rdfs:label "Carburizing"@en ,
+               "渗碳"@zh ;
+    rdfs:comment "Chemical thermochemical treatment process that increases surface carbon content and creates a hardened case layer while maintaining a tough core in steel components"@en ,
+                 "向钢件表面层渗入碳原子的化学热处理工艺，增加表面碳含量并创建硬化外层，同时保持韧性内核"@zh .
+
+###  http://www.mpkg.org/manufacturing#SolidCarburizing
+:SolidCarburizing rdf:type owl:Class ;
+    rdfs:subClassOf :Carburizing ;
+    rdfs:label "Solid Carburizing"@en ,
+               "固体渗碳"@zh ;
+    rdfs:comment "Carburizing in sealed box with granular carburizing agent"@en ,
+                 "将工件放在填充粒状渗碳剂的密封箱中进行渗碳的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#LiquidCarburizing
+:LiquidCarburizing rdf:type owl:Class ;
+    rdfs:subClassOf :Carburizing ;
+    rdfs:label "Liquid Carburizing"@en ,
+               "盐浴渗碳"@zh ;
+    rdfs:comment "Carburizing in molten salt bath"@en ,
+                 "在熔融盐浴渗碳剂中进行渗碳的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#GasCarburizing
+:GasCarburizing rdf:type owl:Class ;
+    rdfs:subClassOf :Carburizing ;
+    rdfs:label "Gas Carburizing"@en ,
+               "气体渗碳"@zh ;
+    rdfs:comment "Carburizing in gas carburizing agent"@en ,
+                 "工件在气体渗碳剂中进行渗碳的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#Nitriding
+:Nitriding rdf:type owl:Class ;
+    rdfs:subClassOf :HeatTreatment ;
+    rdfs:label "Nitriding"@en ,
+               "渗氮"@zh ;
+    rdfs:comment "Surface hardening process that introduces nitrogen atoms into steel surfaces at specific temperatures, forming hard nitride compounds for improved wear resistance"@en ,
+                 "在一定温度下使活性氮原子渗入工件表面的化学热处理工艺，形成硬质氮化物以提高耐磨性"@zh .
+
+###  http://www.mpkg.org/manufacturing#LiquidNitriding
+:LiquidNitriding rdf:type owl:Class ;
+    rdfs:subClassOf :Nitriding ;
+    rdfs:label "Liquid Nitriding"@en ,
+               "液体渗氮"@zh ;
+    rdfs:comment "Nitriding in molten salt"@en ,
+                 "在熔盐渗氮剂中进行渗氮的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#GasNitriding
+:GasNitriding rdf:type owl:Class ;
+    rdfs:subClassOf :Nitriding ;
+    rdfs:label "Gas Nitriding"@en ,
+               "气体渗氮"@zh ;
+    rdfs:comment "Nitriding in gas medium"@en ,
+                 "在气体介质中进行渗氮的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#IonNitriding
+:IonNitriding rdf:type owl:Class ;
+    rdfs:subClassOf :Nitriding ;
+    rdfs:label "Ion Nitriding"@en ,
+               "离子渗氮"@zh ;
+    rdfs:comment "Nitriding using glow discharge"@en ,
+                 "在低于一个大气压的渗氮气氛中，利用工件(阴极)和阳极之间产生的辉光放电进行渗氮的工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#SpindleSpeed
+:SpindleSpeed rdf:type owl:Class ;
+    rdfs:subClassOf :Parameter ;
+    rdfs:label "Spindle Speed"@en ,
+               "主轴转速"@zh ;
+    rdfs:comment "Rotational speed of spindle in rpm"@en ,
+                 "主轴旋转速度，单位为转/分钟"@zh .
+
+###  http://www.mpkg.org/manufacturing#CuttingSpeed
+:CuttingSpeed rdf:type owl:Class ;
+    rdfs:subClassOf :Parameter ;
+    rdfs:label "Cutting Speed"@en ,
+               "切削速度"@zh ;
+    rdfs:comment "Linear speed of cutting tool"@en ,
+                 "切削工具的线速度，单位为米/分钟"@zh .
+
+###  http://www.mpkg.org/manufacturing#FeedRate
+:FeedRate rdf:type owl:Class ;
+    rdfs:subClassOf :Parameter ;
+    rdfs:label "Feed Rate"@en ,
+               "进给量"@zh ;
+    rdfs:comment "Tool advance per revolution"@en ,
+                 "每转进给距离，单位为毫米/转"@zh .
+
+###  http://www.mpkg.org/manufacturing#CoolingMethod
+:CoolingMethod rdf:type owl:Class ;
+    rdfs:subClassOf :Parameter ;
+    rdfs:label "Cooling Method"@en ,
+               "冷却方式"@zh ;
+    rdfs:comment "Method of cooling during processing"@en ,
+                 "加工过程中的冷却方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Lathe
+:Lathe rdf:type owl:Class ;
+    rdfs:subClassOf :Equipment ;
+    rdfs:label "Lathe"@en ,
+               "车床"@zh ;
+    rdfs:comment "Machine tool for turning operations"@en ,
+                 "用于车削加工的机床"@zh .
+
+###  http://www.mpkg.org/manufacturing#MillingMachine
+:MillingMachine rdf:type owl:Class ;
+    rdfs:subClassOf :Equipment ;
+    rdfs:label "Milling Machine"@en ,
+               "铣床"@zh ;
+    rdfs:comment "Machine tool for milling operations"@en ,
+                 "用于铣削加工的机床"@zh .
+
+###  http://www.mpkg.org/manufacturing#GrindingMachine
+:GrindingMachine rdf:type owl:Class ;
+    rdfs:subClassOf :Equipment ;
+    rdfs:label "Grinding Machine"@en ,
+               "磨床"@zh ;
+    rdfs:comment "Machine tool for grinding operations"@en ,
+                 "用于磨削加工的机床"@zh .
+
+###  http://www.mpkg.org/manufacturing#CNCMachiningCenter
+:CNCMachiningCenter rdf:type owl:Class ;
+    rdfs:subClassOf :Equipment ;
+    rdfs:label "CNC Machining Center"@en ,
+               "数控加工中心"@zh ;
+    rdfs:comment "Computer-controlled multi-axis machining center"@en ,
+                 "计算机控制的多轴加工中心"@zh .
+
+###  http://www.mpkg.org/manufacturing#CarbideTool
+:CarbideTool rdf:type owl:Class ;
+    rdfs:subClassOf :Tool ;
+    rdfs:label "Carbide Tool"@en ,
+               "硬质合金刀具"@zh ;
+    rdfs:comment "Cutting tool made of cemented carbide"@en ,
+                 "由硬质合金制成的切削刀具"@zh .
+
+###  http://www.mpkg.org/manufacturing#CBNTool
+:CBNTool rdf:type owl:Class ;
+    rdfs:subClassOf :Tool ;
+    rdfs:label "CBN Tool"@en ,
+               "CBN刀具"@zh ;
+    rdfs:comment "Cubic boron nitride cutting tool"@en ,
+                 "立方氮化硼切削刀具"@zh .
+
+###  http://www.mpkg.org/manufacturing#TitaniumAlloy
+:TitaniumAlloy rdf:type owl:Class ;
+    rdfs:subClassOf :Material ;
+    rdfs:label "Titanium Alloy"@en ,
+               "钛合金"@zh ;
+    rdfs:comment "Titanium-based alloy materials with excellent strength-to-weight ratio, corrosion resistance, and high-temperature performance for aerospace and medical applications"@en ,
+                 "钛基合金材料，具有优异的强度重量比、耐腐蚀性和高温性能，用于航空航天和医疗应用"@zh .
+
+###  http://www.mpkg.org/manufacturing#Steel
+:Steel rdf:type owl:Class ;
+    rdfs:subClassOf :Material ;
+    rdfs:label "Steel"@en ,
+               "钢"@zh ;
+    rdfs:comment "Iron-carbon alloy materials with carbon content between 0.02% and 2.11%, providing the foundation for most structural and mechanical applications"@en ,
+                 "铁碳合金材料，碳含量在0.02%到2.11%之间，为大多数结构和机械应用提供基础"@zh .
+
+###  http://www.mpkg.org/manufacturing#StainlessSteel
+:StainlessSteel rdf:type owl:Class ;
+    rdfs:subClassOf :Steel ;
+    rdfs:label "Stainless Steel"@en ,
+               "不锈钢"@zh ;
+    rdfs:comment "Corrosion-resistant steel alloy containing minimum 10.5% chromium, forming a passive oxide layer for protection against oxidation and corrosion"@en ,
+                 "耐腐蚀钢合金，含有至少10.5%的铬，形成钝化保护层以防止氧化和腐蚀"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessSequence
+:ProcessSequence rdf:type owl:Class ;
+    rdfs:label "Process Sequence"@en ,
+               "工序序列"@zh ;
+    rdfs:comment "Ordered sequence of manufacturing processes"@en ,
+                 "制造工序的有序序列"@zh .
+
+###  http://www.mpkg.org/manufacturing#RoughTurning
+:RoughTurning rdf:type owl:Class ;
+    rdfs:subClassOf :Turning ;
+    rdfs:label "Rough Turning"@en ,
+               "粗车"@zh ;
+    rdfs:comment "Initial turning with large material removal"@en ,
+                 "大余量去除的初始车削"@zh .
+
+###  http://www.mpkg.org/manufacturing#SemiFinishTurning
+:SemiFinishTurning rdf:type owl:Class ;
+    rdfs:subClassOf :Turning ;
+    rdfs:label "Semi-Finish Turning"@en ,
+               "半精车"@zh ;
+    rdfs:comment "Intermediate turning operation"@en ,
+                 "中间车削操作"@zh .
+
+###  http://www.mpkg.org/manufacturing#FinishTurning
+:FinishTurning rdf:type owl:Class ;
+    rdfs:subClassOf :Turning ;
+    rdfs:label "Finish Turning"@en ,
+               "精车"@zh ;
+    rdfs:comment "Final turning for precision and surface quality"@en ,
+                 "用于精度和表面质量的最终车削"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalTurning
+:ExternalTurning rdf:type owl:Class ;
+    rdfs:subClassOf :Turning ;
+    rdfs:label "External Turning"@en ,
+               "车外圆"@zh ;
+    rdfs:comment "Turning external cylindrical surfaces"@en ,
+                 "车削外圆柱面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalGrinding
+:ExternalGrinding rdf:type owl:Class ;
+    rdfs:subClassOf :Grinding ;
+    rdfs:label "External Grinding"@en ,
+               "磨外圆"@zh ;
+    rdfs:comment "Grinding external cylindrical surfaces"@en ,
+                 "磨削外圆柱面"@zh .
+
+###  http://www.mpkg.org/manufacturing#FaceMilling
+:FaceMilling rdf:type owl:Class ;
+    rdfs:subClassOf :Milling ;
+    rdfs:label "Face Milling"@en ,
+               "铣平面"@zh ;
+    rdfs:comment "Milling flat surfaces"@en ,
+                 "铣削平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ColdWorking
+:ColdWorking rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Cold Working"@en ,
+               "冷作"@zh ;
+    rdfs:comment "Forming sheet metal without changing cross-section"@en ,
+                 "在基本不改变材料断面特征的情况下、将金属板材、型材等加工成各种制品的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Stamping
+:Stamping rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Stamping"@en ,
+               "冲压"@zh ;
+    rdfs:comment "Forming sheet metal by separation or forming"@en ,
+                 "使板料经分离或成形而得到制件的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Riveting
+:Riveting rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Riveting"@en ,
+               "铆接"@zh ;
+    rdfs:comment "Non-detachable connection using rivets"@en ,
+                 "借助铆钉形成的不可拆连接"@zh .
+
+###  http://www.mpkg.org/manufacturing#PowderMetallurgy
+:PowderMetallurgy rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Powder Metallurgy"@en ,
+               "粉末冶金"@zh ;
+    rdfs:comment "Forming parts from metal powder"@en ,
+                 "将金属粉末(或与非金属粉末的混合物)压制成形和烧结等形成各种制品的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Adhesive
+:Adhesive rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Adhesive Bonding"@en ,
+               "粘接"@zh ;
+    rdfs:comment "Connection formed by adhesive"@en ,
+                 "借助粘结剂形成的连接"@zh .
+
+###  http://www.mpkg.org/manufacturing#Benchwork
+:Benchwork rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Benchwork"@en ,
+               "钳加工"@zh ;
+    rdfs:comment "Manual work on bench with hand tools"@en ,
+                 "一般在钳台上以手工工具为主，对工件进行各种加工的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Bending
+:Bending rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Bending"@en ,
+               "弯曲"@zh ;
+    rdfs:comment "Forming by elongating one side and contracting the other"@en ,
+                 "使工件单边伸长收缩而弯曲成形的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Folding
+:Folding rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Folding"@en ,
+               "折弯"@zh ;
+    rdfs:comment "Bending sheet edges by flaring and shrinking"@en ,
+                 "利用放边和收边使板料边缘弯曲的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Flanging
+:Flanging rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Flanging"@en ,
+               "翻边"@zh ;
+    rdfs:comment "Forming sheet edges into flange"@en ,
+                 "将板料周围起弯收边、而中间打凸凹、使之成为半球形或其他所需形状的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Shearing
+:Shearing rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Shearing"@en ,
+               "剪切"@zh ;
+    rdfs:comment "Cutting sheet metal"@en ,
+                 "将板料切断的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Drawing
+:Drawing rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Drawing"@en ,
+               "拉伸"@zh ;
+    rdfs:comment "Forming by axial tensile stress"@en ,
+                 "板料或空心料在轴向拉应力作用下、使其产生塑性变形取得所需制件的成形方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Expanding
+:Expanding rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Expanding"@en ,
+               "扩口"@zh ;
+    rdfs:comment "Enlarging tube or hollow part end"@en ,
+                 "将管件或空心制件的端部轴向尺寸扩大的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Necking
+:Necking rdf:type owl:Class ;
+    rdfs:subClassOf :PressureForming ;
+    rdfs:label "Necking"@en ,
+               "缩口"@zh ;
+    rdfs:comment "Reducing tube end diameter"@en ,
+                 "将管件或空心制件的端部加压、使其径向尺寸缩小的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearMachining
+:GearMachining rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Gear Machining"@en ,
+               "齿轮加工"@zh ;
+    rdfs:comment "Machining gears and gear teeth"@en ,
+                 "加工齿轮和齿形的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearMilling
+:GearMilling rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Milling"@en ,
+               "铣齿"@zh ;
+    rdfs:comment "Milling gear teeth by forming or generating"@en ,
+                 "用铣刀或铣刀盘按成形法或展成法加工齿轮或齿条等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearPlaning
+:GearPlaning rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Planing"@en ,
+               "刨齿"@zh ;
+    rdfs:comment "Planing gear teeth"@en ,
+                 "用刨齿刀加工直齿圆柱齿轮、锥齿轮或齿条等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearShaping
+:GearShaping rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Shaping"@en ,
+               "插齿"@zh ;
+    rdfs:comment "Shaping gear teeth by generating"@en ,
+                 "用插齿刀按展成法或成形法加工内、外齿轮或齿条等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearHobbing
+:GearHobbing rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Hobbing"@en ,
+               "滚齿"@zh ;
+    rdfs:comment "Hobbing gear teeth by generating"@en ,
+                 "用齿轮滚刀按展成法加工齿轮、蜗轮等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearShaving
+:GearShaving rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Shaving"@en ,
+               "剃齿"@zh ;
+    rdfs:comment "Finishing gear teeth with shaving cutter"@en ,
+                 "用剃齿刀对齿轮或蜗轮等的齿面进行精加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearHoning
+:GearHoning rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Honing"@en ,
+               "珩齿"@zh ;
+    rdfs:comment "Honing gear teeth"@en ,
+                 "用珩磨轮对齿轮或蜗轮等的齿面进行精加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearGrinding
+:GearGrinding rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Grinding"@en ,
+               "磨齿"@zh ;
+    rdfs:comment "Grinding gear teeth"@en ,
+                 "用砂轮按展成法或成形法磨削齿轮或齿条等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearBroaching
+:GearBroaching rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Broaching"@en ,
+               "拉齿"@zh ;
+    rdfs:comment "Broaching gear teeth"@en ,
+                 "用拉刀或拉刀盘加工内、外齿轮等的齿面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GearLapping
+:GearLapping rdf:type owl:Class ;
+    rdfs:subClassOf :GearMachining ;
+    rdfs:label "Gear Lapping"@en ,
+               "研齿"@zh ;
+    rdfs:comment "Lapping gear teeth"@en ,
+                 "用具有齿形的研轮与被研齿轮或一对被研齿轮对滚研磨，以进行齿面的加工"@zh .
+
+###  http://www.mpkg.org/manufacturing#ThreadMachining
+:ThreadMachining rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Thread Machining"@en ,
+               "螺纹加工"@zh ;
+    rdfs:comment "Machining threads"@en ,
+                 "加工螺纹的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ThreadCutting
+:ThreadCutting rdf:type owl:Class ;
+    rdfs:subClassOf :ThreadMachining ;
+    rdfs:label "Thread Cutting"@en ,
+               "套螺纹"@zh ;
+    rdfs:comment "Cutting threads with die or threading head"@en ,
+                 "用板牙或螺纹切头加工工件的螺纹"@zh .
+
+###  http://www.mpkg.org/manufacturing#ThreadGrinding
+:ThreadGrinding rdf:type owl:Class ;
+    rdfs:subClassOf :ThreadMachining ;
+    rdfs:label "Thread Grinding"@en ,
+               "磨螺纹"@zh ;
+    rdfs:comment "Grinding threads"@en ,
+                 "用单线或多线砂轮磨削工件的螺纹"@zh .
+
+###  http://www.mpkg.org/manufacturing#ThreadHoning
+:ThreadHoning rdf:type owl:Class ;
+    rdfs:subClassOf :ThreadMachining ;
+    rdfs:label "Thread Honing"@en ,
+               "珩螺纹"@zh ;
+    rdfs:comment "Honing threads"@en ,
+                 "用珩磨工具珩磨工件的螺纹"@zh .
+
+###  http://www.mpkg.org/manufacturing#ThreadLapping
+:ThreadLapping rdf:type owl:Class ;
+    rdfs:subClassOf :ThreadMachining ;
+    rdfs:label "Thread Lapping"@en ,
+               "研螺纹"@zh ;
+    rdfs:comment "Lapping threads"@en ,
+                 "用螺纹研磨工具研磨工件的螺纹"@zh .
+
+###  http://www.mpkg.org/manufacturing#SlotMachining
+:SlotMachining rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Slot Machining"@en ,
+               "槽加工"@zh ;
+    rdfs:comment "Machining slots and grooves"@en ,
+                 "加工槽和沟槽的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#TurningSlot
+:TurningSlot rdf:type owl:Class ;
+    rdfs:subClassOf :SlotMachining ;
+    rdfs:label "Turning Slot"@en ,
+               "车槽"@zh ;
+    rdfs:comment "Turning slots"@en ,
+                 "用车削方法加工工件的槽"@zh .
+
+###  http://www.mpkg.org/manufacturing#MillingSlot
+:MillingSlot rdf:type owl:Class ;
+    rdfs:subClassOf :SlotMachining ;
+    rdfs:label "Milling Slot"@en ,
+               "铣槽"@zh ;
+    rdfs:comment "Milling slots or keyways"@en ,
+                 "用铣削方法加工工件的槽或键槽"@zh .
+
+###  http://www.mpkg.org/manufacturing#PlaningSlot
+:PlaningSlot rdf:type owl:Class ;
+    rdfs:subClassOf :SlotMachining ;
+    rdfs:label "Planing Slot"@en ,
+               "刨槽"@zh ;
+    rdfs:comment "Planing slots"@en ,
+                 "用刨削方法加工工件的槽"@zh .
+
+###  http://www.mpkg.org/manufacturing#ShapingSlot
+:ShapingSlot rdf:type owl:Class ;
+    rdfs:subClassOf :SlotMachining ;
+    rdfs:label "Shaping Slot"@en ,
+               "插槽"@zh ;
+    rdfs:comment "Shaping slots or keyways"@en ,
+                 "用插削方法加工工件的槽或键槽"@zh .
+
+###  http://www.mpkg.org/manufacturing#SpecialMachining
+:SpecialMachining rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Special Machining"@en ,
+               "特种加工"@zh ;
+    rdfs:comment "Special machining processes"@en ,
+                 "特殊的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#LaserDrilling
+:LaserDrilling rdf:type owl:Class ;
+    rdfs:subClassOf :SpecialMachining ;
+    rdfs:label "Laser Drilling"@en ,
+               "激光打孔"@zh ;
+    rdfs:comment "Drilling holes with laser"@en ,
+                 "用激光加工原理加工工件的孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#EDMDrilling
+:EDMDrilling rdf:type owl:Class ;
+    rdfs:subClassOf :SpecialMachining ;
+    rdfs:label "EDM Drilling"@en ,
+               "电火花打孔"@zh ;
+    rdfs:comment "Drilling holes with EDM"@en ,
+                 "用电火花加工原理加工工件的孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#UltrasonicDrilling
+:UltrasonicDrilling rdf:type owl:Class ;
+    rdfs:subClassOf :SpecialMachining ;
+    rdfs:label "Ultrasonic Drilling"@en ,
+               "超声波打孔"@zh ;
+    rdfs:comment "Drilling holes with ultrasonic"@en ,
+                 "用超声波加工原理加工工件的孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#ElectronBeamDrilling
+:ElectronBeamDrilling rdf:type owl:Class ;
+    rdfs:subClassOf :SpecialMachining ;
+    rdfs:label "Electron Beam Drilling"@en ,
+               "电子束打孔"@zh ;
+    rdfs:comment "Drilling holes with electron beam"@en ,
+                 "用电子束加工原理加工工件的孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalCylindricalMachining
+:ExternalCylindricalMachining rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "External Cylindrical Machining"@en ,
+               "外圆加工"@zh ;
+    rdfs:comment "Machining external cylindrical surfaces"@en ,
+                 "加工外圆柱面的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalHoning
+:ExternalHoning rdf:type owl:Class ;
+    rdfs:subClassOf :ExternalCylindricalMachining ;
+    rdfs:label "External Honing"@en ,
+               "珩磨外圆"@zh ;
+    rdfs:comment "Honing external cylindrical surfaces"@en ,
+                 "用珩磨方法加工工件的外圆表面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalLapping
+:ExternalLapping rdf:type owl:Class ;
+    rdfs:subClassOf :ExternalCylindricalMachining ;
+    rdfs:label "External Lapping"@en ,
+               "研磨外圆"@zh ;
+    rdfs:comment "Lapping external cylindrical surfaces"@en ,
+                 "用研磨方法加工工件的外圆表面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalPolishing
+:ExternalPolishing rdf:type owl:Class ;
+    rdfs:subClassOf :ExternalCylindricalMachining ;
+    rdfs:label "External Polishing"@en ,
+               "抛光外圆"@zh ;
+    rdfs:comment "Polishing external cylindrical surfaces"@en ,
+                 "用抛光方法加工工件的外圆表面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ExternalRolling
+:ExternalRolling rdf:type owl:Class ;
+    rdfs:subClassOf :ExternalCylindricalMachining ;
+    rdfs:label "External Rolling"@en ,
+               "滚压外圆"@zh ;
+    rdfs:comment "Rolling external cylindrical surfaces"@en ,
+                 "用滚压方法加工工件的外圆表面"@zh .
+
+###  http://www.mpkg.org/manufacturing#PlaneMachining
+:PlaneMachining rdf:type owl:Class ;
+    rdfs:subClassOf :CuttingMachining ;
+    rdfs:label "Plane Machining"@en ,
+               "平面加工"@zh ;
+    rdfs:comment "Machining flat surfaces"@en ,
+                 "加工平面的方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#TurningPlane
+:TurningPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Turning Plane"@en ,
+               "车平面"@zh ;
+    rdfs:comment "Turning flat surfaces"@en ,
+                 "用车削方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#PlaningPlane
+:PlaningPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Planing Plane"@en ,
+               "刨平面"@zh ;
+    rdfs:comment "Planing flat surfaces"@en ,
+                 "用刨削方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#GrindingPlane
+:GrindingPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Grinding Plane"@en ,
+               "磨平面"@zh ;
+    rdfs:comment "Grinding flat surfaces"@en ,
+                 "用磨削方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#HoningPlane
+:HoningPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Honing Plane"@en ,
+               "珩平面"@zh ;
+    rdfs:comment "Honing flat surfaces"@en ,
+                 "用珩磨方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ScrapingPlane
+:ScrapingPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Scraping Plane"@en ,
+               "刮平面"@zh ;
+    rdfs:comment "Scraping flat surfaces"@en ,
+                 "用刮削方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#BroachingPlane
+:BroachingPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Broaching Plane"@en ,
+               "拉平面"@zh ;
+    rdfs:comment "Broaching flat surfaces"@en ,
+                 "用拉削方法加工工件的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#CounterboringPlane
+:CounterboringPlane rdf:type owl:Class ;
+    rdfs:subClassOf :PlaneMachining ;
+    rdfs:label "Counterboring Plane"@en ,
+               "端平面"@zh ;
+    rdfs:comment "Creating flat surface around hole"@en ,
+                 "用端削方法将工件的孔口周围切削成垂直于孔的平面"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessAuxiliary
+:ProcessAuxiliary rdf:type owl:Class ;
+    rdfs:subClassOf :Process ;
+    rdfs:label "Process Auxiliary"@en ,
+               "工艺辅助"@zh ;
+    rdfs:comment "Auxiliary processes for manufacturing"@en ,
+                 "制造的辅助工艺"@zh .
+
+###  http://www.mpkg.org/manufacturing#Derusting
+:Derusting rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Derusting"@en ,
+               "除锈"@zh ;
+    rdfs:comment "Removing rust from workpiece surface"@en ,
+                 "将工件表面上的锈蚀除去的过程"@zh .
+
+###  http://www.mpkg.org/manufacturing#Cleaning
+:Cleaning rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Cleaning"@en ,
+               "清洗"@zh ;
+    rdfs:comment "Cleaning oil and dirt from products"@en ,
+                 "用清洗剂清除产品或工件上的油污、灰尘等杂物的过程"@zh .
+
+###  http://www.mpkg.org/manufacturing#RustPrevention
+:RustPrevention rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Rust Prevention"@en ,
+               "防锈"@zh ;
+    rdfs:comment "Protecting parts with rust preventive"@en ,
+                 "在产品装配和清洗后、用防锈剂等将其指定部位(或全部)加以保护的过程"@zh .
+
+###  http://www.mpkg.org/manufacturing#Assembly
+:Assembly rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Assembly"@en ,
+               "装配"@zh ;
+    rdfs:comment "Assembling parts into components"@en ,
+                 "把零件装配成部件的过程"@zh .
+
+###  http://www.mpkg.org/manufacturing#Disassembly
+:Disassembly rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Disassembly"@en ,
+               "拆卸"@zh ;
+    rdfs:comment "Disassembling assembled parts or products"@en ,
+                 "将组装的零、部件或产品拆开的过程"@zh .
+
+###  http://www.mpkg.org/manufacturing#Straightening
+:Straightening rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Straightening"@en ,
+               "矫正"@zh ;
+    rdfs:comment "Correcting bending and warping defects"@en ,
+                 "清除材料或制件的弯曲、翘曲、凸凹不平等缺陷的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#Leveling
+:Leveling rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessAuxiliary ;
+    rdfs:label "Leveling"@en ,
+               "校平"@zh ;
+    rdfs:comment "Eliminating plate bending and unevenness"@en ,
+                 "消除板材或平板制件的弯曲、局部凸不平等的加工方法"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessFeature
+:ProcessFeature rdf:type owl:Class ;
+    rdfs:label "Process Feature"@en ,
+               "工艺特征"@zh ;
+    rdfs:comment "Features added for manufacturing process"@en ,
+                 "为满足工艺需要而增设的特征"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessHole
+:ProcessHole rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessFeature ;
+    rdfs:label "Process Hole"@en ,
+               "工艺孔"@zh ;
+    rdfs:comment "Hole added for process requirements"@en ,
+                 "为满足工艺(加工、测量、装配)的需要而在工件上增设的孔"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessBoss
+:ProcessBoss rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessFeature ;
+    rdfs:label "Process Boss"@en ,
+               "工艺凸台"@zh ;
+    rdfs:comment "Boss added for process requirements"@en ,
+                 "为满足工艺的需要而在工件上增设的凸台"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessDimension
+:ProcessDimension rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessFeature ;
+    rdfs:label "Process Dimension"@en ,
+               "工艺尺寸"@zh ;
+    rdfs:comment "Dimension specified for process needs"@en ,
+                 "根据加工的需要、在工艺附图或工艺规程中所给出的尺寸"@zh .
+
+###  http://www.mpkg.org/manufacturing#DimensionChain
+:DimensionChain rdf:type owl:Class ;
+    rdfs:subClassOf :ProcessFeature ;
+    rdfs:label "Dimension Chain"@en ,
+               "尺寸链"@zh ;
+    rdfs:comment "Interrelated closed dimension combination"@en ,
+                 "互相联系且按一定顺序排列的封闭尺寸组合"@zh .
+
+###  http://www.mpkg.org/manufacturing#ProcessDimensionChain
+:ProcessDimensionChain rdf:type owl:Class ;
+    rdfs:subClassOf :DimensionChain ;
+    rdfs:label "Process Dimension Chain"@en ,
+               "工艺尺寸链"@zh ;
+    rdfs:comment "Dimension chain in manufacturing process"@en ,
+                 "在加工过程中的各有关工艺尺寸所组成的尺寸链"@zh .
+
+
+###  http://www.mpkg.org/manufacturing#Ti6Al4V
+:Ti6Al4V rdf:type owl:NamedIndividual ,
+                  :TitaniumAlloy ;
+    rdfs:label "Ti-6Al-4V" ;
+    rdfs:comment "Aerospace grade titanium alloy"@en ,
+                 "航空级钛合金"@zh .
+
+###  http://www.mpkg.org/manufacturing#KBSZ840Lathe
+:KBSZ840Lathe rdf:type owl:NamedIndividual ,
+                       :Lathe ;
+    rdfs:label "KBSZ-840" ;
+    rdfs:comment "Heavy duty CNC lathe"@en ,
+                 "重型数控车床"@zh .
+
+###  http://www.mpkg.org/manufacturing#XH714Center
+:XH714Center rdf:type owl:NamedIndividual ,
+                      :CNCMachiningCenter ;
+    rdfs:label "XH714" ;
+    :hasToolPositions 16 ;
+    :hasMaxPrecision "IT4" ;
+    :suitableFor "Cavity and surface machining" .
+
+###  http://www.mpkg.org/manufacturing#Steel45
+:Steel45 rdf:type owl:NamedIndividual ,
+                  :Steel ;
+    rdfs:label "45# Steel"@en ,
+               "45#钢"@zh ;
+    rdfs:comment "Grade 45 medium carbon structural steel with 0.45% carbon content, providing balanced strength and toughness for mechanical components after heat treatment"@en ,
+                 "含碳量0.45%的45号中碳结构钢，经热处理后可为机械零件提供良好的强度和韧性平衡"@zh .
+
+###  http://www.mpkg.org/manufacturing#StainlessSteel304
+:StainlessSteel304 rdf:type owl:NamedIndividual ,
+                            :StainlessSteel ;
+    rdfs:label "304 Stainless Steel"@en ,
+               "不锈钢304"@zh ;
+    rdfs:comment "Grade 304 austenitic stainless steel containing 18% chromium and 8% nickel, offering excellent corrosion resistance, formability, and weldability for general applications"@en ,
+                 "304级奥氏体不锈钢，含18%铬和8%镍，具有优异的耐腐蚀性、成形性和焉接性，适用于通用领域"@zh .
+
+###  http://www.mpkg.org/manufacturing#AluminumAlloy6061
+:AluminumAlloy6061 rdf:type owl:NamedIndividual ,
+                            :Material ;
+    rdfs:label "6061 Aluminum Alloy"@en ,
+               "6061铝合金"@zh ;
+    rdfs:comment "Precipitation-hardened aluminum alloy 6061 with magnesium and silicon, providing good mechanical properties, weldability, and corrosion resistance for structural applications"@en ,
+                 "含镁和硅的沉淀硬化铝合金6061，具有良好的机械性能、可焉性和耐腐蚀性，适用于结构应用"@zh .
+
+###  http://www.mpkg.org/manufacturing#DrillingMachine
+:DrillingMachine rdf:type owl:NamedIndividual ,
+                         :Equipment ;
+    rdfs:label "Drilling Machine"@en ,
+               "钻床"@zh ;
+    rdfs:comment "Precision machine tool designed for creating cylindrical holes through rotary drilling operations with controlled feed and speed parameters"@en ,
+                 "专为通过旋转钻削作业制造圆柱孔而设计的精密机床，具有可控的进给和速度参数"@zh .
+
+###  http://www.mpkg.org/manufacturing#PlaningMachine
+:PlaningMachine rdf:type owl:NamedIndividual ,
+                        :Equipment ;
+    rdfs:label "Planing Machine"@en ,
+               "刨床"@zh ;
+    rdfs:comment "Large machine tool utilizing linear reciprocating motion for removing material to create flat surfaces on workpieces"@en ,
+                 "利用直线往复运动去除材料以在工件上创建平面的大型机床"@zh .
+
+###  http://www.mpkg.org/manufacturing#HighSpeedSteel
+:HighSpeedSteel rdf:type owl:NamedIndividual ,
+                        :Tool ;
+    rdfs:label "High Speed Steel Tool"@en ,
+               "高速钢刀具"@zh ;
+    rdfs:comment "High-performance cutting tool made from high-speed steel alloy containing tungsten, molybdenum, and chromium for enhanced hot hardness"@en ,
+                 "由含钨、钼和铬的高速钢合金制成的高性能切削工具，具有增强的热硬性"@zh .
+
+###  http://www.mpkg.org/manufacturing#DiamondTool
+:DiamondTool rdf:type owl:NamedIndividual ,
+                     :Tool ;
+    rdfs:label "Diamond Tool"@en ,
+               "金刚石刀具"@zh ;
+    rdfs:comment "Ultra-hard cutting tool utilizing synthetic or natural diamond for machining non-ferrous materials with exceptional surface finish"@en ,
+                 "利用合成或天然金刚石加工有色金属材料的超硬切削工具，可获得卓越的表面光洁度"@zh .
+
+###  http://www.mpkg.org/manufacturing#CuttingFluid
+:CuttingFluid rdf:type owl:NamedIndividual ,
+                      :CoolingMethod ;
+    rdfs:label "Cutting Fluid"@en ,
+               "切削液"@zh ;
+    rdfs:comment "Specialized liquid coolant formulated to reduce friction, remove heat, and flush chips during machining operations"@en ,
+                 "专门配制的液体冷却剂，用于在机械加工过程中减少摩擦、散热和冲走切屑"@zh .
+
+###  http://www.mpkg.org/manufacturing#AirCooling
+:AirCooling rdf:type owl:NamedIndividual ,
+                    :CoolingMethod ;
+    rdfs:label "Air Cooling"@en ,
+               "空气冷却"@zh ;
+    rdfs:comment "Compressed air cooling system for chip removal and temperature control in dry machining applications"@en ,
+                 "用于干式加工中切屑清除和温度控制的压缩空气冷却系统"@zh .
+
+###  http://www.mpkg.org/manufacturing#WorkshopA
+:WorkshopA rdf:type owl:NamedIndividual ,
+                   :Location ;
+    rdfs:label "Workshop A"@en ,
+               "A车间"@zh ;
+    rdfs:comment "Designated manufacturing facility area A equipped for specific production processes and quality control operations"@en ,
+                 "指定的制造设施区域A，配备特定生产工艺和质量控制操作设备"@zh .
+
+###  http://www.mpkg.org/manufacturing#WorkshopB
+:WorkshopB rdf:type owl:NamedIndividual ,
+                   :Location ;
+    rdfs:label "Workshop B"@en ,
+               "B车间"@zh ;
+    rdfs:comment "Designated manufacturing facility area B equipped for specific production processes and quality control operations"@en ,
+                 "指定的制造设施区域B，配备特定生产工艺和质量控制操作设备"@zh .
+
+###  http://www.mpkg.org/manufacturing#WorkshopC
+:WorkshopC rdf:type owl:NamedIndividual ,
+                   :Location ;
+    rdfs:label "Workshop C"@en ,
+               "车间"@zh ;
+    rdfs:comment "Designated manufacturing facility area C equipped for specific production processes and quality control operations"@en ,
+                 "指定的制造设施区域C，配备特定生产工艺和质量控制操作设备"@zh .

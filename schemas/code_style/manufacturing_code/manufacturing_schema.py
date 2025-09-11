@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 from typing import List, Optional, Union
 from abc import ABC, abstractmethod
 import math
+
 
 class Entity:
     """Base entity class for all manufacturing entities."""
@@ -39,6 +41,7 @@ class Event:
         self.supporting_chunks = supporting_chunks or []
         self.description = description
 
+# =============================================================================
 
 class ProcessParameter(Entity):
     """Base class for all process parameters."""
@@ -140,7 +143,6 @@ class ToleranceGrade(ProcessParameter):
         super().__init__("tolerance_grade", value, unit, chinese_name="目标公差", 
                         description="The dimensional accuracy requirement for machined parts, specifying allowable deviation from nominal dimensions (e.g., φ50h7). This determines machining precision and process capabilities.", **kwargs)
 
-
 class Resource(Entity):
     """Base class for all manufacturing resources."""
     def __init__(self, name: str, resource_type: str, chinese_name: str = "", **kwargs):
@@ -224,6 +226,7 @@ class PCDTool(CuttingTool):
             kwargs['description'] = "Polycrystalline Diamond cutting tools combining diamond hardness with improved toughness, excellent for machining aluminum alloys, composites, and non-ferrous materials at high speeds."
         super().__init__(name, "pcd_tool", "pcd", chinese_name="PCD刀具", **kwargs)
 
+# =============================================================================
 
 class Equipment(Entity):
     """Base class for all manufacturing equipment."""
@@ -304,6 +307,8 @@ class Operator(Entity):
         super().__init__(name, chinese_name="操作人员", 
                         description="Personnel responsible for operating manufacturing equipment and executing machining processes, with varying skill levels and specializations.", **kwargs)
         self.skill_level = skill_level
+
+# =============================================================================
 
 class ManufacturingProcess(Entity):
     """Base class for all manufacturing processes."""
@@ -568,7 +573,6 @@ class Normalizing(HeatTreatment):
         super().__init__("normalizing", "thermal_treatment", chinese_name="正火", 
                         description="Heat treatment involving air cooling to room temperature for grain refinement and stress relief", **kwargs)
 
-# Special Machining Processes
 class EDM(ManufacturingProcess):
     """Electrical Discharge Machining."""
     def __init__(self, **kwargs):
@@ -682,6 +686,7 @@ class DeepDrawing(FormingProcess):
         super().__init__("deep_drawing", chinese_name="拉深", 
                         description="Sheet metal forming process stretching flat blank into hollow shapes using punch and die", **kwargs)
 
+# Advanced Manufacturing Processes
 class AdditiveManufacturing(ManufacturingProcess):
     """Additive manufacturing (3D Printing)."""
     def __init__(self, technology: str = "SLM", **kwargs):
@@ -734,6 +739,8 @@ class NanoMachining(ManufacturingProcess):
                         chinese_name="纳米加工", 
                         description="Ultra-precision manufacturing process for creating nanometer-scale features and structures with atomic-level accuracy, requiring specialized equipment and controlled environments.", **kwargs)
 
+# =============================================================================
+
 class ISOStandard(Entity):
     """ISO International Organization for Standardization standards."""
     def __init__(self, standard_number: str, title: str = "", **kwargs):
@@ -766,6 +773,7 @@ class ToleranceClass(Entity):
         self.tolerance_class = tolerance_class
         self.tolerance_value = tolerance_value
 
+# =============================================================================
 
 class GearManufacturing(ManufacturingProcess):
     """Base class for gear manufacturing processes."""
@@ -804,6 +812,8 @@ class GearHoning(GearManufacturing):
         super().__init__("gear_honing", chinese_name="珩齿", 
                         description="Precision gear finishing process using honing tools to create controlled surface textures and improve gear tooth surface quality.", **kwargs)
 
+# =============================================================================
+
 class ThreadManufacturing(ManufacturingProcess):
     """Base class for thread manufacturing processes."""
     def __init__(self, name: str, chinese_name: str = "螺纹加工", **kwargs):
@@ -830,6 +840,7 @@ class ThreadGrinding(ThreadManufacturing):
         super().__init__("thread_grinding", chinese_name="磨螺纹", 
                         description="Precision thread manufacturing process using grinding wheels to achieve high-accuracy threads with superior surface finish and dimensional control.", **kwargs)
 
+# =============================================================================
 
 class MaterialRelation(Relation):
     """Material relations."""
@@ -946,7 +957,6 @@ class BelongsToProcessRelation(Relation):
         super().__init__(head_entity, tail_entity, chinese_name="属于（工艺）", 
                         description="Defines the hierarchical classification relationship where a specific manufacturing process belongs to a broader process category.", **kwargs)
 
-# Extended Manufacturing Relations for comprehensive coverage
 class ProcessSequenceRelation(Relation):
     """Process sequence relation defining machining operation order."""
     def __init__(self, head_entity: ManufacturingProcess, tail_entity: ManufacturingProcess, 
@@ -1047,6 +1057,8 @@ class LocationRelation(Relation):
     def __init__(self, head_entity: Equipment, tail_entity: str, **kwargs):
         super().__init__(head_entity, Entity(tail_entity), chinese_name="位置关系", 
                         description="Defines the physical location or placement of manufacturing equipment within the facility.", **kwargs)
+
+# =============================================================================
 
 class ProcessEvent(Event):
     """Base manufacturing process event."""
