@@ -188,5 +188,8 @@ CLAUDE.md
 # 完整docs目录排除 (Exclude entire docs directory)
 docs/
 
-# 项目日志和讨论记录 (Project logs and discussion records)  
+# 项目日志和讨论记录 (Project logs and discussion records)
 log/
+
+# macOS系统文件 (macOS system files)
+.DS_Store

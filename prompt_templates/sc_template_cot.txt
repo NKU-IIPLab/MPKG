@@ -1,0 +1,73 @@
+Your task is to determine whether a relation triplet extracted from text can be replaced with a relation from the standard schema to achieve relation canonicalization.
+
+Given the following text and a relation triplet extracted from it:
+
+Text: {input_text}
+Triplet: {query_triplet}
+
+The relation "{query_relation}" in the triplet is defined as "{query_relation_definition}".
+
+Please analyze whether there is a more suitable standard relation to replace it by following these steps:
+
+Step 1: Analyze the semantic focus of the source sentence
+- Identify the key information and context about this relation in the sentence
+- Understand the actual nature of the connection between subject and object entities
+- Determine what aspect the sentence emphasizes (capability, causality, property, etc.)
+
+Step 2: Systematically evaluate each candidate relation
+- Carefully compare each candidate relation's definition with the original relation's semantics
+- Assess the applicability and accuracy of each candidate in the given context
+- Consider whether the candidate's definition is more precise or more general than the original
+- Pay attention to whether key terms in the candidate's definition (e.g., "subject", "capability", "causality") match the context
+
+Step 3: Make the final decision
+- Select the standard relation that has the best semantic match and is most accurate in the manufacturing context
+- If none of the candidates is more suitable than the original, choose "None of the above"
+- Explain your specific reasoning for choosing this option
+
+---
+
+Example:
+
+Text: The cemented carbide tool should operate at appropriate cutting parameters to achieve surface roughness of Ra1.6μm.
+Triplet: ['cemented carbide tool', 'achieve', 'Ra1.6']
+Relation definition: "The subject entity achieves or realizes the result described by the object entity through some operation or process."
+
+Candidate relations:
+A. 'resultIn': Emphasizes the direct causal relationship between subject and object, where the subject leads to the production or occurrence of the object.
+B. 'toolCapability': Emphasizes the tool's inherent ability to achieve specific machining effects or quality standards under specified conditions.
+C. 'qualityIndicator': The subject must be a quality indicator or measurement standard used to evaluate or characterize the object entity.
+D. 'performanceMeasure': The subject must be a performance metric or evaluation standard used to measure the object entity's performance.
+E. None of the above.
+
+Reasoning process:
+Step 1: Analyze the semantic focus of the source sentence
+The semantic focus of the sentence is on the cemented carbide tool as the subject, emphasizing the tool's capability to "achieve" a specific surface roughness under appropriate conditions. The sentence expresses the tool's performance capability rather than a simple causal relationship. The subject is the tool itself, and the verb "achieve" implies the tool's inherent performance characteristics.
+
+Step 2: Systematically evaluate each candidate relation
+- Option A 'resultIn': This definition emphasizes "direct causal relationship," which is a very general description. While a process or parameters can "result in" an outcome, this definition fails to capture the specific emphasis on "the tool's inherent capability" in the sentence. This option is too broad in scope and lacks manufacturing-specific precision.
+- Option B 'toolCapability': This definition explicitly states "the tool's inherent ability" and "achieving specific machining effects under specified conditions." This aligns perfectly with the sentence's semantics—the sentence is indeed describing the cemented carbide tool's capability to achieve surface quality under appropriate parameters. The two key points in the definition, "inherent ability" and "specified conditions," both match the context perfectly.
+- Option C 'qualityIndicator': This definition requires the subject to be a "quality indicator or measurement standard," but "cemented carbide tool" is clearly a tool, not an indicator, violating the definition's requirements.
+- Option D 'performanceMeasure': Similarly requires the subject to be an "evaluation standard," but the tool is a physical entity, not a measurement standard, resulting in semantic type mismatch.
+
+Step 3: Make the final decision
+Option B 'toolCapability' is the most suitable. Reasons:
+1. Its definition specifically targets tool subjects, perfectly matching the entity type "cemented carbide tool"
+2. The concept of "inherent ability" accurately captures that the sentence emphasizes tool performance characteristics rather than external causality
+3. "Achieving specific machining effects under specified conditions" precisely corresponds to the sentence's expressions of "appropriate parameters" and "surface roughness"
+4. Compared to the generic 'resultIn', 'toolCapability' provides a much tighter fit to the manufacturing-specific context and offers more precise semantic representation
+
+Final Answer: B
+
+---
+
+Now please analyze the following situation:
+
+Text: {input_text}
+Triplet: {query_triplet}
+Relation definition: "{query_relation}" is defined as "{query_relation_definition}"
+
+Candidate relations:
+{choices}
+
+Please provide detailed analysis following the three steps above, then give your choice on a separate line in the format "Final Answer: [option letter]".
